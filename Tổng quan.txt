@@ -1,0 +1,8 @@
+-nền tảng học tập giải trí cho trẻ nhỏ 3-> 10 tuổi
+	-học tập:
+		+ khóa học
+	-giải trí:
+		+ trò chơi
+		+ câu hỏi đố
+	- Khám phá:
+		+ các chủ đề học
