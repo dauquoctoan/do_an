@@ -1,14 +1,14 @@
-import { DataTypes } from 'sequelize'
-import { sequelize } from '../configs/dbConfig'
-const User = sequelize.define('users', {
-    name: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
-    address: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
-})
+const mongoose = require('mongoose')
 
-export default User
+const Schema = mongoose.Schema
+
+const User = new Schema(
+    {
+        googleId: { type: String, required: false },
+    },
+    {
+        timestamps: true,
+    }
+)
+
+module.exports = mongoose.model('User', User)
