@@ -1,0 +1,6 @@
+POST http://localhost:3005/auth/google/token
+
+access_token = ya29.a0AX9GBdVEJCi4yy-zFHTifnS6xMZJeS2p324gvMHSLBbLvDFlNs4NJriVDOB0JIfb8ya0BJxlKBsqd_I44nLCTltJz-327GVLo2m4J-9TBtXMMRlciqzjilSw-mczxmevg6ayFjEo5kByycYjg_amp4-YiReCyAaCgYKAbQSARMSFQHUCsbCi1811aLsZ0PQagXG7OL22g0165
+
+###
+GET http://localhost:3005/localhost:3005/auth/google

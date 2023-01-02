@@ -1,14 +1,7 @@
 import { Router } from 'express'
+import siteController from '../Controllers/siteController'
 const router = Router()
 
-router.use((req, res, next) => {
-    //midle ware
-    next()
-})
-
-router.get('/test', (req, res, next) => {
-    // ..
-    res.send('site')
-})
+router.get('/', siteController.home)
 
 export default router

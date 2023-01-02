@@ -2,7 +2,7 @@ import { Router } from 'express'
 const router = Router()
 
 router.get('/', (req, res, next) => {
-    res.send('admin')
+    res.send('error')
 })
 
 export default router

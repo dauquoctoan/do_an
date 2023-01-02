@@ -1,0 +1,10 @@
+- tìm hiểu yêu cầu khách hàng:
+	+ bạn biết đến nền tảng này từ đâu ?
+	+ tại sao bạn lại học ngoại ngữ ?	
+	+ lựa chọn mục tiêu học tập ?
+	+ lựa chọn tài khoản đăng nhập ?
+	+ lựa chọn hướng đi cho bạn ?
+	+ 
+
+- các chức năng có trong ứng dụng
+	+ sắp xếp các từ thành câu có nghĩa 
