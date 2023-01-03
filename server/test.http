@@ -2,3 +2,14 @@ get http://localhost:3005
 
 ###
 GET http://localhost:3005/auth/google
+
+###
+post http://localhost:3005/test
+content-type: application/json
+
+{
+    "name": "test"
+}
+
+
+

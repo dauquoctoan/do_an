@@ -1,5 +1,5 @@
 const User = require('../models/User')
-
+const jwt = require('jsonwebtoken')
 class authController {
     authGoogleSS(req: any, res: any) {
         req.session.user = req.user
@@ -25,6 +25,9 @@ class authController {
         } else {
             return cb(null, { accessToken: accessToken, info: users[0] })
         }
+    }
+    async saveUserWithToken(req: any, res: any) {
+        res.send(req.body.name)
     }
 }
 

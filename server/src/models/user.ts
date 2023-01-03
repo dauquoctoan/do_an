@@ -7,14 +7,23 @@ const User: {
     name: String
     given_name: String
     photos: String
+    email: String
+    picture: String
+    givenName: String
+    typeAccount: Number
+    iat: Number
+    exp: Number
+    email_verified: Boolean
 } = new Schema(
     {
-        googleId: { type: String, required: true },
         name: { type: String, required: true },
-        photos: { type: String, required: false },
-        familyName: { type: String, required: false },
+        email: { type: String, required: true },
+        picture: { type: String, required: true },
         givenName: { type: String, required: false },
-        typeAcount: { type: Number },
+        typeAccount: { type: Number, enum: [0, 1], required: true },
+        iat: { type: Number, required: true },
+        exp: { type: Number, required: true },
+        email_verified: { type: Boolean, required: false },
     },
     {
         timestamps: true,

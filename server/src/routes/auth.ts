@@ -23,4 +23,6 @@ router.get('/logout', function (req: any, res, next) {
     })
 })
 
+router.post('/save-user-with-token', authController.saveUserWithToken)
+
 export default router
