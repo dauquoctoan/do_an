@@ -6,6 +6,12 @@ import reportWebVitals from "./reportWebVitals";
 import { createTheme } from "@mui/material/styles";
 import { ThemeProvider } from "@mui/material";
 import GlobalStyle from "./globalStyled";
+import { GoogleOAuthProvider,GoogleLogin } from '@react-oauth/google';
+
+const responseGoogle = (response:any) => {
+  console.log(response);
+}
+
 
 const root = ReactDOM.createRoot(
     document.getElementById("root") as HTMLElement
@@ -30,10 +36,21 @@ const theme = createTheme({
 
 root.render(
     <React.StrictMode>
-        <ThemeProvider theme={theme}>
+        <GoogleOAuthProvider clientId="919315885601-82rssgelt9qsnihhk8ioc9aiv4jir8u4.apps.googleusercontent.com">
+            <GoogleLogin
+            onSuccess={credentialResponse => {
+                console.log(credentialResponse);
+            }}
+            onError={() => {
+                console.log('Login Failed');
+            }}
+            />
+        </GoogleOAuthProvider>
+  
+        {/* <ThemeProvider theme={theme}>
             <App />
             <GlobalStyle />
-        </ThemeProvider>
+        </ThemeProvider> */}
     </React.StrictMode>
 );
 

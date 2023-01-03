@@ -11,9 +11,10 @@ const User: {
     {
         googleId: { type: String, required: true },
         name: { type: String, required: true },
-        photos: { type: String, required: true },
-        familyName: { type: String, required: true },
-        givenName: { type: String, required: true },
+        photos: { type: String, required: false },
+        familyName: { type: String, required: false },
+        givenName: { type: String, required: false },
+        typeAcount: { type: Number },
     },
     {
         timestamps: true,
