@@ -6,8 +6,6 @@ import { Button } from 'reactstrap'
 import axios from 'axios'
 
 function App() {
-    // document.createElement('div')
-
     const [data, setData] = useState<Array<Number>>([1, 2, 3, 4, 5])
 
     const getData = async () => {
@@ -22,9 +20,6 @@ function App() {
 
     return (
         <div className="App">
-            <p>admin</p>
-            <Button>test</Button>
-            <GlobalStyle />
         </div>
         // null
     )
