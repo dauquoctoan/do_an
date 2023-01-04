@@ -2,19 +2,18 @@ const mongoose = require('mongoose')
 
 const Schema = mongoose.Schema
 
-const User: {
-    googleId: String
+export interface IUser {
     name: String
-    given_name: String
-    photos: String
     email: String
     picture: String
     givenName: String
     typeAccount: Number
-    iat: Number
+    iat: String
     exp: Number
-    email_verified: Boolean
-} = new Schema(
+    email_verified: Number
+}
+
+const User: IUser = new Schema(
     {
         name: { type: String, required: true },
         email: { type: String, required: true },

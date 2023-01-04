@@ -5,7 +5,7 @@ const cors = require('cors')
 import router from './src/routes'
 import db from './src/configs/db/index'
 var cookieParser = require('cookie-parser')
-var bodyParser = require('body-parser')
+const bodyParser = require('body-parser')
 
 const port = process.env.SERVER_PORT
 const app = express()
@@ -13,21 +13,22 @@ const app = express()
 app.use(cors())
 db.connect()
 
-// app.use(cookieParser())
-// app.set('trust proxy', 1)
-// app.use(
-//     session({
-//         secret: 'keyboard cat',
-//         resave: false,
-//         saveUninitialized: false,
-//         cookie: {
-//             secure: false,
-//             httpOnly: false,
-//             maxAge: 20 * 60 * 1000,
-//         },
-//     })
-// )
-app.use(require('connect').bodyParser())
+app.use(cookieParser())
+app.set('trust proxy', 1)
+app.use(
+    session({
+        secret: 'keyboard cat',
+        resave: false,
+        saveUninitialized: false,
+        cookie: {
+            secure: false,
+            httpOnly: false,
+            maxAge: 20 * 60 * 1000,
+        },
+    })
+)
+app.use(bodyParser.json()) // for parsing application/json
+app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
 router(app)
 app.listen(port, () => {

@@ -1,15 +1,19 @@
 get http://localhost:3005
 
 ###
-GET http://localhost:3005/auth/google
+POST http://localhost:3005/error
 
 ###
-post http://localhost:3005/test
+post http://localhost:3005/auth/save-user-with-token
 content-type: application/json
 
 {
-    "name": "test"
+    "name": "toandq",
+    "email": "dqtoan0123ssdfssdf@gmail.com",
+    "picture": "dqtoan0123ssss@gmail.com",
+    "givenName": "dqtoan0123@gmail.com",
+    "typeAccount": 1,
+    "iat": "12345678",
+    "exp": "12345678",
+    "email_verified": true
 }
-
-
-
