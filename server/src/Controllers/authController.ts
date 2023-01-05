@@ -2,52 +2,55 @@ import { IUser } from '../models/user'
 import { MCreate } from '../utils'
 
 const User = require('../models/User')
+const jwt = require('jsonwebtoken')
+
 class authController {
-    authGoogleSS(req: any, res: any) {
-        req.session.user = req.user
-        res.redirect('/')
-    }
-    authGoogleErr(req: any, res: any) {
-        res.redirect('/error')
-    }
-    async saveUser(accessToken: any, refreshToken: any, profile: any, cb: any) {
-        const users: any = await User.find({ googleId: profile.id })
-        if (users.length === 0) {
-            const user = new User({
-                googleId: profile.id,
-                name: profile.displayName,
-                photos: profile?.photos[0]?.value,
-                familyName: profile?.name?.familyName,
-                givenName: profile.name.givenName,
-            })
-            user.save((err: string, user: string) => {
-                return cb(err, user)
-            })
+    async saveUserWithToken(req: any, res: any) {
+        const token = req.body.token
+        if (token) {
+            try {
+                const user: any = jwt.verify(token, '')
+                const data = {
+                    name: user.name,
+                    email: user.email,
+                    email_verified: user.email_verified,
+                    exp: user.exp,
+                    givenName: user.givenName,
+                    iat: user.iat,
+                    picture: user.picture,
+                    typeAccount: user.typeAccount,
+                    passWord: user.passWord,
+                }
+                const result = await MCreate(
+                    User,
+                    { email: data.email },
+                    'User',
+                    data
+                )
+                return res.status().json(result)
+            } catch (error) {
+                return res.json({
+                    message: 'Lỗi xác thực',
+                    data: [],
+                    code: 0,
+                })
+            }
         } else {
-            return cb(null, { accessToken: accessToken, info: users[0] })
+            return res.json({
+                message: 'Lỗi xác thực',
+                data: [],
+                code: 0,
+            })
         }
     }
-    async saveUserWithToken(req: any, res: any) {
-        const {
-            name,
-            email,
-            email_verified,
-            exp,
-            givenName,
-            iat,
-            picture,
-            typeAccount,
-        }: IUser = req.body
+    async saveUser(req: any, res: any) {
+        const { name, email, typeAccount, passWord }: IUser = req.body
 
         const data = {
             name: name,
             email: email,
-            email_verified: email_verified,
-            exp: exp,
-            givenName: givenName,
-            iat: iat,
-            picture: picture,
             typeAccount: typeAccount,
+            passWord: passWord,
         }
 
         const result = await MCreate(User, { email: email }, 'User', data)

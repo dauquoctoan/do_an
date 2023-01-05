@@ -1,28 +1,8 @@
 import { Router } from 'express'
 import authController from '../Controllers/authController'
 const router = Router()
-const passport = require('passport')
-
-router.get('/google', passport.authenticate('google'))
-
-router.get(
-    '/google/callback',
-    passport.authenticate('google', {
-        failureRedirect: '/error',
-        session: false,
-    }),
-    authController.authGoogleSS
-)
-
-router.get('/logout', function (req: any, res, next) {
-    req.logout(function (err: any) {
-        if (err) {
-            return next(err)
-        }
-        res.redirect('/')
-    })
-})
 
 router.post('/save-user-with-token', authController.saveUserWithToken)
+router.post('/save-user', authController.saveUser)
 
 export default router
