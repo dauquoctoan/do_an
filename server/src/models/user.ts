@@ -5,12 +5,13 @@ const Schema = mongoose.Schema
 export interface IUser {
     name: String
     email: String
-    picture: String
-    givenName: String
+    picture?: String
+    givenName?: String
     typeAccount: Number
-    iat: String
-    exp: Number
-    email_verified: Number
+    iat?: String
+    exp?: Number
+    email_verified?: Number
+    passWord?: String
 }
 
 const User: IUser = new Schema(
@@ -23,6 +24,7 @@ const User: IUser = new Schema(
         iat: { type: Number, required: true },
         exp: { type: Number, required: true },
         email_verified: { type: Boolean, required: false },
+        password: { type: String, required: false },
     },
     {
         timestamps: true,
