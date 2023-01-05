@@ -12,6 +12,7 @@ export const COLOR = {
         contrastText: "#000",
     },
     home: {
-        bg: "#009688",
+        bgPrimary: "#2196f3",
+        bgSecondary: "#03a9f4",
     },
 };

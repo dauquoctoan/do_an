@@ -6,6 +6,7 @@ import reportWebVitals from "./reportWebVitals";
 import { createTheme } from "@mui/material/styles";
 import { ThemeProvider } from "@mui/material";
 import GlobalStyle from "./globalStyled";
+import { Router } from "react-router-dom";
 
 const root = ReactDOM.createRoot(
     document.getElementById("root") as HTMLElement
@@ -31,7 +32,9 @@ const theme = createTheme({
 root.render(
     <React.StrictMode>
         <ThemeProvider theme={theme}>
+            {/* <Router history={history}> */}
             <App />
+            {/* </Router> */}
             <GlobalStyle />
         </ThemeProvider>
     </React.StrictMode>
