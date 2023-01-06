@@ -8,12 +8,13 @@ import SimpleSnackbar from "../../commons/notification";
 const Login = () => {
 
     async function  handleCreateUser(user:any){
-        const res = await apiLogin(user.credential)
-        if(res){
+        console.log(user)
+        // const res = await apiLogin(user.credential)
+        // if(res){
            
-        }else{
+        // }else{
            
-        }
+        // }
     }
     return (
         <>
