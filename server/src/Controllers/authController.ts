@@ -41,7 +41,6 @@ class authController {
     }
     async saveUser(req: any, res: any) {
         const { name, email, passWord }: IUser = req.body
-
         try {
             const hashPw = await argon2.hash(passWord)
             const data = {

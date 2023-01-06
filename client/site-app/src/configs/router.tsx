@@ -1,7 +1,7 @@
 import PrivateHome from "../pages/privatePages/home";
 import PublicHome from "../pages/publicPages/home";
 import NoPage from "../pages/noPage";
-import Login from "../pages/publicPages/login";
+import Login from "../pages/publicPages/auth/login";
 import { IRouter } from "./routerInterface";
 
 export const ROUTER: IRouter = {

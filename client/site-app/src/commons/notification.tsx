@@ -22,16 +22,15 @@ export default function SimpleSnackbar({ change }: any) {
         setOpen(false);
     };
 
-  return (
-    <div>
-      <Snackbar
+    return (
+        <div>
+            {/* <Snackbar
         open={open}
         autoHideDuration={6000}
         onClose={handleClose}
         message="Note archived"
         action={action}
-      />
-    </div>
-  );
+      /> */}
+        </div>
+    );
 }
-

@@ -27,7 +27,7 @@ export function handleResultError(message: string) {
 export async function MCreate(modal: any, query: any, name: String, data: any) {
     const oldModal = await modal.find(query)
     if (oldModal?.length > 0) {
-        return handleResult(`${name} + ' đã tồn tại`, null, CODE.FAIL)
+        return handleResult(` Đăng nhập thành công`, null, CODE.SUCCESS)
     }
     const db = new modal(data)
     try {

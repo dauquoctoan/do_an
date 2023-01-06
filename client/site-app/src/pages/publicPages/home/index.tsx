@@ -10,7 +10,9 @@ const Home = () => {
     const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
         null
     );
+
     const navigate = useNavigate();
+
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget);
     };
