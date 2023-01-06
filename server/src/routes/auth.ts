@@ -4,5 +4,6 @@ const router = Router()
 
 router.post('/save-user-with-token', authController.saveUserWithToken)
 router.post('/save-user', authController.saveUser)
+router.post('/login', authController.login)
 
 export default router

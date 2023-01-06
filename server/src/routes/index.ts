@@ -8,7 +8,7 @@ import { middleAuthenTication } from '../middleware'
 function router(app: express.Application) {
     app.use('/', siteRouter)
     app.use('/admin', adminRouter)
-    app.use('/auth', middleAuthenTication, authGoogle)
+    app.use('/auth', authGoogle)
     app.use('/error', error)
 }
 

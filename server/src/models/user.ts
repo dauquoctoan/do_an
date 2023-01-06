@@ -1,6 +1,5 @@
-const mongoose = require('mongoose')
-
-const Schema = mongoose.Schema
+var mongoose = require('mongoose')
+var Schema = mongoose.Schema
 
 export interface IUser {
     name: String
@@ -18,13 +17,13 @@ const User: IUser = new Schema(
     {
         name: { type: String, required: true },
         email: { type: String, required: true },
-        picture: { type: String, required: true },
+        picture: { type: String, required: false },
         givenName: { type: String, required: false },
-        typeAccount: { type: Number, enum: [0, 1], required: true },
-        iat: { type: Number, required: true },
-        exp: { type: Number, required: true },
+        typeAccount: { type: Number, enum: [0, 1, 2], required: true },
+        iat: { type: Number, required: false },
+        exp: { type: Number, required: false },
         email_verified: { type: Boolean, required: false },
-        password: { type: String, required: false },
+        passWord: { type: String, required: false },
     },
     {
         timestamps: true,

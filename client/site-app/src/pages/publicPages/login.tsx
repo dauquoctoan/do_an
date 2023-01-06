@@ -8,10 +8,13 @@ import { useNavigate } from "react-router-dom";
 
 const Login = () => {
     async function handleCreateUser(user: any) {
-        const res = await apiLogin(user.credential);
-        if (res) {
-        } else {
-        }
+        console.log(user);
+        // const res = await apiLogin(user.credential)
+        // if(res){
+
+        // }else{
+
+        // }
     }
     const navigate = useNavigate();
 
