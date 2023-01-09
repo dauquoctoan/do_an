@@ -1,0 +1,19 @@
+version: '3.8'
+
+x-restart-policy: &restart-policy
+  restart: always
+x-default-env-file: &env-file
+  env_file:
+    - .env
+
+services:
+  web:
+    env_file:
+      - .env
+    # image: nslc:demo
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "3003:80"
