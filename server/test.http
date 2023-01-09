@@ -4,12 +4,12 @@ content-type: application/json
 authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzYjdhMGNiMmQ0ZTI3NzUwNGE5OTk0NyIsImVtYWlsIjoiZHF0b2RhbjAxMnNhQGdtYWlsLmNvbSIsImlhdCI6MTY3Mjk4OTYyNX0.F-uP17sGS0AFKqc3e6caz-zgGk0ETP0-xuIiqt4nGuo
 
 ###
-GET http://localhost:3005/
+GET http://localhost:3005/users
 content-type: application/json
 authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzYjdhMGNiMmQ0ZTI3NzUwNGE5OTk0NyIsImVtYWlsIjoiZHF0b2RhbjAxMnNhQGdtYWlsLmNvbSIsImlhdCI6MTY3Mjk4OTYyNX0.F-uP17sGS0AFKqc3e6caz-zgGk0ETP0-xuIiqt4nGuo
 
 ###
-GET http://localhost:3005/admin
+GET http://localhost:3005/admin/users?limit=10&index=10
 
 
 ###
@@ -26,9 +26,9 @@ content-type: application/json
 
 {
     "name": "toandq",
-    "email": "dqtodan012sa@gmail.com",
-    "typeAccount": 0,
-    "passWord": "kljsfljsdf"
+    "email": "dqtoans@gmail.com",
+    "passWord": "kljsfljsdf",
+    "age": 20
 }
 
 ###
@@ -36,7 +36,7 @@ post http://localhost:3005/auth/login
 content-type: application/json
 
 {
-    "email": "dqtodan012sa@gmail.com",
+    "email": "dqtoans@gmail.com",
     "passWord": "kljsfljsdf"
 }
 

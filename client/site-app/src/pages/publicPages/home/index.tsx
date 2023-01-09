@@ -223,7 +223,7 @@ const SHome = styled.div`
     .header {
         height: 70px;
         width: 100%;
-        background-color: ${COLOR.home.bgPrimary};
+        background-color: ${COLOR.primary.main};
         position: fixed;
         top: 0px;
         left: 0px;
@@ -250,7 +250,7 @@ const SHome = styled.div`
         }
     }
     .intro-wrap {
-        background-color: ${COLOR.home.bgSecondary};
+        background-color: ${COLOR.primary.light};
         .intro {
             height: 100vh;
             width: 100%;

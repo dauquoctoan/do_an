@@ -1,6 +1,6 @@
 import { CODE, STRINGS } from '../configs/constans'
 
-export function handleResult(
+export function handleResultSuccess(
     message: string,
     data: any,
     page: any = {
@@ -24,50 +24,81 @@ export function handleResultError(message: string) {
     }
 }
 
-export async function MCreate(modal: any, query: any, name: String, data: any) {
-    const oldModal = await modal.find(query)
-    if (oldModal?.length > 0) {
-        return handleResult(` Đăng nhập thành công`, null, CODE.SUCCESS)
-    }
-    const db = new modal(data)
-    try {
-        const modal = await db.save()
-        return handleResult(`'Tạo thành công ' + ${name}`, { ...modal })
-    } catch (error) {
-        return handleResultError(`Tạo thành công' + ${name}`)
-    }
+function defaultCreateSuccess(name: string) {
+    return `${STRINGS.METHOD.CREATE} ${name} ${STRINGS.STATUS.SUCCESS}`
 }
 
-export async function Mfinds(modal: any, query: any, pages: any) {
-    pages = {
-        limit: Number(pages.limit),
-        index: Number(pages.index),
-        total: Number(pages.total),
-    }
-
-    const skip = (pages.index - 1) * pages.limit
-
-    try {
-        const modals = await modal
-            .find(query)
-            .skip(skip || null)
-            .limit(pages.limit || null)
-        if (modals) {
-            pages.total = await modal.countDocuments()
-            return handleResult(STRINGS.SUCCESS, modals, pages)
-        }
-    } catch (error) {
-        return handleResultError(STRINGS.FAIL)
-    }
+function defaultCreateFail(name: string) {
+    return `${STRINGS.METHOD.CREATE} ${name} ${STRINGS.STATUS.FAIL}`
+}
+function defaultCreateFailExist(name: string) {
+    return `${STRINGS.WARN.EXIST} ${name}`
 }
 
-export async function Mfind(modal: any, query: any, name: String) {
-    try {
-        const modals = await modal.findOne(query)
-        if (modals) {
-            return handleResult(STRINGS.SUCCESS, modals, CODE.SUCCESS)
-        }
-    } catch (error) {
-        return handleResultError(STRINGS.FAIL)
-    }
+function defaultUpdateSuccess(name: string) {
+    return `${STRINGS.METHOD.UPDATE} ${name} ${STRINGS.STATUS.SUCCESS}`
+}
+
+function defaultUpdateFail(name: string) {
+    return `${STRINGS.METHOD.UPDATE} ${name} ${STRINGS.STATUS.FAIL}`
+}
+
+function defaultDeleteSuccess(name: string) {
+    return `${STRINGS.METHOD.DELETE} ${name} ${STRINGS.STATUS.SUCCESS}`
+}
+
+function defaultDeleteFail(name: string) {
+    return `${STRINGS.METHOD.DELETE} ${name} ${STRINGS.STATUS.FAIL}`
+}
+
+function defaultFindSuccess(name: string) {
+    return `${STRINGS.METHOD.FIND} ${name} ${STRINGS.STATUS.SUCCESS}`
+}
+
+function defaultFindFail(name: string) {
+    return `${STRINGS.METHOD.FIND} ${name} ${STRINGS.STATUS.FAIL}`
+}
+
+function defaultLoginSuccess(name: string) {
+    return `${STRINGS.METHOD.LOGIN} ${name} ${STRINGS.STATUS.SUCCESS}`
+}
+
+function defaultLoginFail(name: string) {
+    return `${STRINGS.METHOD.LOGIN} ${name} ${STRINGS.STATUS.FAIL}`
+}
+
+export const createMessage = {
+    createSuccess: (name: string) => {
+        return defaultCreateSuccess(name)
+    },
+    createFail: (name: string) => {
+        return defaultCreateFail(name)
+    },
+    createFailExist: (name: string) => {
+        return defaultCreateFailExist(name)
+    },
+    updateSuccess: (name: string) => {
+        return defaultUpdateSuccess(name)
+    },
+    updateFail: (name: string) => {
+        return defaultUpdateFail(name)
+    },
+    deleteSuccess: (name: string) => {
+        return defaultDeleteSuccess(name)
+    },
+    deleteFail: (name: string) => {
+        return defaultDeleteFail(name)
+    },
+    findSuccess: (name: string) => {
+        return defaultFindSuccess(name)
+    },
+    findFail: (name: string) => {
+        return defaultFindFail(name)
+    },
+    loginSuccess: (name: string) => {
+        return defaultLoginSuccess(name)
+    },
+    loginFail: (name: string) => {
+        return defaultLoginFail(name)
+    },
 }

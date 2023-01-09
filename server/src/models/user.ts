@@ -11,6 +11,7 @@ export interface IUser {
     exp?: Number
     email_verified?: Number
     passWord?: String
+    age?: String
 }
 
 const User: IUser = new Schema(
@@ -24,6 +25,7 @@ const User: IUser = new Schema(
         exp: { type: Number, required: false },
         email_verified: { type: Boolean, required: false },
         passWord: { type: String, required: false },
+        age: { type: Number, required: false },
     },
     {
         timestamps: true,

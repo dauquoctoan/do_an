@@ -8,6 +8,20 @@ export const SContent = styled.div`
     padding: 0 40px;
 `;
 
+export const SHomeContent = styled.div`
+    width: 1328px;
+    height: auto;
+    margin: 0 auto;
+    position: relative;
+`;
+
+export const SLearnContent = styled.div`
+    width: 1080px;
+    height: auto;
+    margin: 0 auto;
+    position: relative;
+`;
+
 const GlobalStyle = createGlobalStyle`
   body {
     margin: 0;

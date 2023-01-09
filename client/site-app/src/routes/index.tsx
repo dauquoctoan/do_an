@@ -4,11 +4,11 @@ import { IRoute } from "../configs/routerInterface";
 import Layout from "./layoutPrivate";
 
 const renderRouter = (routes: IRoute[]) => {
-    return routes.map((e) => {
+    return routes.map((e, i) => {
         if (!e.path) {
-            return <Route index element={e.element} />;
+            return <Route key={i} index element={e.element} />;
         } else {
-            return <Route path={e.path} element={e.element} />;
+            return <Route key={i} path={e.path} element={e.element} />;
         }
     });
 };

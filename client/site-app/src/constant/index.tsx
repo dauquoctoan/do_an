@@ -1,3 +1,4 @@
+import { createTheme } from "@mui/material/styles";
 export const COLOR = {
     primary: {
         light: "#757ce8",
@@ -10,9 +11,5 @@ export const COLOR = {
         main: "#f44336",
         dark: "#ba000d",
         contrastText: "#000",
-    },
-    home: {
-        bgPrimary: "#2196f3",
-        bgSecondary: "#03a9f4",
     },
 };
