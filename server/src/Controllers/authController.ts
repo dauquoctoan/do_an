@@ -82,9 +82,7 @@ class authController {
                     name: info.name,
                     token: token,
                 }
-                return res
-                    .status(STATUS_CODE.OK)
-                    .json(handleResult('Thành công', user, 1))
+                return res.json(handleResult('Thành công', user, 1))
             } else {
                 return res
                     .status(STATUS_CODE.proxyAuthenticationRequired)

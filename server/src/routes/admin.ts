@@ -8,5 +8,13 @@ router.get('/', (req, res, next) => {
 })
 
 router.get('/users', adminController.Users)
+router.get('/create/users', adminController.Users)
+router.get('/update/users', adminController.Users)
+router.get('/delete/users', adminController.Users)
+
+router.get('/courses', adminController.Users)
+router.get('/courses/users', adminController.Users)
+router.get('/courses/users', adminController.Users)
+router.get('/courses/users', adminController.Users)
 
 export default router

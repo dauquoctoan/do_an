@@ -5,15 +5,13 @@ const User = require('../models/User')
 import jwt_decode from 'jwt-decode'
 
 export async function middleAuthenTication(req: any, res: any, next: any) {
-    console.log('test')
-
     try {
         const token = req.headers.authorization
         if (token) {
             var result: any = jwt_decode(req.headers.authorization)
-            const info = await User.find({ email: result.email })
+            const info = await User.findOne({ email: result.email })
             if (info) {
-                req.id = info[0]._id
+                req.id = info._id
                 return next()
             } else {
                 res.status(STATUS_CODE.proxyAuthenticationRequired).json(

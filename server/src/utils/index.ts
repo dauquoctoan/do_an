@@ -24,6 +24,14 @@ export function handleResultError(message: string) {
     }
 }
 
+// function handleMapData(data: any, listKey: Array<string>) {
+//     const data = {}
+//     listKey.forEach((item) => {
+//         listKey = data[item]
+//     })
+//     return listKey
+// }
+
 export async function MCreate(modal: any, query: any, name: String, data: any) {
     const oldModal = await modal.find(query)
     if (oldModal?.length > 0) {
