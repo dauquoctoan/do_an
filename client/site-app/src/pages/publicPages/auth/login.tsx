@@ -1,19 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
+import { useEffect, useState } from "react";
+import { GoogleOAuthProvider, GoogleLogin, useGoogleLogin } from "@react-oauth/google";
 import {
     Box,
     Button,
-    FormControlLabel,
-    FormGroup,
-    FormHelperText,
     TextField,
-    Typography,
 } from "@mui/material";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { literal, object, string, TypeOf } from "zod";
+import { object, string, TypeOf } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoadingButton } from "@mui/lab";
-import Checkbox from "@mui/material/Checkbox";
 import styled from "styled-components";
 import { apiLogin } from "../api";
 import CloseIcon from "@mui/icons-material/Close";
@@ -57,9 +52,7 @@ const Login = () => {
 
     const onSubmitHandler: SubmitHandler<RegisterInput> = (values) => {
         console.log(values);
-    };
-    console.log(errors);
-
+    }
     async function handleCreateUser(user: any) {
         const res = await apiLogin(user.credential);
         if (res) {
@@ -68,6 +61,11 @@ const Login = () => {
             console.log("error");
         }
     }
+
+    // const login = useGoogleLogin({
+    //     onSuccess: codeResponse => console.log(codeResponse),
+    //     flow: 'auth-code',
+    // });
 
     return (
         <SLogin>
@@ -172,16 +170,29 @@ const Login = () => {
                         <div className="line"></div>
                     </div>
                 </div>
-                <GoogleOAuthProvider clientId="919315885601-82rssgelt9qsnihhk8ioc9aiv4jir8u4.apps.googleusercontent.com">
-                    <GoogleLogin
+                <GoogleOAuthProvider clientId={process.env.REACT_APP_CLIENT_ID || ''}>
+                    {/* <GoogleLogin
                         onSuccess={(credentialResponse) => {
                             handleCreateUser(credentialResponse);
                         }}
                         onError={() => {
                             console.log("Login Failed");
                         }}
-                    />
+                    /> */}
+                    <GoogleLogin
+                        onSuccess={credentialResponse => {
+                            console.log(credentialResponse);
+                        }}
+                        onError={() => {
+                            console.log('Login Failed');
+                        }}
+                        useOneTap
+                    />;
+                    {/* <MyCustomButton onClick={() => login()}>
+                        Sign in with Google 🚀{' '}
+                    </MyCustomButton>; */}
                 </GoogleOAuthProvider>
+                
             </div>
         </SLogin>
     );
@@ -233,3 +244,6 @@ const SLogin = styled.div`
         }
     }
 `;
+const MyCustomButton = styled.button`
+    
+`
