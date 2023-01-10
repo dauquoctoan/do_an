@@ -6,36 +6,23 @@ import reportWebVitals from "./reportWebVitals";
 import { createTheme } from "@mui/material/styles";
 import { ThemeProvider } from "@mui/material";
 import GlobalStyle from "./globalStyled";
-import { Router } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { COLOR } from "./constant";
 
 const root = ReactDOM.createRoot(
     document.getElementById("root") as HTMLElement
 );
 
 const theme = createTheme({
-    palette: {
-        primary: {
-            light: "#757ce8",
-            main: "#3f50b5",
-            dark: "#002884",
-            contrastText: "#fff",
-        },
-        secondary: {
-            light: "#ff7961",
-            main: "#f44336",
-            dark: "#ba000d",
-            contrastText: "#000",
-        },
-    },
+    palette: COLOR,
 });
-
 root.render(
     <React.StrictMode>
         <ThemeProvider theme={theme}>
-            {/* <Router history={history}> */}
             <App />
-            {/* </Router> */}
             <GlobalStyle />
+            <ToastContainer />
         </ThemeProvider>
     </React.StrictMode>
 );

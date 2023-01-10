@@ -1,6 +1,18 @@
 export const STRINGS = {
-    SUCCESS: 'Thành công',
-    FAIL: 'Thất bại',
+    STATUS: {
+        SUCCESS: 'thành công',
+        FAIL: 'thất bại !',
+    },
+    METHOD: {
+        CREATE: 'Tạo',
+        UPDATE: 'Sửa',
+        DELETE: 'Xóa',
+        FIND: 'Tìm kiếm',
+        LOGIN: 'Đăng nhập',
+    },
+    WARN: {
+        EXIST: 'Đã tồn tại',
+    },
 }
 
 export const STATUS_CODE = {

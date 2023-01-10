@@ -1,38 +1,29 @@
-import { useEffect, useState } from "react";
-import { GoogleOAuthProvider, GoogleLogin, useGoogleLogin } from "@react-oauth/google";
-import {
-    Box,
-    Button,
-    TextField,
-} from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
+import { Box, Button, TextField } from "@mui/material";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { object, string, TypeOf } from "zod";
+import { object, string, TypeOf, number } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoadingButton } from "@mui/lab";
 import styled from "styled-components";
-import { apiLogin } from "../api";
+import { apiLogin, apiCreateUser, apiCreateUserWithToken } from "../api";
 import CloseIcon from "@mui/icons-material/Close";
 import { history } from "../../../utils/history";
+import { notify } from "../../../commons/notification";
+import { useNavigate } from "react-router-dom";
 
-const registerSchema = object({
-    age: string()
-        .nonempty("Vui lòng nhập tuổi")
-        .max(32, "Bạn đã quá số tuổi quy định")
-        .min(0, "Bạn chưa đủ độ tuổi quy định"),
-    name: string()
-        .nonempty("Tên không được bỏ trống")
-        .max(32, "Tên quá độ dài tối đa"),
+const loginSchema = object({
     email: string().nonempty("Email bắt buộc điền").email("Email không hợp lệ"),
-    password: string()
+    passWord: string()
         .nonempty("Vui lòng nhập mật khẩu")
         .min(8, "Mật khẩu phải tối thiểu 8 ký tự")
         .max(32, "Mật khẩu không được dài quá 32 ký tự"),
 });
 
 const Login = () => {
-    type RegisterInput = TypeOf<typeof registerSchema>;
+    const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
-    const [isLogin, setIsLogin] = useState(true);
+    type RegisterInput = TypeOf<typeof loginSchema>;
 
     const {
         register,
@@ -40,26 +31,31 @@ const Login = () => {
         reset,
         handleSubmit,
     } = useForm<RegisterInput>({
-        resolver: zodResolver(registerSchema),
+        resolver: zodResolver(loginSchema),
     });
 
     useEffect(() => {
         if (isSubmitSuccessful) {
-            // reset();
+            reset();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isSubmitSuccessful]);
 
-    const onSubmitHandler: SubmitHandler<RegisterInput> = (values) => {
-        console.log(values);
-    }
-    async function handleCreateUser(user: any) {
-        const res = await apiLogin(user.credential);
-        if (res) {
-            console.log(res);
-        } else {
-            console.log("error");
+    const onSubmitHandler: SubmitHandler<RegisterInput> = async (values) => {
+        setLoading(true);
+        try {
+            const res: any = await apiLogin(values);
+            localStorage.setItem("token", res?.data?.token || "");
+            notify.success("Đăng nhập thành công");
+            setLoading(false);
+            navigate("/");
+        } catch (error) {
+            setLoading(false);
         }
+    };
+
+    async function handleCreateUserWithGoogle(user: any) {
+        localStorage.setItem("token", user);
     }
 
     // const login = useGoogleLogin({
@@ -77,15 +73,15 @@ const Login = () => {
                 />
                 <Button
                     onClick={() => {
-                        setIsLogin(!isLogin);
+                        navigate("/register");
                     }}
                     variant="contained"
                 >
-                    {isLogin ? "Đăng nhập" : "Đăng ký"}
+                    Đăng ký
                 </Button>
             </div>
             <div className="body">
-                <div className="title">{isLogin ? "Đăng nhập" : "Đăng ký"}</div>
+                <div className="title">Đăng nhập</div>
                 <div className="form">
                     <Box sx={{ maxWidth: "30rem" }}>
                         <Box
@@ -94,38 +90,6 @@ const Login = () => {
                             autoComplete="off"
                             onSubmit={handleSubmit(onSubmitHandler)}
                         >
-                            {!isLogin && (
-                                <>
-                                    <TextField
-                                        sx={{ mb: 2 }}
-                                        label="Tên"
-                                        fullWidth
-                                        required
-                                        type="text"
-                                        error={!!errors["name"]}
-                                        helperText={
-                                            errors["name"]
-                                                ? errors["name"].message
-                                                : ""
-                                        }
-                                        {...register("name")}
-                                    />
-                                    <TextField
-                                        sx={{ mb: 2 }}
-                                        label="Tuổi"
-                                        fullWidth
-                                        required
-                                        type="number"
-                                        error={!!errors["age"]}
-                                        helperText={
-                                            errors["age"]
-                                                ? errors["age"].message
-                                                : ""
-                                        }
-                                        {...register("age")}
-                                    />
-                                </>
-                            )}
                             <TextField
                                 sx={{ mb: 2 }}
                                 label="Email"
@@ -145,14 +109,14 @@ const Login = () => {
                                 label="Password"
                                 fullWidth
                                 required
-                                type="password"
-                                error={!!errors["password"]}
+                                type="passWord"
+                                error={!!errors["passWord"]}
                                 helperText={
-                                    errors["password"]
-                                        ? errors["password"].message
+                                    errors["passWord"]
+                                        ? errors["passWord"].message
                                         : ""
                                 }
-                                {...register("password")}
+                                {...register("passWord")}
                             />
                             <LoadingButton
                                 variant="contained"
@@ -161,7 +125,7 @@ const Login = () => {
                                 loading={loading}
                                 sx={{ py: "0.8rem", mt: "1rem" }}
                             >
-                                {isLogin ? "Đăng nhập" : "Đăng ký"}
+                                Đăng nhập
                             </LoadingButton>
                         </Box>
                     </Box>
@@ -173,7 +137,7 @@ const Login = () => {
                 <GoogleOAuthProvider clientId={process.env.REACT_APP_CLIENT_ID || ''}>
                     {/* <GoogleLogin
                         onSuccess={(credentialResponse) => {
-                            handleCreateUser(credentialResponse);
+                            handleCreateUserWithGoogle(credentialResponse);
                         }}
                         onError={() => {
                             console.log("Login Failed");
@@ -240,6 +204,11 @@ const SLogin = styled.div`
                 width: auto;
                 padding: 0px 10px;
                 z-index: 1;
+            }
+        }
+        .form {
+            button {
+                color: white;
             }
         }
     }

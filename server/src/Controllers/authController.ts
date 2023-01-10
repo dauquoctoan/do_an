@@ -1,9 +1,10 @@
 import { IUser } from '../models/User'
-import { handleResult, handleResultError, MCreate, Mfind } from '../utils'
+import { handleResultSuccess, handleResultError, createMessage } from '../utils'
 const argon2 = require('argon2')
 const User = require('../models/User')
 import jwt_decode from 'jwt-decode'
 import { STATUS_CODE } from '../configs/constans'
+import { MCreate } from '../service'
 var jwt = require('jsonwebtoken')
 
 class authController {
@@ -54,7 +55,7 @@ class authController {
             res.status(STATUS_CODE.OK).json(result)
         } catch (err) {
             res.status(STATUS_CODE.OK).json(
-                handleResult('Không tạo được user', null, 0)
+                handleResultError('Không tạo được user')
             )
         }
     }
@@ -62,11 +63,6 @@ class authController {
         const { email, passWord } = req.body
         try {
             const info: any = await User.findOne({ email: email })
-            if (info._id) {
-                return res
-                    .status(STATUS_CODE.proxyAuthenticationRequired)
-                    .json(handleResult('Người dùng không tồn tại', null, 0))
-            }
             if (
                 info._id &&
                 (await argon2.verify(info?.passWord, passWord)) &&
@@ -74,24 +70,38 @@ class authController {
             ) {
                 const token = jwt.sign(
                     { id: info._id, email: info.email },
-                    'shhhhh'
+                    process.env.JWT_PRIVATE_KEY
                 )
+
                 const user = {
                     id: info._id,
                     email: info.email,
                     name: info.name,
                     token: token,
                 }
+<<<<<<< HEAD
+                return res
+                    .status(STATUS_CODE.OK)
+                    .json(
+                        handleResultSuccess(
+                            createMessage.loginSuccess('tài khoản'),
+                            user
+                        )
+                    )
+=======
                 return res.json(handleResult('Thành công', user, 1))
+>>>>>>> 93129bf13d921a2ef4428da53db4d0db7137a260
             } else {
                 return res
                     .status(STATUS_CODE.proxyAuthenticationRequired)
-                    .json(handleResult('Người dùng không tồn tại', null, 0))
+                    .json(
+                        handleResultError(createMessage.loginFail('tài khoản'))
+                    )
             }
         } catch (error) {
             return res
                 .status(STATUS_CODE.proxyAuthenticationRequired)
-                .json(handleResult('Lỗi đăng nhập', null, 0))
+                .json(handleResultError(createMessage.loginFail('tài khoản')))
         }
     }
 }
