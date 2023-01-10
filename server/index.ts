@@ -1,24 +1,36 @@
-import express from 'express'
-import dotenv from 'dotenv'
-import cors from 'cors'
-import { connectDB } from './src/configs/dbConfig'
-import User from './src/models/user'
+var express = require('express')
+require('dotenv').config()
+var session = require('express-session')
+const cors = require('cors')
 import router from './src/routes'
+import db from './src/configs/db/index'
+var cookieParser = require('cookie-parser')
+const bodyParser = require('body-parser')
 
-dotenv.config()
 const port = process.env.SERVER_PORT
-
 const app = express()
+
 app.use(cors())
+db.connect()
 
-connectDB()
+app.use(cookieParser())
+app.set('trust proxy', 1)
+app.use(
+    session({
+        secret: 'keyboard cat',
+        resave: false,
+        saveUninitialized: false,
+        cookie: {
+            secure: false,
+            httpOnly: false,
+            maxAge: 20 * 60 * 1000,
+        },
+    })
+)
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
+
 router(app)
-
-app.get('/', async (req, res) => {
-    const data = await User.findAll()
-    res.send(data)
-})
-
 app.listen(port, () => {
-    console.log(`⚡️[server]: Server is running at https://localhost:${port}`)
+    console.log(`⚡️[server]: Server is running at http://localhost:${port}`)
 })

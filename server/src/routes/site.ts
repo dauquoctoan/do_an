@@ -1,14 +1,8 @@
 import { Router } from 'express'
+import siteController from '../Controllers/siteController'
+import { middleAuthenTication } from '../middleware'
 const router = Router()
 
-router.use((req, res, next) => {
-    //midle ware
-    next()
-})
-
-router.get('/test', (req, res, next) => {
-    // ..
-    res.send('site')
-})
+router.get('/', middleAuthenTication, siteController.home)
 
 export default router

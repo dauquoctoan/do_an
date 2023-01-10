@@ -1,14 +1,20 @@
 import { Router } from 'express'
+import adminController from '../Controllers/adminController'
+import { middleAuthenTication } from '../middleware'
 const router = Router()
 
-router.use((req, res, next) => {
-    //midle ware
-    next()
-})
-
-router.get('/test', (req, res, next) => {
-    // ..
+router.get('/', (req, res, next) => {
     res.send('admin')
 })
+
+router.get('/users', adminController.Users)
+router.get('/create/users', adminController.Users)
+router.get('/update/users', adminController.Users)
+router.get('/delete/users', adminController.Users)
+
+router.get('/courses', adminController.Users)
+router.get('/courses/users', adminController.Users)
+router.get('/courses/users', adminController.Users)
+router.get('/courses/users', adminController.Users)
 
 export default router
