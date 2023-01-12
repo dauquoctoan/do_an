@@ -11,5 +11,9 @@ class adminController {
         })
         res.send(users)
     }
+
+    async CreateUser(req: any, res: any) {
+        const body = req.body
+    }
 }
 export default new adminController()
