@@ -32,4 +32,4 @@ const User: IUser = new Schema(
     }
 )
 
-module.exports = mongoose.model('User', User)
+export default mongoose.model('User', User)

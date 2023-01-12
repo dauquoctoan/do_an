@@ -14,19 +14,19 @@ export default createGlobalStyle<IPropsGlobalStyle>`
     padding: 0;
   }
   .notification-success{
-  border-left: solid 10px;
-  border-color: ${(props) => props.color.successColor};
+    border-left: solid 10px;
+    border-color: ${(props) => props.color.successColor};
   }
   .notification-error{
-  border-left: solid 10px;
-  border-color: ${(props) => props.color.errorColor};
+    border-left: solid 10px;
+    border-color: ${(props) => props.color.errorColor};
   }
   .notification-warning{
-  border-left: solid 10px;
-  border-color: ${(props) => props.color.warningColor};
+    border-left: solid 10px;
+    border-color: ${(props) => props.color.warningColor};
   }
   .notification-info{
-  border-left: solid 10px;
-  border-color: ${(props) => props.color.infoColor};
+    border-left: solid 10px;
+    border-color: ${(props) => props.color.infoColor};
   }
 `

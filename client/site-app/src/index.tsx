@@ -9,6 +9,8 @@ import GlobalStyle from "./globalStyled";
 import { ToastContainer} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { COLOR } from "./constant";
+import { Provider } from 'react-redux'
+import store from "./store";
 
 const root = ReactDOM.createRoot(
     document.getElementById("root") as HTMLElement
@@ -19,11 +21,13 @@ const theme = createTheme({
 });
 root.render(
     <React.StrictMode>
-        <ThemeProvider theme={theme}>
-            <App />
-            <GlobalStyle />
-            <ToastContainer />
-        </ThemeProvider>
+        <Provider store={store}>
+            <ThemeProvider theme={theme}>
+                <App />
+                <GlobalStyle />
+                <ToastContainer />
+            </ThemeProvider>
+        </Provider>
     </React.StrictMode>
 );
 

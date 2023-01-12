@@ -21,6 +21,7 @@ export async function MCreate(
         return handleResultError(createMessage.createFail(name))
     }
 }
+
 export async function Mfinds(
     modal: any,
     query: any,
@@ -50,6 +51,7 @@ export async function Mfinds(
         return handleResultError(createMessage.findFail(name) + ':' + error)
     }
 }
+
 export async function Mfind(modal: any, query: any, name: string) {
     try {
         const modals = await modal.findOne(query)
@@ -62,5 +64,23 @@ export async function Mfind(modal: any, query: any, name: string) {
         }
     } catch (error) {
         return handleResultError(createMessage.findFail(name))
+    }
+}
+
+export async function MfindByIdAndDelete(
+    modal: any,
+    _id: string,
+    name: string
+) {
+    try {
+        const modals = modal.findByIdAndDelete()
+        if (modals) {
+            return handleResultSuccess(
+                createMessage.deleteSuccess(name),
+                modals
+            )
+        }
+    } catch (error) {
+        return handleResultError(createMessage.deleteFail(name))
     }
 }

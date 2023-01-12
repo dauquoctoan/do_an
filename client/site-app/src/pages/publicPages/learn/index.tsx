@@ -2,10 +2,9 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { SLearnContent } from "../../../globalStyled";
 import ClearIcon from "@mui/icons-material/Clear";
-import { Slider, Button } from "@mui/material";
+import { Slider } from "@mui/material";
 import { history } from "../../../utils/history";
 import LearnContent from "./LearnContent";
-import { IDataItem } from "./interface";
 import { notify } from "../../../commons/notification";
 
 const LearnMain = () => {
