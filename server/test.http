@@ -31,10 +31,10 @@ post http://localhost:3005/auth/save-user
 content-type: application/json
 
 {
-    "name": "toandq",
-    "email": "dqtoans@gmail.com",
-    "passWord": "kljsfljsdf",
-    "age": 20
+    "name": "toansssdq",
+    "email": "dqtoan0123@gmail.com",
+    "typeAccount": 0,
+    "password": "password"
 }
 
 ###
@@ -53,7 +53,6 @@ content-type: application/json
 ###
 post http://localhost:3005/
 content-type: application/json
-
 
 {
    "token": "eshvCHO1XRL4AB5DoK7Tq-f9JMTqdsLtZhxw7FEJXx9A"

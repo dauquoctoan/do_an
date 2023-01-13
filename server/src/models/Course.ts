@@ -1,9 +1,7 @@
-import { Icard } from './interface'
-
 var mongoose = require('mongoose')
 var Schema = mongoose.Schema
 
-const Sort: Icard = new Schema(
+const Sort = new Schema(
     {
         title: { type: String, required: true },
         data: { type: Array, required: true },
@@ -14,4 +12,4 @@ const Sort: Icard = new Schema(
     }
 )
 
-export default mongoose.model('Sort', Sort)
+export default mongoose.model('courts', Sort)

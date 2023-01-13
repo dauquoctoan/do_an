@@ -1,0 +1,46 @@
+export const apis = {
+  auth: {
+    LOGIN: '/Authentication/Login',
+    LOGOUT: '/Authentication/Logout',
+    GET_USER_INFO: '/web/users/info',
+  },
+  stall: {
+    GET_STALLS: '/Stall/GetListStall',
+    CATEGORY: '/Category/GetListCategory',
+    CREATE_STALL: '/Stall/CreateStall',
+    DETAIL_STALL: '/Stall/GetStallDetail/',
+    DELETE_STALL: '/Stall/DeleteStall',
+    CHANGE_STATUS_STALL: '/Stall/ChangeStatus/',
+    UPDATE_STALL: '/Stall/UpdateStall',
+  },
+  customer: {
+    GET_CUSTOMERS: '/Customer/GetListCustomer',
+    GET_CUSTOMER_DETAIL: '/Customer/GetCustomerDetail',
+    CHANGE_STATUS_CUSTOMER: '/Customer/ChangeStatus',
+    HISTORY_EXCHANGE_POINTS: '/Customer/ChangeStatus',
+    HISTORY_OF_POINTS: '/Customer/ChangeStatus',
+    HISTORY_OF_POINTS_DETAIL: '/Customer/ChangeStatus',
+  },
+  news: {
+    GET_NEWS: '/News/GetListNews',
+    CREATE_NEWS: '/News/CreateNews',
+    NEWS_DETAIL: '/News/GetNewsDetail',
+    DELETE_NEWS: '/News/DeleteNews',
+    UPDATE_NEWS: '/News/UpdateNews',
+    CHANGE_STATUS_NEWS: '/News/ChangeStatus',
+  },
+  account: {
+    GET_ACCOUNTS: '/User/GetListUser',
+    DELETE_ACCOUNT: '/User/DeleteUser',
+    CREATE_ACCOUNT: '/User/CreateUser',
+    ACCOUNT_DETAIL: '/User/GetUserDetail',
+    UPDATE_ACCOUNT: '/User/UpdateUser',
+    CHANGE_STATUS_ACCOUNT: '/User/ChangeStatus',
+  },
+  category: {
+    GET_CATEGORIES: '/Category/GetListCategory',
+    CREATE_CATEGORY: '/Category/CreateCategory',
+    UPDATE_CATEGORY: '/Category/UpdateCategory',
+    DELETE_CATEGORY: '/Category/DeleteCategory',
+  },
+}

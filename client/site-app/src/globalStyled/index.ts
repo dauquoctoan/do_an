@@ -23,16 +23,20 @@ export const SLearnContent = styled.div`
 `;
 
 const GlobalStyle = createGlobalStyle`
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap');
   body {
     margin: 0;
     padding: 0;
-    font-family: Open-Sans, Helvetica, Sans-Serif;
+    font-family: 'Montserrat', sans-serif;
     color: black;
     .nationality {
         cursor: pointer;
     }
     .nationality:hover {
         background-color: #f1f3f4;
+    }
+    .MuiModal-root{
+        background-color: rgba(0, 0, 0, 0.5);
     }
   }
 `;

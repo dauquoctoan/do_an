@@ -1,10 +1,10 @@
-import { IUser } from '../models/user'
 import { handleResultSuccess, handleResultError, createMessage } from '../utils'
-const argon2 = require('argon2')
-const User = require('../models/User')
+import argon2 from 'argon2'
+import User from '../models/User'
 import jwt_decode from 'jwt-decode'
-import { STATUS_CODE } from '../configs/constans'
+import { STATUS_CODE } from '../configs/constants'
 import { MCreate } from '../service'
+import { IUser } from '../interfaces/user'
 var jwt = require('jsonwebtoken')
 
 class authController {
@@ -41,20 +41,19 @@ class authController {
         }
     }
     async saveUser(req: any, res: any) {
-        const { name, email, passWord }: IUser = req.body
-        try {
-            const hashPw = await argon2.hash(passWord)
-            const data = {
-                name: name,
-                email: email,
-                typeAccount: 0,
-                passWord: hashPw,
-            }
-            const result = await MCreate(User, { email: email }, 'User', data)
-            res.json(result)
-        } catch (err) {
-            res.json(handleResultError('Không tạo được user'))
+        const { name, email, password }: IUser = req.body
+
+        const hashPw = await argon2.hash(password || '')
+
+        const data = {
+            name: name,
+            email: email,
+            typeAccount: 0,
+            password: hashPw,
         }
+
+        const result = await MCreate(User, { email: email }, 'người dùng', data)
+        res.json(result)
     }
     async login(req: any, res: any) {
         const { email, passWord } = req.body

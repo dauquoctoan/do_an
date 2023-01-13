@@ -1,0 +1,11 @@
+version: '3.8'
+
+
+services:
+  web:
+
+    # image: nslc:demo
+    build: .
+    restart: always
+    ports:
+      - "3004:80"

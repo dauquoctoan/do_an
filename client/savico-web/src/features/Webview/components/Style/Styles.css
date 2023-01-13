@@ -1,0 +1,12 @@
+.ant-page-header-heading-title {
+    font-size: 15px !important;
+}
+
+.ant-card-head-wrapper {
+    text-align: center;
+    display: none !important;
+}
+
+.ant-page-header {
+    padding: 0 !important
+}

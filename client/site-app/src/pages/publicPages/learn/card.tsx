@@ -1,61 +1,42 @@
-import { Button } from "@mui/material";
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
-import { notify } from "../../../commons/notification";
 import { COLOR } from "../../../constant";
-import { IDataItem } from "./interface";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../../../store";
+import { setChose } from "../../../store/features/learn/learnSlice";
 
-interface IProps {
-    handleSelect: (status: boolean) => void;
-    data: IDataItem;
-}
+const Card = () => {
+    const dispatch = useDispatch();
+    const mainLearn = useSelector((state: RootState) => state.mainLearn);
 
-const Card = ({ data, handleSelect }: IProps) => {
-    const [answer, setAnswer] = useState<number>(0);
-    function handleCheck() {
-        if (answer === data.answer) {
-            notify.exactly("Chính xác");
-            handleSelect(true);
-        } else {
-            notify.incorrect("Sai!");
-            handleSelect(false);
-        }
-    }
     return (
         <SCard>
             <div className="wrapper">
                 <div className="wrapper-item">
-                    {data?.question?.map((item, i) => {
-                        const index = i + 1;
-                        return (
-                            <div
-                                className={
-                                    answer === index ? "item active" : "item"
-                                }
-                                onClick={() => {
-                                    setAnswer(index);
-                                }}
-                            >
-                                <img src={item.img} alt="img" />
-                                <div className="content">
-                                    <p>{item.title}</p>
-                                    <div className="number">{index}</div>
+                    {mainLearn?.data[mainLearn.index - 1]?.option.map(
+                        (item: any, i: number) => {
+                            const index = i + 1;
+                            return (
+                                <div
+                                    key={index}
+                                    className={
+                                        mainLearn.chose === index
+                                            ? "item active"
+                                            : "item"
+                                    }
+                                    onClick={() => {
+                                        dispatch(setChose(index));
+                                    }}
+                                >
+                                    <img src={item.img} alt="img" />
+                                    <div className="content">
+                                        <p>{item.title}</p>
+                                        <div className="number">{index}</div>
+                                    </div>
                                 </div>
-                            </div>
-                        );
-                    })}
-                </div>
-                <div className="action">
-                    <Button variant="outlined">Bỏ qua</Button>
-                    <Button
-                        variant="contained"
-                        onClick={() => {
-                            setAnswer(0);
-                            handleCheck();
-                        }}
-                    >
-                        Kiểm tra
-                    </Button>
+                            );
+                        }
+                    )}
                 </div>
             </div>
         </SCard>
@@ -118,10 +99,6 @@ const SCard = styled.div`
                     }
                 }
             }
-        }
-        .action {
-            display: flex;
-            justify-content: space-between;
         }
     }
 `;

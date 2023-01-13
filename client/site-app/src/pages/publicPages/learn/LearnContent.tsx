@@ -1,25 +1,23 @@
 import React from "react";
 import styled from "styled-components";
 import Card from "./card";
-import { IDataItem } from "./interface";
 
 interface IProps {
-    handleSelect: (status: boolean) => void;
-    data: IDataItem;
+    type: string;
 }
 
-function renderCourse(data: IDataItem, handleSelect: (status: any) => void) {
-    switch (data.type) {
+function renderCourse(type: string) {
+    switch (type) {
         case "card":
-            return <Card handleSelect={handleSelect} data={data} />;
+            return <Card />;
         case "sort":
-            return <Card handleSelect={handleSelect} data={data} />;
+            return <Card />;
         default:
             return <></>;
     }
 }
-const LearnContent = ({ data, handleSelect }: IProps) => {
-    return <SContent>{renderCourse(data, handleSelect)}</SContent>;
+const LearnContent = ({ type }: IProps) => {
+    return <SContent>{renderCourse(type)}</SContent>;
 };
 
 export default LearnContent;

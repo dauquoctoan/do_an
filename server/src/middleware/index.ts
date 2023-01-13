@@ -1,5 +1,5 @@
-import { STATUS_CODE } from '../configs/constans'
-import { handleResultError } from '../utils'
+import { STATUS_CODE } from '../configs/constants'
+import { createMessage, handleResultError } from '../utils'
 const User = require('../models/User')
 import jwt_decode from 'jwt-decode'
 
@@ -32,7 +32,7 @@ export async function middleAuthenTication(req: any, res: any, next: any) {
 export const validate = (schema: any) => (req: any, res: any, next: any) => {
     const { error } = schema.validate(req.body)
     if (error) {
-        res.status(422).send(error.details[0].message)
+        res.status(422).json(handleResultError(error.details[0].message))
     } else {
         next()
     }

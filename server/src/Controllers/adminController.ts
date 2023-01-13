@@ -1,5 +1,5 @@
 import { STATUS_CODES } from 'http'
-import { STATUS_CODE } from '../configs/constans'
+import { STATUS_CODE } from '../configs/constants'
 import { Mfind, Mfinds } from '../service'
 
 const User = require('../models/User')

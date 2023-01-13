@@ -1,4 +1,4 @@
-import { CODE, STRINGS } from '../configs/constans'
+import { CODE, STRINGS } from '../configs/constants'
 import { createMessage, handleResultError, handleResultSuccess } from '../utils'
 
 export async function MCreate(
@@ -33,7 +33,6 @@ export async function Mfinds(
 ) {
     console.log(typeof pages.index)
     const skip = (pages.index - 1) * pages.limit
-
     try {
         const modals = await modal
             .find(query)

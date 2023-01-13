@@ -1,20 +1,7 @@
 var mongoose = require('mongoose')
 var Schema = mongoose.Schema
 
-export interface IUser {
-    name: String
-    email: String
-    picture?: String
-    givenName?: String
-    typeAccount: Number
-    iat?: String
-    exp?: Number
-    email_verified?: Number
-    passWord?: String
-    age?: String
-}
-
-const User: IUser = new Schema(
+const User = new Schema(
     {
         name: { type: String, required: true },
         email: { type: String, required: true },
@@ -24,7 +11,7 @@ const User: IUser = new Schema(
         iat: { type: Number, required: false },
         exp: { type: Number, required: false },
         email_verified: { type: Boolean, required: false },
-        passWord: { type: String, required: false },
+        password: { type: String, required: false },
         age: { type: Number, required: false },
     },
     {
@@ -32,4 +19,4 @@ const User: IUser = new Schema(
     }
 )
 
-export default mongoose.model('User', User)
+export default mongoose.model('users', User)

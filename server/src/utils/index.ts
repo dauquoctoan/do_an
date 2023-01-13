@@ -1,4 +1,4 @@
-import { CODE, STRINGS } from '../configs/constans'
+import { CODE, STRINGS } from '../configs/constants'
 
 export function handleResultSuccess(
     message: string,

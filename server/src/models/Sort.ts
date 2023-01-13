@@ -24,4 +24,4 @@ const Sort: ISort = new Schema(
     }
 )
 
-export default mongoose.model('Sort', Sort)
+export default mongoose.model('sorts', Sort)
