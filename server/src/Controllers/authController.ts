@@ -50,13 +50,10 @@ class authController {
                 typeAccount: 0,
                 passWord: hashPw,
             }
-
             const result = await MCreate(User, { email: email }, 'User', data)
-            res.status(STATUS_CODE.OK).json(result)
+            res.json(result)
         } catch (err) {
-            res.status(STATUS_CODE.OK).json(
-                handleResultError('Không tạo được user')
-            )
+            res.json(handleResultError('Không tạo được user'))
         }
     }
     async login(req: any, res: any) {
@@ -79,7 +76,6 @@ class authController {
                     name: info.name,
                     token: token,
                 }
-<<<<<<< HEAD
                 return res
                     .status(STATUS_CODE.OK)
                     .json(
@@ -88,9 +84,6 @@ class authController {
                             user
                         )
                     )
-=======
-                return res.json(handleResult('Thành công', user, 1))
->>>>>>> 93129bf13d921a2ef4428da53db4d0db7137a260
             } else {
                 return res
                     .status(STATUS_CODE.proxyAuthenticationRequired)

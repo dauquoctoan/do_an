@@ -48,21 +48,21 @@ const Register = () => {
     const onSubmitHandler: SubmitHandler<RegisterInput> = async (values) => {
         setLoading(true);
         try {
-            const user = await apiCreateUser(values);
-            console.log(user);
-            notify.success("Đăng ký khoản thành công");
+            await apiCreateUser(values);
+            notify.success("Đăng ký khoản thành công, vui lòng đăng nhập lại");
             setLoading(false);
             navigate("/login");
         } catch (error) {
+            notify.error("Có lỗi xảy ra vui lòng thử lại");
             setLoading(false);
         }
     };
 
     async function handleCreateUserWithGoogle(user: any) {
-        const userInfo: any = await apiCreateUserWithToken(user);
-        if (userInfo && userInfo?.code === 1) {
-            localStorage.setItem("token", user);
-        }
+        await apiCreateUserWithToken(user?.credential || "");
+        notify.success("Tạo tài khoản thành công!");
+        localStorage.setItem("token", user);
+        navigate("/learn");
     }
 
     return (
