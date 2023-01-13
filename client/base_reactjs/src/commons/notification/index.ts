@@ -1,49 +1,32 @@
 import { notification as nt } from 'antd'
-import { IPropNotification } from './interface'
 
-const notification = ({
-  placement,
-  description,
-  type = 'success',
-  message,
-  maxCount = 3,
-  duration = 1,
-}: IPropNotification) => {
-  nt.config({
-    placement: placement,
-    duration: duration,
-    maxCount: maxCount,
-  })
-  switch (type) {
-    case 'info':
-      nt.info({
-        description: description,
-        message: message,
-        className: 'notification-info',
-      })
-      break
-    case 'error':
-      nt.error({
-        description: description,
-        message: message,
-        className: 'notification-error',
-      })
-      break
-    case 'success':
-      nt.success({
-        description: description,
-        message: message,
-        className: 'notification-success',
-      })
-      break
-    case 'warning':
-      nt.warning({
-        description: description,
-        message: message,
-        className: 'notification-warning',
-      })
-      break
-  }
+nt.config({
+  duration: 5,
+  maxCount: 1,
+})
+
+const notification = {
+  success: (mesg: string, desc: string) => {
+    nt.success({
+      description: desc,
+      message: mesg,
+      className: 'notification-success',
+    })
+  },
+  warning: (mesg: string, desc: string) => {
+    nt.warning({
+      description: desc,
+      message: mesg,
+      className: 'notification-success',
+    })
+  },
+  error: (mesg: string, desc: string) => {
+    nt.error({
+      description: desc,
+      message: mesg,
+      className: 'notification-success',
+    })
+  },
 }
 
 export default notification

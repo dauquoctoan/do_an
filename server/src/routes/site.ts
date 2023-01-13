@@ -1,8 +1,9 @@
 import { Router } from 'express'
+import Joi from 'Joi'
 import siteController from '../Controllers/siteController'
-import { middleAuthenTication } from '../middleware'
+import { middleAuthenTication, validate } from '../middleware'
 const router = Router()
 
-router.get('/', middleAuthenTication, siteController.home)
+router.post('/', siteController.home)
 
 export default router

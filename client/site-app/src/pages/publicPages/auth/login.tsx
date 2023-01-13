@@ -54,10 +54,6 @@ const Login = () => {
         }
     };
 
-    async function handleCreateUserWithGoogle(user: any) {
-        localStorage.setItem("token", user);
-    }
-
     return (
         <SLogin>
             <div className="head">
@@ -129,16 +125,18 @@ const Login = () => {
                         <div className="line"></div>
                     </div>
                 </div>
-                <GoogleOAuthProvider clientId="919315885601-82rssgelt9qsnihhk8ioc9aiv4jir8u4.apps.googleusercontent.com">
+                <GoogleOAuthProvider clientId={process.env.REACT_APP_CLIENT_ID || ''}>
                     <GoogleLogin
-                        onSuccess={(credentialResponse) => {
-                            handleCreateUserWithGoogle(credentialResponse);
+                        onSuccess={credentialResponse => {
+                            console.log(credentialResponse);
                         }}
                         onError={() => {
-                            console.log("Login Failed");
+                            console.log('Login Failed');
                         }}
-                    />
+                        useOneTap
+                    />;
                 </GoogleOAuthProvider>
+                
             </div>
         </SLogin>
     );
@@ -195,3 +193,6 @@ const SLogin = styled.div`
         }
     }
 `;
+const MyCustomButton = styled.button`
+    
+`
