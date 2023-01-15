@@ -56,7 +56,7 @@ function Staffs() {
   const [paging, setPaging] = useState<IPagination>({
     limit: Configs._limit,
     page: Configs._default_page,
-    totalItemCount: 0,
+    total: 0,
   })
   const [isLoading, setisLoading] = useState<boolean>(false)
   const [listStaff, setlistStaff] = useState<IFormatedListStaff[]>([])
@@ -124,7 +124,7 @@ function Staffs() {
         setPaging({
           page: res.data?.page,
           limit: res.data?.limit,
-          totalItemCount: res.data?.totalItemCount,
+          total: res.data?.total,
         })
         setlistStaff(dataStaff)
       }
@@ -268,7 +268,7 @@ function Staffs() {
           submitFieldValue={(value: IFilters) => setparams(value)}
         />
       </StyledDiv>
-      <ContentScreen countFilter={paging.totalItemCount}>
+      <ContentScreen countFilter={paging.total}>
         <StyledDiv>
           <Spin spinning={isLoading}>
             <Table

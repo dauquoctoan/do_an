@@ -181,7 +181,7 @@ const DetailExchangeGift = () => {
         setExchangeGiftDetailList(data)
         setPaginition1({
           ...pagination1,
-          total: res?.data?.totalItemCount,
+          total: res?.data?.total,
           current: res?.data?.page,
           pageSize: res?.data?.limit,
         })
@@ -209,7 +209,7 @@ const DetailExchangeGift = () => {
         setVoucherList(data)
         setPaginition2({
           ...pagination2,
-          total: res?.data?.totalItemCount,
+          total: res?.data?.total,
           current: res?.data?.page,
           pageSize: res?.data?.limit,
         })

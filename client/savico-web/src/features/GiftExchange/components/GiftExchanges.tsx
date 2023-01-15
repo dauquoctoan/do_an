@@ -22,7 +22,7 @@ function GiftExchanges() {
   const [paging, setPaging] = useState<IPagination>({
     limit: 10,
     page: 1,
-    totalItemCount: 0,
+    total: 0,
   })
   const [params, setParams] = useState<IExchangeGiftPayload>({
     page: 1,
@@ -94,7 +94,7 @@ function GiftExchanges() {
         setPaging({
           limit: res.data.limit,
           page: res.data.page,
-          totalItemCount: res.data.totalItemCount,
+          total: res.data.total,
         })
       }
     } catch (err) {
@@ -125,7 +125,7 @@ function GiftExchanges() {
             width: 300,
           }}
         />
-        <ContentScreen countFilter={paging.totalItemCount} loading={false}>
+        <ContentScreen countFilter={paging.total} loading={false}>
           <Table
             border={true}
             columns={columns}

@@ -41,7 +41,7 @@ export interface IPropFilter {
 }
 
 export interface IListFilter {
-  searchKey?: string | null
+  search?: string | null
   autoComplete?: string | number | null
   fromDate?: string | null
   toDate?: string | null

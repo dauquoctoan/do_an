@@ -22,7 +22,7 @@ const HistoryOfPointsDetail = (props: IProps) => {
   const [paging, setPaging] = useState<any>({
     limit: Configs._limit,
     page: Configs._default_page,
-    totalItemCount: 0,
+    total: 0,
   })
   const columns: ColumnsType<IFormatedHisPointDetail> = [
     {
@@ -72,7 +72,7 @@ const HistoryOfPointsDetail = (props: IProps) => {
       setPaging({
         limit: res.data.limit,
         page: res.data.page,
-        totalItemCount: res.data.totalItemCount,
+        total: res.data.total,
       })
     }
   }

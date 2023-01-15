@@ -12,7 +12,7 @@ export interface IEvent {
 export interface Idata<T> {
   page: number
   limit: number
-  totalItemCount: number
+  total: number
   data: T
 }
 export interface IfieldData {

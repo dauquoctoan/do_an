@@ -42,7 +42,7 @@ function ListJoinEvent() {
   const [paging, setpaging] = useState<IPagination>({
     limit: Configs._limit,
     page: Configs._default_page,
-    totalItemCount: 0,
+    total: 0,
   })
 
   const columns: ColumnsType<IFormatedListNewCustomer> = [
@@ -124,7 +124,7 @@ function ListJoinEvent() {
         setpaging({
           limit: res.data.limit,
           page: res.data.page,
-          totalItemCount: res.data.totalItemCount,
+          total: res.data.total,
         })
       }
     } catch (err) {
@@ -166,7 +166,7 @@ function ListJoinEvent() {
           </Col>
         </Row>
       </WapperStyled>
-      <ContentScreen countFilter={paging.totalItemCount}>
+      <ContentScreen countFilter={paging.total}>
         <WapperStyled>
           <Table
             border={true}

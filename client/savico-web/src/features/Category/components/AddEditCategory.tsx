@@ -31,12 +31,7 @@ const AddEditCategory = ({
         ? await updateCategory({ ...data, id: detailCategory.id })
         : await createCategory(data)
       if (res) {
-        message({
-          type: 'success',
-          content: detailCategory
-            ? 'Sửa ngành hàng thành công'
-            : 'Thêm mới ngành hàng thành công',
-        })
+        message.success('Thêm card hàng thành công')
         form.resetFields()
         handleCloseModal()
       }
@@ -67,8 +62,7 @@ const AddEditCategory = ({
         rules={[
           {
             required: true,
-            // message: R.strings().account_and_customer__warring__name,
-            message: 'Vui lòng nhập tên ngành hàng!',
+            message: 'Vui lòng nhập tên card!',
           },
           {
             max: 65,

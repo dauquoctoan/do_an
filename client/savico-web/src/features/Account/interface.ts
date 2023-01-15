@@ -1,20 +1,16 @@
 import { FormInstance } from 'antd/es/form'
 
 export interface IPropAddEdit {
-  accountDetail?: IFormAddUpdateAccount | null
+  accountDetail?: ITopics | null
   handleCloseModal: () => void
   form: FormInstance
 }
 
-export interface IAccount {
-  id: number
-  username: string
-  phone: string
-  roleName: string
-  roleID: number
-  email: string
-  status: number
-  createdDate: string
+export interface ITopics {
+  _id: string
+  name: string
+  desc?: string
+  picture: string
 }
 
 export interface IFormAddUpdateAccount {

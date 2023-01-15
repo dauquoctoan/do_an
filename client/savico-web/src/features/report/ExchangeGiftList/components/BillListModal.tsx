@@ -24,7 +24,7 @@ const BillListModal = (props: IProps) => {
   const [paging, setPaging] = useState<any>({
     limit: 10000,
     page: currentPage,
-    totalItemCount: 0,
+    total: 0,
   })
 
   const columns: ColumnsType<IFormatedHisPointDetail> = [

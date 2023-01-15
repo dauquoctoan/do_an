@@ -30,7 +30,7 @@ const HistoryExchangePoints = (props: IProps) => {
   const [paging, setPaging] = useState<any>({
     limit: Configs._limit,
     page: Configs._default_page,
-    totalItemCount: 10,
+    total: 10,
   })
   const [params, setparams] = useState<IChangeHisPayload>({
     limit: Configs._limit,
@@ -93,7 +93,7 @@ const HistoryExchangePoints = (props: IProps) => {
       }
       if (res.data) {
         setPaging({
-          totalItemCount: res.data.totalItemCount,
+          total: res.data.total,
           page: res.data.page,
           limit: res.data.limit,
         })

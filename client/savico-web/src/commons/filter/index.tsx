@@ -89,7 +89,7 @@ const FilterHeader = ({
           width={search?.width}
           placeholder={search?.placeholder}
           onSearchSubmit={(value: any) =>
-            setListFilter({ ...listFilter, searchKey: value.trim() })
+            setListFilter({ ...listFilter, search: value.trim() })
           }
         />
       )}
@@ -168,6 +168,7 @@ const FilterHeader = ({
 export default FilterHeader
 
 const FilterStyled = styled.div`
+  padding: 4px 0px;
   width: auto;
   background-color: white;
   /* border-bottom: ${style.border}; */

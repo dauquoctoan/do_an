@@ -1,9 +1,13 @@
-import { handleResultSuccess, handleResultError, createMessage } from '../utils'
+import {
+    handleResultSuccessNoPage,
+    handleResultError,
+    createMessage,
+} from '../utils'
 import argon2 from 'argon2'
 import User from '../models/User'
 import jwt_decode from 'jwt-decode'
 import { STATUS_CODE } from '../configs/constants'
-import { MCreate } from '../service'
+import { _Create } from '../service'
 import { IUser } from '../interfaces/user'
 var jwt = require('jsonwebtoken')
 
@@ -24,7 +28,7 @@ class authController {
                     typeAccount: 1,
                     passWord: user.passWord,
                 }
-                const result = await MCreate(
+                const result = await _Create(
                     User,
                     { email: data.email },
                     'User',
@@ -52,7 +56,7 @@ class authController {
             password: hashPw,
         }
 
-        const result = await MCreate(User, { email: email }, 'người dùng', data)
+        const result = await _Create(User, { email: email }, 'người dùng', data)
         res.json(result)
     }
     async login(req: any, res: any) {
@@ -78,7 +82,7 @@ class authController {
                 return res
                     .status(STATUS_CODE.OK)
                     .json(
-                        handleResultSuccess(
+                        handleResultSuccessNoPage(
                             createMessage.loginSuccess('tài khoản'),
                             user
                         )

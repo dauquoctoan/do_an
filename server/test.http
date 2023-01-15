@@ -1,11 +1,6 @@
 ###
-post http://localhost:3005/
+get http://localhost:3005/
 content-type: application/json
-
-{
-    "name":"toandqw",
-    "age":"12sdfsdf"
-}
 
 
 ###
@@ -56,4 +51,61 @@ content-type: application/json
 
 {
    "token": "eshvCHO1XRL4AB5DoK7Tq-f9JMTqdsLtZhxw7FEJXx9A"
+}
+
+###
+post http://localhost:3005/admin/card
+content-type: application/json
+
+
+{
+    "type": "card",
+    "options":[
+        {
+            "title":"test",
+            "img": "..."
+        },
+        {
+            "title":"test",
+            "img": "..."
+        }
+    ],
+    "answer": 1,
+    "level": 1,
+    "topic":1
+}
+
+###
+post http://localhost:3005/admin/topic
+content-type: application/json
+
+{
+    "name": "chủ đề 2"
+}
+
+###
+post http://localhost:3005/admin/upload/image
+content-type: application/json
+
+###
+post http://localhost:3005/upload/image
+content-type: application/json
+
+{
+    "Form Data":{
+        "image": "101010101010101010110"
+    }
+}
+
+###
+get http://localhost:3005/admin/topics?page=2&limit=10&search=ch
+content-type: application/json
+
+
+###
+delete http://localhost:3005/admin/topic
+content-type: application/json
+
+{
+    "_id": "63c2e87759b71d1f949c9eae"
 }

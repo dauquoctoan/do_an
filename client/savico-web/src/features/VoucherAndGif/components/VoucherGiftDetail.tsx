@@ -56,7 +56,7 @@ function VoucherGiftDetail(props: IProps) {
   // const [paging, setPaging] = useState<IPagination>({
   //   limit: Configs._limit,
   //   page: Configs._default_page,
-  //   totalItemCount: 0,
+  //   total: 0,
   // })
   // const [params, setparams] = useState<IListGiftCodePayload>({
   //   limit: Configs._limit,
@@ -188,11 +188,11 @@ function VoucherGiftDetail(props: IProps) {
   //         key: index,
   //         index: index + 1,
   //       }))
-  //       if (res?.data?.page && res?.data?.totalItemCount) {
+  //       if (res?.data?.page && res?.data?.total) {
   //         setPaging({
   //           ...paging,
   //           page: res?.data?.page,
-  //           totalItemCount: res?.data?.totalItemCount,
+  //           total: res?.data?.total,
   //         })
   //       }
   //       setlistGiftCode(dataGiftCode)

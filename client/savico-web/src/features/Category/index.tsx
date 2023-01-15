@@ -84,10 +84,8 @@ const Category = () => {
   const [paging, setPaging] = useState<IPagination>({
     limit: Configs._limit,
     page: 1,
-    totalItemCount: 0,
+    total: 0,
   })
-  console.log('filter', filter)
-
   useEffect(() => {
     getData()
   }, [paging.page, filter])
@@ -105,7 +103,7 @@ const Category = () => {
         setPaging({
           page: res.data.page,
           limit: res.data.limit,
-          totalItemCount: res.data.totalItemCount,
+          total: res.data.total,
         })
       }
     } catch (error) {
@@ -126,7 +124,7 @@ const Category = () => {
     try {
       const res = await deleteCategory({ ID: id })
       if (res) {
-        message({ type: 'success', content: 'Xóa thành công ngành hàng' })
+        // message({ type: 'success', content: 'Xóa thành công ngành hàng' })
       }
     } catch (error) {
       console.log(error)
@@ -139,16 +137,10 @@ const Category = () => {
       const updatedRecord = { ...record, status: record?.status === 1 ? 0 : 1 }
       const res = await updateCategory(updatedRecord)
       if (res.status) {
-        message({
-          type: 'success',
-          content: 'Chỉnh sửa trạng thái ngành hàng thành công',
-        })
+        message.error('Chỉnh sửa trạng thái ngành hàng thành công')
         getData()
       } else {
-        message({
-          type: 'error',
-          content: 'Chỉnh sửa trạng thái ngành hàng thất bại',
-        })
+        message.error('Chỉnh sửa trạng thái ngành hàng thất bại')
       }
     } catch (error) {
       console.log('ERROR')
@@ -159,7 +151,7 @@ const Category = () => {
   return (
     <ContainScreenStyled>
       <PageHeader
-        title={'Ngành hàng'}
+        title={'Card'}
         extra={
           <Button
             onClick={() => {
@@ -167,11 +159,11 @@ const Category = () => {
             }}
             type="primary"
           >
-            {R.strings().btn__add_new}
+            Thêm mới cards
           </Button>
         }
       />
-      <ContentScreen loading={loading} countFilter={paging.totalItemCount}>
+      <ContentScreen loading={loading} countFilter={paging.total}>
         <div>
           <Table
             border={true}

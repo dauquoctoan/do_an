@@ -7,7 +7,7 @@ export interface ResponseData<T> {
 export interface Idata<T> {
   page: number
   limit: number
-  totalItemCount: number
+  total: number
   data: T
 }
 export interface IListEventPayload {

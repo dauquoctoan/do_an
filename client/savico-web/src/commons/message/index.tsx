@@ -5,36 +5,33 @@ import { INMessage } from './interface'
 
 const { MessageSuccess, MessageWarning, MessageError, MessageInfo } = R.icons
 
-const message = ({ type = 'success', content, duration = 1 }: INMessage) => {
-  ms.config({
-    top: 10,
-    duration: duration,
-    maxCount: 3,
-    rtl: true,
-  })
+ms.config({
+  top: 10,
+  duration: 2,
+  maxCount: 3,
+  rtl: true,
+})
 
-  switch (type) {
-    case 'info':
-      ms.info({
-        content,
-      })
-      break
-    case 'error':
-      ms.error({
-        content,
-      })
-      break
-    case 'success':
-      ms.success({
-        content,
-      })
-      break
-    case 'warning':
-      ms.warning({
-        content,
-      })
-      break
-  }
+const message = {
+  info: (content: string) => {
+    ms.info({
+      content,
+    })
+  },
+  success: (content: string) => {
+    ms.success({
+      content,
+    })
+  },
+  error: (content: string) => {
+    ms.error({
+      content,
+    })
+  },
+  warn: (content: string) => {
+    ms.warn({
+      content,
+    })
+  },
 }
-
 export default message

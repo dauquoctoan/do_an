@@ -40,7 +40,7 @@ function usageFrequencies() {
   const [paging, setpaging] = useState<IPagination>({
     page: Configs._default_page,
     limit: Configs._limit,
-    totalItemCount: 0,
+    total: 0,
   })
   const columns: ColumnsType<IListUsageFrequency> = [
     {
@@ -124,7 +124,7 @@ function usageFrequencies() {
         setpaging({
           page: res.data.page,
           limit: res.data.limit,
-          totalItemCount: res.data.totalItemCount,
+          total: res.data.total,
         })
       }
     } catch (err) {
@@ -161,7 +161,7 @@ function usageFrequencies() {
         }}
         datePicker={{ width: 300, future: true }}
       />
-      <ContentScreen countFilter={paging.totalItemCount}>
+      <ContentScreen countFilter={paging.total}>
         <Table
           border
           columns={columns}

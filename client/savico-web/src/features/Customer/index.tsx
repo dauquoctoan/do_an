@@ -167,7 +167,7 @@ const Customer = () => {
   const [paging, setPaging] = useState<IPagination>({
     limit: Configs._limit,
     page: Configs._default_page,
-    totalItemCount: 0,
+    total: 0,
   })
 
   useEffect(() => {
@@ -183,7 +183,7 @@ const Customer = () => {
         setPaging({
           page: res.data.page,
           limit: res.data.limit,
-          totalItemCount: res.data.totalItemCount,
+          total: res.data.total,
         })
       }
     } catch (error) {
@@ -201,7 +201,7 @@ const Customer = () => {
     try {
       const res = await ChangeStatusCustomer({ ID: id })
       if (res) {
-        message({ content: 'Thay đổi trạng thái khách hàng thành công' })
+        // message({ content: 'Thay đổi trạng thái khách hàng thành công' })
       }
     } catch (error) {
       console.log(error)
@@ -220,10 +220,10 @@ const Customer = () => {
       if (res?.status) {
         window.open(res.data)
       } else {
-        message({
-          type: 'error',
-          content: 'Đã có lỗi xảy ra!',
-        })
+        // message({
+        //   type: 'error',
+        //   content: 'Đã có lỗi xảy ra!',
+        // })
       }
     } catch (error) {
       console.log('ERROR: ', error)
@@ -270,7 +270,7 @@ const Customer = () => {
           },
         ]}
       />
-      <ContentScreen loading={loading} countFilter={paging.totalItemCount}>
+      <ContentScreen loading={loading} countFilter={paging.total}>
         <div>
           <Table
             border={true}

@@ -1,7 +1,13 @@
-import { CODE, STRINGS } from '../configs/constants'
-import { createMessage, handleResultError, handleResultSuccess } from '../utils'
+import { CODE, DEFAULT_PAGE, STRINGS } from '../configs/constants'
 
-export async function MCreate(
+import {
+    createMessage,
+    handleResultError,
+    handleResultSuccessNoPage,
+    handleResultSuccess,
+} from '../utils'
+
+export async function _Create(
     modal: any,
     query: any,
     name: string = 'đối tượng',
@@ -14,7 +20,7 @@ export async function MCreate(
     const db = new modal(data)
     try {
         const modal = await db.save()
-        return handleResultSuccess(createMessage.createSuccess(name), {
+        return handleResultSuccessNoPage(createMessage.createSuccess(name), {
             ...modal._doc,
         })
     } catch (error) {
@@ -22,28 +28,42 @@ export async function MCreate(
     }
 }
 
-export async function Mfinds(
+export async function _Creates(
+    modal: any,
+    name: string = 'đối tượng',
+    data: any
+) {
+    const db = new modal(data)
+    try {
+        const modal = await db.save()
+        return handleResultSuccessNoPage(createMessage.createSuccess(name), {
+            ...modal._doc,
+        })
+    } catch (error) {
+        return handleResultError(createMessage.createFail(name))
+    }
+}
+
+export async function _Finds(
     modal: any,
     query: any,
-    name: string = 'đối tượng',
-    pages: { limit: number; index: number } = {
-        limit: 24,
-        index: 1,
-    }
+    paging: { limit: number; page: number },
+    name: string = 'đối tượng'
 ) {
-    console.log(typeof pages.index)
-    const skip = (pages.index - 1) * pages.limit
+    paging = {
+        page: Number(paging.page) || DEFAULT_PAGE.page,
+        limit: Number(paging.limit) || DEFAULT_PAGE.limit,
+    }
+    const skip = (paging.page - 1) * paging.limit
     try {
-        const modals = await modal
-            .find(query)
-            .skip(skip || null)
-            .limit(pages.limit || null)
+        const modals = await modal.find(query).skip(skip).limit(paging.limit)
+        console.log(modals)
         if (modals) {
             const total = await modal.countDocuments()
             return handleResultSuccess(
                 createMessage.findSuccess(name),
                 modals,
-                { ...pages, total: total }
+                { ...paging, total: total }
             )
         }
     } catch (error) {
@@ -51,14 +71,13 @@ export async function Mfinds(
     }
 }
 
-export async function Mfind(modal: any, query: any, name: string) {
+export async function _Find(modal: any, query: any, name: string) {
     try {
         const modals = await modal.findOne(query)
         if (modals) {
-            return handleResultSuccess(
-                createMessage.findSuccess(name),
-                modals,
-                CODE.SUCCESS
+            return handleResultSuccessNoPage(
+                createMessage.findSuccess('name'),
+                modals
             )
         }
     } catch (error) {
@@ -66,20 +85,24 @@ export async function Mfind(modal: any, query: any, name: string) {
     }
 }
 
-export async function MfindByIdAndDelete(
+export async function _FindByIdAndDelete(
     modal: any,
-    _id: string,
+    query: object,
     name: string
 ) {
-    try {
-        const modals = modal.findByIdAndDelete()
-        if (modals) {
-            return handleResultSuccess(
-                createMessage.deleteSuccess(name),
-                modals
-            )
-        }
-    } catch (error) {
-        return handleResultError(createMessage.deleteFail(name))
-    }
+    return modal
+        .findByIdAndDelete(query)
+        .then((result: any) => {
+            if (result) {
+                return handleResultSuccessNoPage(
+                    createMessage.deleteSuccess(name),
+                    result
+                )
+            } else {
+                return handleResultError(createMessage.findFail('id ' + name))
+            }
+        })
+        .catch((error: any) => {
+            return handleResultError(error)
+        })
 }

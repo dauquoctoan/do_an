@@ -2,13 +2,13 @@ import { Button, Input, Select } from 'antd'
 import { useForm } from 'antd/lib/form/Form'
 import FormItem from 'antd/lib/form/FormItem'
 import { useEffect, useMemo } from 'react'
+import UploadComponent from '../../../commons/uploads'
 import message from '../../../commons/message'
 import Configs from '../../../configs'
-import { TYPE_ACCOUNT } from '../../../configs/constance'
 import style from '../../../configs/style'
 import { FormStyled } from '../../../global-styled'
 import R from '../../../utils/R'
-import { createAccount, updateAccount } from '../api'
+import { createAccount, createTopic, updateAccount } from '../api'
 import { IFormAddUpdateAccount, IPropAddEdit } from '../interface'
 
 const AddAndEditAccount = ({
@@ -17,49 +17,28 @@ const AddAndEditAccount = ({
   form,
 }: IPropAddEdit) => {
   const handleFinish = async (formData: any) => {
-    if (formData.password === formData.confirm_password) {
-      const data: IFormAddUpdateAccount = {
-        email: formData.email,
-        name: formData.name,
-        password: formData.password,
-        phone: formData.phone,
-        role: formData.role,
-      }
-
-      try {
-        const res = accountDetail
-          ? await updateAccount({
-              ...data,
-              id: accountDetail.id,
-              status: accountDetail.status,
-              roleId: data.role,
-            })
-          : await createAccount(data)
-        if (res) {
-          message({
-            content: accountDetail
-              ? '! Sửa tài khoản thành công'
-              : `! Thêm mới tài khoản thành công`,
-            type: 'success',
-          })
-          handleCloseModal()
-          form.resetFields()
-        }
-      } catch (error) {
-        console.log(error)
-      }
-    } else {
-      message({
-        content: `! Mật khẩu không khớp`,
-        type: 'success',
-      })
-    }
+    const data = { ...formData, picture: formData.picture[0].response.data[0] }
+    const result = await createTopic(data)
+    message.success(result.message)
+    form.resetFields()
+    handleCloseModal()
   }
 
-  useMemo(() => {
-    if (accountDetail) {
-      form.setFieldsValue(accountDetail)
-    }
+  // useMemo(() => {
+  //   if (accountDetail) {
+  //     form.setFieldsValue({
+  //       ...accountDetail,
+  //       picture: [accountDetail.picture],
+  //     })
+  //   }
+  // }, [accountDetail])
+  useEffect(() => {
+    form.setFieldsValue({
+      ...accountDetail,
+      picture: accountDetail?.picture
+        ? Configs.getDefaultFileList(accountDetail?.picture)
+        : [],
+    })
   }, [accountDetail])
 
   return (
@@ -69,11 +48,11 @@ const AddAndEditAccount = ({
         labelCol={style.layoutModal.labelCol}
         className="form-item"
         name="name"
-        label={R.strings().account_and_customer__title__name}
+        label="Tên chủ đề"
         rules={[
           {
             required: true,
-            message: R.strings().account_and_customer__warring__name,
+            message: 'vui lòng nhập vào tên chủ đề',
             pattern: Configs._reg.name,
           },
         ]}
@@ -86,116 +65,35 @@ const AddAndEditAccount = ({
       <FormItem
         wrapperCol={style.layoutModal.wrapperCol}
         labelCol={style.layoutModal.labelCol}
-        name="phone"
-        label={R.strings().account_and_customer__title__phone_number}
+        className="form-item"
+        name="desc"
+        label="Mô tả"
         rules={[
           {
             required: true,
-            message: R.strings().account_and_customer__warring__phone_number,
-            pattern: Configs._reg.phone,
+            message: 'Nhập vào mô tả',
           },
         ]}
       >
-        <Input
-          className="form-content"
-          placeholder={
-            R.strings().account_and_customer__placeholder__phone_number
-          }
-        />
+        <Input className="form-content" placeholder="Nhập vào mô tả" />
       </FormItem>
-      <FormItem
+      <UploadComponent
         wrapperCol={style.layoutModal.wrapperCol}
         labelCol={style.layoutModal.labelCol}
-        name="email"
-        label={R.strings().account_and_customer__title__email}
+        label={'Logo'}
+        name={'picture'}
+        limit={1}
+        form={form}
         rules={[
           {
             required: true,
-            message: R.strings().account_and_customer__warring__email,
-            pattern: Configs._reg.email,
+            message: 'Vui lòng chọn logo cho chủ đề',
           },
         ]}
-      >
-        <Input
-          className="form-content"
-          placeholder={R.strings().account_and_customer__placeholder__email}
-        />
-      </FormItem>
-      <FormItem
-        wrapperCol={style.layoutModal.wrapperCol}
-        labelCol={style.layoutModal.labelCol}
-        name="role"
-        label={R.strings().account_and_customer__title__position}
-        rules={[
-          {
-            required: true,
-            message: R.strings().account_and_customer__warring__position,
-          },
-        ]}
-      >
-        <Select
-          className="form-content"
-          style={{ width: '100%' }}
-          placeholder={
-            R.strings().account_and_customer__placeholder__type_account
-          }
-        >
-          {Object.keys(TYPE_ACCOUNT).map((key: string) => {
-            return (
-              <Select.Option value={Number(key)}>
-                {TYPE_ACCOUNT[key]}
-              </Select.Option>
-            )
-          })}
-        </Select>
-      </FormItem>
-      {!accountDetail && (
-        <FormItem
-          wrapperCol={style.layoutModal.wrapperCol}
-          labelCol={style.layoutModal.labelCol}
-          name="password"
-          label={R.strings().account_and_customer__title__password}
-          rules={[
-            {
-              required: true,
-              message: R.strings().account_and_customer__warring__password,
-              pattern: Configs._reg.pass,
-            },
-          ]}
-        >
-          <Input.Password
-            className="form-content"
-            placeholder={
-              R.strings().account_and_customer__placeholder__password
-            }
-          />
-        </FormItem>
-      )}
-      {!accountDetail && (
-        <FormItem
-          wrapperCol={style.layoutModal.wrapperCol}
-          labelCol={style.layoutModal.labelCol}
-          name="confirm_password"
-          label={R.strings().account_and_customer__title__confirm_password}
-          rules={[
-            {
-              required: true,
-              message: R.strings().account_and_customer__warring__password,
-              pattern: Configs._reg.pass,
-            },
-          ]}
-        >
-          <Input.Password
-            className="form-content"
-            placeholder={
-              R.strings().account_and_customer__placeholder__password
-            }
-          />
-        </FormItem>
-      )}
+      />
       <div style={{ display: 'flex', justifyContent: 'center' }}>
         <Button htmlType="submit" type="primary">
-          {accountDetail ? R.strings().btn__edit : R.strings().btn__add}
+          {accountDetail ? 'Sửa chủ đề' : 'Thêm mới chủ đề'}
         </Button>
       </div>
     </FormStyled>

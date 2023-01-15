@@ -14,7 +14,7 @@ const DEFINE_STATUS_FILE = {
 const UploadComponent: React.FC<IProps> = ({
   type = 'picture-card',
   limit = 5,
-  nameUpload = 'images',
+  nameUpload = 'image',
   path = Configs._pathUploadImage,
   size = 10,
   placeholder = 'Tải ảnh',
@@ -33,6 +33,7 @@ const UploadComponent: React.FC<IProps> = ({
   const [previewVisible, setPreviewVisible] = useState<boolean>(false)
   const [previewImage, setPreviewImage] = useState<string>()
   const formInstances = useRef<FormInstance>()
+  console.log('fileList', fileList)
   const UploadButton = () => {
     return (
       <div>
@@ -42,7 +43,6 @@ const UploadComponent: React.FC<IProps> = ({
       </div>
     )
   }
-
   const beforeUploadFile = (file: any): any => {
     let fileSize: number = size
     if (accept === '.mp4') {
@@ -66,17 +66,13 @@ const UploadComponent: React.FC<IProps> = ({
 
       promise.then((value) => {
         if (!isMP4) {
-          message({ type: 'error', content: 'Video không đúng định dạng.' })
+          message.error('Video không đúng định dạng.')
         } else if (validateFileSize) {
-          message({
-            type: 'error',
-            content: `Dung lượng video tối đa là ${fileSize} MB`,
-          })
+          message.error(`Dung lượng video tối đa là ${fileSize} MB`)
         } else if (!isDurationInvalid) {
-          message({
-            type: 'error',
-            content: `Độ dài video giới hạn ${minDuration} - ${maxDuration} giây.`,
-          })
+          message.error(
+            `Độ dài video giới hạn ${minDuration} - ${maxDuration} giây.`
+          )
         }
       })
 
@@ -87,13 +83,10 @@ const UploadComponent: React.FC<IProps> = ({
       const fileSizeIvalid: boolean = file.size / 1024 / 1024 > fileSize
 
       if (!isJpgOrPng) {
-        message({ type: 'error', content: 'ảnh không đúng định dạng.' })
+        message.error('ảnh không đúng định dạng.')
       }
       if (fileSizeIvalid) {
-        message({
-          type: 'error',
-          content: `Dung lượng ảnh tối đa là ${fileSize} MB.`,
-        })
+        message.error(`Dung lượng ảnh tối đa là ${fileSize} MB.`)
       }
 
       return isJpgOrPng && !fileSizeIvalid
@@ -123,17 +116,17 @@ const UploadComponent: React.FC<IProps> = ({
       return value.status === DEFINE_STATUS_FILE.DONE
     })
 
-    values.fileList.forEach((file: any, index: number) => {
+    values?.fileList?.forEach((file: any, index: number) => {
       if (!file.status) {
         isDisplayImgError
           ? (values.fileList[index].status = 'error')
           : values.fileList.splice(index, 1)
       }
       if (file.response && file.response.status === 0) {
-        message({
-          type: 'error',
-          content: file.response.message,
-        })
+        // message({
+        //   type: 'error',
+        //   content: file.response.message,
+        // })
       }
     })
 
@@ -154,9 +147,6 @@ const UploadComponent: React.FC<IProps> = ({
 
   useEffect(() => {
     setFileListProps && setFileListProps(onSetFileList)
-  }, [])
-
-  useEffect(() => {
     formInstances.current = form
   }, [])
 
@@ -185,9 +175,11 @@ const UploadComponent: React.FC<IProps> = ({
           action={path}
           name={nameUpload}
           listType={type}
-          headers={{
-            Authorization: `Bearer ${Cookies.get(Configs._sessionId)}`,
-          }}
+          headers={
+            {
+              // Authorization: `Bearer ${Cookies.get(Configs._sessionId)}`,
+            }
+          }
           iconRender={() => <div>Đang tải...</div>}
           multiple={isMultiple}
           beforeUpload={beforeUploadFile}

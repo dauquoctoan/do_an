@@ -1,9 +1,17 @@
 import { CODE, STRINGS } from '../configs/constants'
 
+export function handleResultSuccessNoPage(message: string, data: any) {
+    return {
+        code: 1,
+        data: data,
+        message: message,
+    }
+}
+
 export function handleResultSuccess(
     message: string,
     data: any,
-    page: any = {
+    paging: any = {
         limit: 24,
         index: 1,
         total: 1,
@@ -13,7 +21,7 @@ export function handleResultSuccess(
         code: 1,
         data: data,
         message: message,
-        page: page,
+        paging: paging,
     }
 }
 
@@ -101,4 +109,10 @@ export const createMessage = {
     loginFail: (name: string) => {
         return defaultLoginFail(name)
     },
+}
+
+export const handleSearchMongoose = (name: string, search: string) => {
+    return {
+        [name]: { $regex: '.*' + search + '.*' },
+    }
 }

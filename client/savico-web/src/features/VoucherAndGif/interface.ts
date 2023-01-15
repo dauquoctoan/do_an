@@ -5,7 +5,7 @@ export interface ResponseData<T> {
   data: {
     page?: number
     limit?: number
-    totalItemCount?: number
+    total?: number
     data?: T
   }
 }

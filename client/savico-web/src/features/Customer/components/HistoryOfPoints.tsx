@@ -30,7 +30,7 @@ const HistoryOfPoints = (props: IProps) => {
   const [paging, setPaging] = useState<any>({
     limit: Configs._limit,
     page: Configs._default_page,
-    totalItemCount: 10,
+    total: 10,
   })
   const [params, setparams] = useState<IHistoryPointPayload>({
     limit: Configs._limit,
@@ -148,7 +148,7 @@ const HistoryOfPoints = (props: IProps) => {
         setPaging({
           limit: res.data.limit,
           page: res.data.page,
-          totalItemCount: res.data.totalItemCount,
+          total: res.data.total,
         })
       }
     } catch (error) {}

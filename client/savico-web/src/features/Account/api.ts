@@ -1,6 +1,19 @@
 import { apis } from '../../configs/api'
 import { ApiClient } from '../../services'
 
+export const createTopic = (payload: any) => {
+  return ApiClient.post('/topic', payload)
+}
+
+export const getTopics = (payload: any) => {
+  return ApiClient.get('/topics', payload)
+}
+
+export const deleteTopic = (payload: any) => {
+  return ApiClient.delete('/topic', payload)
+}
+
+//old
 export const getAccounts = (payload: any) => {
   return ApiClient.get(apis.account.GET_ACCOUNTS, payload)
 }

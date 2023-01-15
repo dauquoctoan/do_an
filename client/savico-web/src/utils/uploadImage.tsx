@@ -53,7 +53,8 @@ const UploadComponent: React.FC<IProps> = ({
       fmData.append('images', file)
       try {
         const res = await axios.post(
-          'http://dev.savicoapi.winds.vn/api/web/Upload/UploadImage',
+          // 'http://dev.savicoapi.winds.vn/api/web/Upload/UploadImage',
+          '',
           fmData,
           config
         )
