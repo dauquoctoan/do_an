@@ -1,6 +1,13 @@
-import Card from '../models/card'
-import topic from '../models/Topic'
-import { _Create, _Creates, _FindByIdAndDelete, _Finds } from '../service'
+import Lesson from '../models/Lesson'
+import Card from '../models/Lesson'
+import Topic from '../models/Topic'
+import {
+    _Create,
+    _Creates,
+    _FindByIdAndDelete,
+    _FindByIdAndUpdate,
+    _Finds,
+} from '../service'
 import { handleSearchMongoose } from '../utils'
 
 class lessonController {
@@ -12,7 +19,7 @@ class lessonController {
     //topic
     async getTopics(req: any, res: any) {
         const result = await _Finds(
-            topic,
+            Topic,
             handleSearchMongoose('name', req.query.search || ''),
             req.query,
             'topic'
@@ -21,12 +28,21 @@ class lessonController {
     }
 
     async createTopic(req: any, res: any) {
-        const result = await _Creates(topic, 'topic', req.body)
+        const result = await _Creates(Topic, 'topic', req.body)
+        res.json(result)
+    }
+    async updateTopic(req: any, res: any) {
+        const result = await _FindByIdAndUpdate(Topic, req.body, 'topic')
         res.json(result)
     }
 
     async deleteTopic(req: any, res: any) {
-        const result = await _FindByIdAndDelete(topic, req?.body, 'topic')
+        const result = await _FindByIdAndDelete(Topic, req?.body, 'topic')
+        res.json(result)
+    }
+
+    async createLesson(req: any, res: any) {
+        const result = await _Creates(Lesson, req?.body, 'lesson')
         res.json(result)
     }
 }

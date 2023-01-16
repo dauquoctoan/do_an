@@ -1,10 +1,10 @@
 var mongoose = require('mongoose')
 var Schema = mongoose.Schema
 
-const Card = new Schema(
+const Lesson = new Schema(
     {
         title: { type: String, required: true },
-        type: { type: String, required: true },
+        type: { type: Number, required: true },
         options: { type: Array, required: true },
         answer: { type: String, required: false },
         answers: { type: Array, required: false },
@@ -17,4 +17,4 @@ const Card = new Schema(
     }
 )
 
-export default mongoose.model('cards', Card)
+export default mongoose.model('lessons', Lesson)

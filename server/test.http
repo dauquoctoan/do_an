@@ -98,14 +98,15 @@ content-type: application/json
 }
 
 ###
-get http://localhost:3005/admin/topics?page=2&limit=10&search=ch
+get http://localhost:3005/admin/topics
 content-type: application/json
 
 
 ###
-delete http://localhost:3005/admin/topic
+put http://localhost:3005/admin/topic
 content-type: application/json
 
 {
-    "_id": "63c2e87759b71d1f949c9eae"
+    "_id": "63c4f1dda65e2d5d60af9c57",
+    "name":"tét"
 }

@@ -42,6 +42,7 @@ const createAPI = () => {
   })
   return APIInstant
 }
+
 const axiosInstance = createAPI()
 
 /* Support function */

@@ -36,7 +36,7 @@ const ChoseTypeLesson = () => {
             />
         <div className='content'> 
         <Descriptions title="info">
-            <Descriptions.Item label="Type">{Configs.renderText(lesson.typeTopic?.value)}</Descriptions.Item>
+            <Descriptions.Item label="Type">{Configs.renderText(lesson.type?.value)}</Descriptions.Item>
         </Descriptions>
         </div>
         <Button type="primary" 

@@ -18,7 +18,7 @@ export const JCreateUser = Joi.object({
     age: _birth_year,
 })
 
-export const JCreateCard = Joi.object({
+export const JCreateLesson = Joi.object({
     title: Joi.string().required(),
     type: Joi.string().required(),
     options: Joi.array().required(),

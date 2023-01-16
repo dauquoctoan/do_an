@@ -210,7 +210,7 @@ const News = () => {
             }}
             type="primary"
           >
-            Thêm mới bài học
+            Thêm mới
           </Button>
         }
         fixed={true}

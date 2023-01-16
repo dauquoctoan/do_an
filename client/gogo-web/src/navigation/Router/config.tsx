@@ -35,6 +35,8 @@ import CategoryReportPage from 'features/report/CategoryInfomation/CategoryRepor
 
 export const PATH = {
   TOPIC: '/topic',
+  LESSON: '/lesson',
+  LESSON_ADD_UPDATE: '/lesson/add-update',
   //old
   HOME: '/',
   PRODUCT: '/product',
@@ -47,8 +49,6 @@ export const PATH = {
   EVENT_LIST: '/event',
   STAFF: '/staff',
   ADD_EDIT_STAFF: '/staff/add-edit',
-  LESSON: '/lesson',
-  LESSON_ADD_UPDATE: '/news/add-update',
   GIFT_AND_VOUCHER: '/sub1',
   GIFT: '/gift',
   VOUCHER: '/voucher',

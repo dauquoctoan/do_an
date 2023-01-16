@@ -27,6 +27,7 @@ export async function _Create(
         return handleResultError(createMessage.createFail(name))
     }
 }
+
 export async function _Creates(
     modal: any,
     name: string = 'đối tượng',
@@ -98,6 +99,30 @@ export async function _FindByIdAndDelete(
                 )
             } else {
                 return handleResultError(createMessage.findFail('id ' + name))
+            }
+        })
+        .catch((error: any) => {
+            return handleResultError(error)
+        })
+}
+
+export async function _FindByIdAndUpdate(
+    modal: any,
+    query: {
+        _id: string
+    },
+    name: string
+) {
+    return modal
+        .findOneAndUpdate(query._id, query)
+        .then((result: any) => {
+            if (result) {
+                return handleResultSuccessNoPage(
+                    createMessage.updateSuccess(name),
+                    result
+                )
+            } else {
+                return handleResultError(createMessage.updateFail('id ' + name))
             }
         })
         .catch((error: any) => {

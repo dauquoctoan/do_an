@@ -10,7 +10,7 @@ export interface ITopic {
 
 let initialState: {
   index: number
-  typeTopic: {
+  type: {
     _id: number
     value: string
   } | null
@@ -18,7 +18,7 @@ let initialState: {
   content: any
 } = {
   index: 1,
-  typeTopic: null,
+  type: null,
   topic: null,
   content: undefined,
 }
@@ -35,7 +35,7 @@ export const lessonSlice = createSlice({
       state.content = action.payload
     },
     setTypeTopic: (state, action: PayloadAction<any>) => {
-      state.typeTopic = action.payload
+      state.type = action.payload
       state.index = 3
     },
     prev: (state) => {
