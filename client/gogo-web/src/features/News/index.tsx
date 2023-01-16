@@ -202,7 +202,7 @@ const News = () => {
   return (
     <ContainScreenStyled>
       <PageHeader
-        title="bài học"
+        title="bài tập"
         extra={
           <Button
             onClick={() => {

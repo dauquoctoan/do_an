@@ -8,19 +8,33 @@ export interface ITopic {
   picture: string | null
 }
 
+export interface IOptions {
+  title: string
+  picture: string
+}
+
+export interface IContent {
+  title: string
+  level: number
+  options: IOptions[]
+  answer?: number
+  answers?: number
+}
+export interface IType {
+  _id: number
+  value: string
+}
+
 let initialState: {
   index: number
-  type: {
-    _id: number
-    value: string
-  } | null
+  type: IType | null
   topic: ITopic | null
-  content: any
+  content: IContent | null
 } = {
   index: 1,
   type: null,
   topic: null,
-  content: undefined,
+  content: null,
 }
 
 export const lessonSlice = createSlice({
@@ -31,7 +45,7 @@ export const lessonSlice = createSlice({
       state.topic = action.payload
       state.index = 2
     },
-    setContent: (state, action: PayloadAction<any>) => {
+    setContent: (state, action: PayloadAction<IContent>) => {
       state.content = action.payload
     },
     setTypeTopic: (state, action: PayloadAction<any>) => {
@@ -55,5 +69,6 @@ export const lessonSlice = createSlice({
   },
 })
 
-export const { setTopic, prev, next, setTypeTopic } = lessonSlice.actions
+export const { setTopic, prev, next, setTypeTopic, setContent } =
+  lessonSlice.actions
 export default lessonSlice.reducer

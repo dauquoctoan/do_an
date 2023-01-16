@@ -148,12 +148,12 @@ const ROUTERS: Array<IRouter> = [
   {
     path: PATH.LESSON,
     component: News,
-    title: 'Bài học',
+    title: 'Bài tập',
   },
   {
     path: PATH.LESSON_ADD_UPDATE,
     component: AddAndEditNews,
-    title: 'Thêm bài học',
+    title: 'Thêm bài tập',
   },
   {
     path: PATH_ADMIN.EVENT,
@@ -270,7 +270,7 @@ const MENUS = [
   },
 
   {
-    label: 'Bài học',
+    label: 'Bài tập',
     key: PATH.LESSON,
     icon: <MenuNews />,
   },

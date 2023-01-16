@@ -144,5 +144,5 @@ const SideOutStyled = styled(Sider)<any>`
 `
 const LayoutItemStyled = styled(Layout)`
   width: 150px;
-  height: 100vh;
+  min-height: 100vh;
 `

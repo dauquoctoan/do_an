@@ -1,15 +1,13 @@
 import { Collapse, Space, Button } from 'antd'
 import { useForm } from 'antd/es/form/Form'
-import {  useState } from 'react'
+import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { RootState } from 'store/store'
 import styled from 'styled-components'
 import ContentScreen from '../../../commons/contentScreen'
 import PageHeader from '../../../commons/pageHeader'
 import Configs from '../../../configs'
-
-import { ContainScreenStyled, FormStyled } from '../../../global-styled'
-import ChoseLevel from './ChoseLevel'
+import { ContainScreenStyled } from '../../../global-styled'
 import ChoseTopic from './ChoseTopic'
 import ChoseTypeLesson from './ChoseTypeLesson'
 import Content from './Content'
@@ -18,7 +16,7 @@ const AddAndEditNews = () => {
   const id = Configs.getSearchParams().get('id')
   const [loading, setLoading] = useState<boolean>(false)
   const { Panel } = Collapse
-  const lesson = useSelector((state: RootState)=>{
+  const lesson = useSelector((state: RootState) => {
     return state.lessonReducer
   })
 
@@ -28,7 +26,7 @@ const AddAndEditNews = () => {
         onBack={() => {
           window.history.back()
         }}
-        title={id ? 'Sửa bài học' : 'Thêm mới bài học'}
+        title={id ? 'Sửa bài tập' : 'Thêm mới bài tập'}
       />
       <ContentScreen loading={loading}>
         <SCreateLesson>
@@ -46,10 +44,7 @@ const AddAndEditNews = () => {
               collapsible={lesson.index < 2 ? 'disabled' : 'icon'}
               activeKey={lesson.index === 2 ? ['1'] : ['']}
             >
-              <Panel
-                header="Chọn type"
-                key="1"
-              >
+              <Panel header="Chọn loại bài tập" key="1">
                 <ChoseTypeLesson />
               </Panel>
             </Collapse>
@@ -57,26 +52,11 @@ const AddAndEditNews = () => {
               collapsible={lesson.index < 3 ? 'disabled' : 'icon'}
               activeKey={lesson.index === 3 ? ['1'] : ['']}
             >
-              <Panel
-                header="Chọn cấp độ"
-                key="1"
-              >
-                <ChoseLevel />
-              </Panel>
-            </Collapse>
-            <Collapse
-              collapsible={lesson.index < 3 ? 'disabled' : 'icon'}
-              activeKey={lesson.index === 3 ? ['1'] : ['']}
-            >
-              <Panel header="card" key="1">
+              <Panel header={lesson.type?.value || 'card'} key="1">
                 <Content />
               </Panel>
             </Collapse>
           </Space>
-          {lesson.content &&
-          <Button className='button' htmlType="submit" type="primary">
-            Lưu
-        </Button>}
         </SCreateLesson>
       </ContentScreen>
     </ContainScreenStyled>
@@ -87,10 +67,10 @@ export default AddAndEditNews
 
 const SCreateLesson = styled.div`
   width: 100%;
-  height: 100vh;
+  height: auto;
   display: flex;
   flex-direction: column;
-  .button{
+  .button {
     margin-top: 10px;
   }
 `

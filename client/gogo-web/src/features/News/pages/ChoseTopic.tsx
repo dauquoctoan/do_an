@@ -8,24 +8,23 @@ import { ITopic, next, setTopic } from 'store/lesson/lessonSlice'
 import { RootState } from 'store/store'
 import styled from 'styled-components'
 
-
 const ChoseTopic = () => {
   const dispatch = useDispatch()
   const [search, setSearch] = useState<string>('')
   const [topics, setTopics] = useState<ITopics[]>([])
   // const [selected, setSelected] = useState<ITopics | undefined>(undefined)
-  const selected = useSelector((state: RootState)=>{
+  const selected = useSelector((state: RootState) => {
     return state.lessonReducer.topic
   })
 
   const onSelect = (data: any) => {
-    const topicSelected: any  = topics.find((item: any) => {
-      if(item.name === data){
-        const itemSlect: ITopic={
-          name: item.name|| null,
-          desc: item.desc|| null,
-          picture: item.picture|| null,
-          _id: item._id|| null,
+    const topicSelected: any = topics.find((item: any) => {
+      if (item.name === data) {
+        const itemSlect: ITopic = {
+          name: item.name || null,
+          desc: item.desc || null,
+          picture: item.picture || null,
+          _id: item._id || null,
         }
         return itemSlect
       }
@@ -55,26 +54,42 @@ const ChoseTopic = () => {
 
   return (
     <SChoseTopic>
-      
-        <AutoComplete
-          options={topics}
-          style={{ width: 200, flex: 2 }}
-          onSelect={onSelect}
-          onChange={setSearch}
-          placeholder="Nhập vào tên chủ đề"
-        />
-        <div className="info">
-          {selected && (
-            <Descriptions title="Thông tin chủ đề">
-              <Descriptions.Item label="Tên">{Configs.renderText(selected.name)}</Descriptions.Item>
-              <Descriptions.Item label="Mô tả">{Configs.renderText(selected.desc)}</Descriptions.Item>
-              <Descriptions.Item label="logo">
-                {selected.picture && <Image preview={true} src={selected.picture} width={100} />}
-              </Descriptions.Item>
-            </Descriptions>
-          )}
-        </div>
-        {selected && <Button className='btn' onClick={()=>{dispatch(next())}} type='primary'>Tiếp theo</Button>}
+      <AutoComplete
+        options={topics}
+        style={{ width: 200, flex: 2 }}
+        onSelect={onSelect}
+        onChange={setSearch}
+        placeholder="Nhập vào tên chủ đề"
+        className="autocomplete"
+      />
+      <div className="info">
+        {selected && (
+          <Descriptions title="Thông tin chủ đề">
+            <Descriptions.Item label="Tên">
+              {Configs.renderText(selected.name)}
+            </Descriptions.Item>
+            <Descriptions.Item label="Mô tả">
+              {Configs.renderText(selected.desc)}
+            </Descriptions.Item>
+            <Descriptions.Item label="logo">
+              {selected.picture && (
+                <Image preview={true} src={selected.picture} width={100} />
+              )}
+            </Descriptions.Item>
+          </Descriptions>
+        )}
+      </div>
+      {selected && (
+        <Button
+          className="btn"
+          onClick={() => {
+            dispatch(next())
+          }}
+          type="primary"
+        >
+          Tiếp theo
+        </Button>
+      )}
     </SChoseTopic>
   )
 }
@@ -89,5 +104,8 @@ const SChoseTopic = styled.div`
   .info {
     flex: 7;
     margin-left: 10px;
+  }
+  .autocomplete {
+    flex: 1;
   }
 `

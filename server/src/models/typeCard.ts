@@ -11,4 +11,4 @@ const TypeCard = new Schema(
     }
 )
 
-export default mongoose.model('typtCard', TypeCard)
+export default mongoose.model('typeCard', TypeCard)
