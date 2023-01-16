@@ -30,7 +30,7 @@ const HistoryOfPoints = (props: IProps) => {
   const [paging, setPaging] = useState<any>({
     limit: Configs._limit,
     page: Configs._default_page,
-    totalItemCount: 10,
+    total: 10,
   })
   const [params, setparams] = useState<IHistoryPointPayload>({
     limit: Configs._limit,
@@ -49,7 +49,7 @@ const HistoryOfPoints = (props: IProps) => {
       title: 'STT',
       width: 60,
       dataIndex: 'index',
-      render: (text) => <Text>{Configs.toString(text)}</Text>,
+      render: (text) => <Text>{Configs.renderText(text)}</Text>,
     },
     {
       title: 'Sự kiện',
@@ -57,7 +57,7 @@ const HistoryOfPoints = (props: IProps) => {
       ellipsis: true,
       render: (eventName) => (
         <Tooltip placement="topLeft" title={eventName}>
-          <Text>{Configs.toString(eventName)}</Text>
+          <Text>{Configs.renderText(eventName)}</Text>
         </Tooltip>
       ),
     },
@@ -83,14 +83,14 @@ const HistoryOfPoints = (props: IProps) => {
       title: 'Số điểm',
       dataIndex: 'point',
       width: 80,
-      render: (point) => <Text>{formatPrice(Configs.toString(point))}</Text>,
+      render: (point) => <Text>{formatPrice(Configs.renderText(point))}</Text>,
     },
     {
       title: 'Số dư',
       width: 80,
       dataIndex: 'balance',
       render: (balance) => (
-        <Text>{formatPrice(Configs.toString(balance))}</Text>
+        <Text>{formatPrice(Configs.renderText(balance))}</Text>
       ),
     },
     {
@@ -148,7 +148,7 @@ const HistoryOfPoints = (props: IProps) => {
         setPaging({
           limit: res.data.limit,
           page: res.data.page,
-          totalItemCount: res.data.totalItemCount,
+          total: res.data.total,
         })
       }
     } catch (error) {}

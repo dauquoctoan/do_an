@@ -52,15 +52,15 @@ function VoucherGiftInfo(props: IProps) {
     <>
       <Descriptions>
         <Descriptions.Item label={<b>Tên voucher</b>}>
-          {Configs.toString(voucherDetail?.name)}
+          {Configs.renderText(voucherDetail?.name)}
         </Descriptions.Item>
         <Descriptions.Item label={<b>Ngày tạo</b>}>
-          {Configs.toString(
+          {Configs.renderText(
             convertTimeStampToString(voucherDetail?.createDate)
           )}
         </Descriptions.Item>
         <Descriptions.Item label={<b>Số điểm đổi</b>}>
-          {Configs.toString(formatPrice(voucherDetail?.point))}
+          {Configs.renderText(formatPrice(voucherDetail?.point))}
         </Descriptions.Item>
         <Descriptions.Item label={<b>Trạng thái</b>}>
           {voucherDetail?.status == IS_ACTIVE.ACTIVE

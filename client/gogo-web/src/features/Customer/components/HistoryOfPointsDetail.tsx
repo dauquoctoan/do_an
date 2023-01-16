@@ -1,9 +1,8 @@
 import { Modal, Image, Typography } from 'antd'
 import { ColumnsType } from 'antd/es/table'
-import React, { memo, useEffect, useState } from 'react'
+import { memo, useEffect, useState } from 'react'
 import Table from '../../../commons/table'
 import Configs from '../../../configs'
-import { IPagination } from '../../../interface'
 import { formatPrice } from '../../../utils/ruleForm'
 import { getHistoryOfPointsDetail } from '../api'
 import { IFormatedHisPointDetail } from '../interface'
@@ -22,23 +21,23 @@ const HistoryOfPointsDetail = (props: IProps) => {
   const [paging, setPaging] = useState<any>({
     limit: Configs._limit,
     page: Configs._default_page,
-    totalItemCount: 0,
+    total: 0,
   })
   const columns: ColumnsType<IFormatedHisPointDetail> = [
     {
       title: 'STT',
       dataIndex: 'index',
-      render: (text) => <span>{Configs.toString(text)}</span>,
+      render: (text) => <span>{Configs.renderText(text)}</span>,
     },
     {
       title: 'Mã hóa đơn',
       dataIndex: 'code',
-      render: (text) => <span>{Configs.toString(text)}</span>,
+      render: (text) => <span>{Configs.renderText(text)}</span>,
     },
     {
       title: 'Tên gian hàng',
       dataIndex: 'stallName',
-      render: (value) => <span>{Configs.toString(value)}</span>,
+      render: (value) => <span>{Configs.renderText(value)}</span>,
     },
     {
       width: 90,
@@ -46,7 +45,7 @@ const HistoryOfPointsDetail = (props: IProps) => {
       dataIndex: 'price',
       align: 'center',
       render: (totalMoney) => (
-        <span>{formatPrice(Configs.toString(totalMoney))}</span>
+        <span>{formatPrice(Configs.renderText(totalMoney))}</span>
       ),
     },
     {
@@ -72,7 +71,7 @@ const HistoryOfPointsDetail = (props: IProps) => {
       setPaging({
         limit: res.data.limit,
         page: res.data.page,
-        totalItemCount: res.data.totalItemCount,
+        total: res.data.total,
       })
     }
   }

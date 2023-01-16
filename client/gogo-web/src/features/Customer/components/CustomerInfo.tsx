@@ -19,28 +19,28 @@ const CustomerInfo = ({
         // title="Thông tin khách hàng"
       >
         <Descriptions.Item label="Họ Tên">
-          {Configs.toString(detailCustomer.name)}
+          {Configs.renderText(detailCustomer.name)}
         </Descriptions.Item>
         <Descriptions.Item label="Số CMND/CCCD">
-          {Configs.toString(detailCustomer.identityCard)}
+          {Configs.renderText(detailCustomer.identityCard)}
         </Descriptions.Item>
         <Descriptions.Item label="Số điện thoại">
-          {Configs.toString(detailCustomer.phone)}
+          {Configs.renderText(detailCustomer.phone)}
         </Descriptions.Item>
         <Descriptions.Item label="Tỉnh thành phố">
-          {Configs.toString(detailCustomer.provinceName)}
+          {Configs.renderText(detailCustomer.provinceName)}
         </Descriptions.Item>
         <Descriptions.Item label="Ngày sinh">
           {convertTimeStampToString(detailCustomer.dob)}
         </Descriptions.Item>
         <Descriptions.Item label="Quận huyện">
-          {Configs.toString(detailCustomer.districtName)}
+          {Configs.renderText(detailCustomer.districtName)}
         </Descriptions.Item>
         <Descriptions.Item label="Nghề nghiệp">
-          {Configs.toString(detailCustomer.job)}
+          {Configs.renderText(detailCustomer.job)}
         </Descriptions.Item>
         <Descriptions.Item label="Xã phường">
-          {Configs.toString(detailCustomer.wardName)}
+          {Configs.renderText(detailCustomer.wardName)}
         </Descriptions.Item>
       </Descriptions>
     </WraperInfoStyled>

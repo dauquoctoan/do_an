@@ -1,10 +1,15 @@
 import { create } from 'apisauce'
-import Cookies from 'js-cookie'
+import message from 'commons/message'
 import queryString from 'query-string'
-import history from '../utils/history'
-import R from '../utils/R'
-import Configs from '../configs'
-import message from '../commons/message'
+
+const Configs = {
+  _baseUrl: process.env.REACT_APP_BASE_URL + '/admin',
+  _sessionId: 'session',
+  _api_status: {
+    RE_LOGIN: '400',
+    NOT_FOUND: '404',
+  },
+}
 
 const createAPI = () => {
   const APIInstant = create({
@@ -12,43 +17,27 @@ const createAPI = () => {
     timeout: 20000,
     headers: { 'Content-Type': 'application/json' },
   })
-  // APIInstant.setHeader('Authorization', Cookies.get(configs._sessionId) || '')
+  // APIInstant.setHeader(
+  //     "Authorization",
+  //     Cookies.get(configs._sessionId) || ""
+  // );
 
   APIInstant.axiosInstance.interceptors.request.use(
-    async (config) => {
-      config.headers.Authorization = Cookies.get(Configs._sessionId)
+    async (config: any) => {
+      //config.headers.Authorization = Cookies.get(Configs._sessionId);
       return config
     },
-    (error) => Promise.reject(error)
+    (error: any) => Promise.reject(error)
   )
 
-  APIInstant.axiosInstance.interceptors.response.use((response) => {
-    const data = response.data
+  APIInstant.axiosInstance.interceptors.response.use((response: any) => {
     if (
-      (data && data.code === Configs._api_status.RE_LOGIN) ||
-      data.code === Configs._api_status.NOT_FOUND
+      (response && response.status === Configs._api_status.RE_LOGIN) ||
+      response.status === Configs._api_status.NOT_FOUND
     ) {
-      // Cookies.set(Configs._sessionId, '')
-      // localStorage.setItem('token', '')
-      // history.push('logout')
-      // const store = require('../redux/store').default
-      //   store.dispatch({ type: LOGOUT })
-      //   NavigationUtil.navigate(SCREEN_ROUTER_APP.HOME)
-      //   showMessages(R.strings().notification, R.strings().re_login)
-      // }
-    } else if (data && data.status !== 1) {
-      // Swal.fire({
-      //   title: R.strings().fail__api__request,
-      //   text: data?.message || R.strings().error__api__network,
-      //   icon: 'error',
-      // })
-      message({
-        type: 'error',
-        content: data?.message || R.strings().api__error_network,
-        duration: 2,
-      })
+      localStorage.setItem('token', '')
+      message.error('Bạn đã hết quyền đăng nhập vui lòng đăng nhập lại!')
     }
-    // showMessages(R.strings().notification, data.msg)
     return response
   })
   return APIInstant
@@ -57,13 +46,15 @@ const axiosInstance = createAPI()
 
 /* Support function */
 function handleResult(api: any) {
-  return api.then((res: { data: { status: number; code: number } }) => {
-    if (res?.data?.status !== 1) {
-      // message.error(`Đã có lỗi xảy ra, vui lòng thử lại`)
-      return Promise.reject(res?.data)
+  return api.then(
+    (res: { data: { status: number; code: number; message: string } }) => {
+      if (res?.data?.code !== 1) {
+        message.error(res?.data?.message || 'Có lỗi xảy ra vui lòng thử lại')
+        return Promise.reject(res?.data)
+      }
+      return Promise.resolve(res?.data)
     }
-    return Promise.resolve(res?.data)
-  })
+  )
 }
 
 function parseUrl(url: string, query: any) {
@@ -87,5 +78,5 @@ export const ApiClient = {
     return res.data
   },
 }
-// const axiosInstance = ''
-export default axiosInstance
+
+export default ApiClient

@@ -50,7 +50,7 @@ function DetailJoinEvent(props: IProps) {
   const [paging, setpaging] = useState<IPagination>({
     limit: Configs._limit,
     page: Configs._default_page,
-    totalItemCount: 0,
+    total: 0,
   })
 
   const columns: ColumnsType<IFormatedDetailCountCustomer> = [
@@ -100,7 +100,7 @@ function DetailJoinEvent(props: IProps) {
         setpaging({
           limit: res.data.limit,
           page: res.data.page,
-          totalItemCount: res.data.totalItemCount,
+          total: res.data.total,
         })
       }
     } catch (err) {
@@ -155,7 +155,7 @@ function DetailJoinEvent(props: IProps) {
           </Col>
         </Row>
       </ContentWapper>
-      <ContentScreen countFilter={paging.totalItemCount}>
+      <ContentScreen countFilter={paging.total}>
         <ContentWapper>
           <Table
             border={true}

@@ -40,7 +40,7 @@ function usageFrequencies() {
   const [paging, setpaging] = useState<IPagination>({
     page: Configs._default_page,
     limit: Configs._limit,
-    totalItemCount: 0,
+    total: 0,
   })
   const columns: ColumnsType<IListUsageFrequency> = [
     {
@@ -51,12 +51,12 @@ function usageFrequencies() {
     {
       title: 'Tên khách hàng',
       dataIndex: 'name',
-      render: (name) => <Text>{Configs.toString(name)}</Text>,
+      render: (name) => <Text>{Configs.renderText(name)}</Text>,
     },
     {
       title: 'Số điện thoại',
       dataIndex: 'phone',
-      render: (phone) => <Text>{Configs.toString(phone)}</Text>,
+      render: (phone) => <Text>{Configs.renderText(phone)}</Text>,
     },
     {
       title: 'Thời gian sử dụng trung bình',
@@ -68,12 +68,12 @@ function usageFrequencies() {
     {
       title: 'Số lượt click sự kiện',
       dataIndex: 'sumEventClick',
-      render: (sumEventClick) => <Text>{Configs.toString(sumEventClick)}</Text>,
+      render: (sumEventClick) => <Text>{Configs.renderText(sumEventClick)}</Text>,
     },
     {
       title: 'Số lượt click tiện ích',
       dataIndex: 'sumNewsClick',
-      render: (sumNewsClick) => <Text>{Configs.toString(sumNewsClick)}</Text>,
+      render: (sumNewsClick) => <Text>{Configs.renderText(sumNewsClick)}</Text>,
     },
   ]
 
@@ -87,7 +87,7 @@ function usageFrequencies() {
       title: 'Ngày sử dụng',
       dataIndex: 'useDate',
       render: (useDate) => (
-        <Text>{Configs.toString(convertTimeStampToString(useDate))}</Text>
+        <Text>{Configs.renderText(convertTimeStampToString(useDate))}</Text>
       ),
     },
     {
@@ -100,12 +100,12 @@ function usageFrequencies() {
     {
       title: 'Số lượt click sự kiện',
       dataIndex: 'eventClick',
-      render: (eventClick) => <Text>{Configs.toString(eventClick)}</Text>,
+      render: (eventClick) => <Text>{Configs.renderText(eventClick)}</Text>,
     },
     {
       title: 'Số lượt click tiện ích',
       dataIndex: 'newsClick',
-      render: (newsClick) => <Text>{Configs.toString(newsClick)}</Text>,
+      render: (newsClick) => <Text>{Configs.renderText(newsClick)}</Text>,
     },
   ]
 
@@ -124,7 +124,7 @@ function usageFrequencies() {
         setpaging({
           page: res.data.page,
           limit: res.data.limit,
-          totalItemCount: res.data.totalItemCount,
+          total: res.data.total,
         })
       }
     } catch (err) {
@@ -161,7 +161,7 @@ function usageFrequencies() {
         }}
         datePicker={{ width: 300, future: true }}
       />
-      <ContentScreen countFilter={paging.totalItemCount}>
+      <ContentScreen countFilter={paging.total}>
         <Table
           border
           columns={columns}

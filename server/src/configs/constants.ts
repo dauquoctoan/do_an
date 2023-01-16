@@ -62,3 +62,8 @@ export const CODE = {
     SUCCESS: 1,
     FAIL: 0,
 }
+
+export const DEFAULT_PAGE = {
+    page: 1,
+    limit: 24,
+}

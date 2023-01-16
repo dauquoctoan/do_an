@@ -4,7 +4,6 @@ import React, { useEffect, useState } from 'react'
 import { ButtonAction } from '../../commons/button'
 import ContentScreen from '../../commons/contentScreen'
 import FilterHeader from '../../commons/filter'
-import message from '../../commons/message'
 import PageHeader from '../../commons/pageHeader'
 import Table from '../../commons/table'
 import Configs from '../../configs'
@@ -27,7 +26,7 @@ const News = () => {
   const [paging, setPaging] = useState<IPagination>({
     limit: Configs._limit,
     page: Configs._default_page,
-    totalItemCount: 0,
+    total: 0,
   })
   const [filter, setFilter] = useState({})
   const [params, setParams] = useState({
@@ -67,7 +66,7 @@ const News = () => {
       dataIndex: 'typePost',
       key: 'typePost',
       render: (typePost) => (
-        <span>{Configs.toString(POST_NEW_STATUS[typePost])}</span>
+        <span>{Configs.renderText(POST_NEW_STATUS[typePost])}</span>
       ),
     },
     {
@@ -142,10 +141,10 @@ const News = () => {
                 try {
                   const res = await deleteNews({ ID: record.id })
                   if (res) {
-                    message({
-                      content: R.strings().news__add_edit__success__delete_news,
-                      type: 'success',
-                    })
+                    // message({
+                    //   content: R.strings().news__add_edit__success__delete_news,
+                    //   type: 'success',
+                    // })
                     getData()
                   }
                 } catch (error) {}
@@ -157,7 +156,7 @@ const News = () => {
     },
   ]
   const handleEdit = (e: any) => {
-    history.push(PATH.NEWS_ADD_UPDATE.concat(`?id=${e.id}`))
+    history.push(PATH.LESSON_ADD_UPDATE.concat(`?id=${e.id}`))
   }
 
   const getData = async () => {
@@ -169,7 +168,7 @@ const News = () => {
         setPaging({
           limit: res.data.limit,
           page: res.data.page,
-          totalItemCount: res.data.totalItemCount,
+          total: res.data.total,
         })
       }
     } catch (error) {
@@ -189,10 +188,10 @@ const News = () => {
     try {
       const res = await changeStatusNews({ ID: id })
       if (res) {
-        message({
-          content: R.strings().stalls__success__change_status,
-          type: 'success',
-        })
+        // message({
+        //   content: R.strings().stalls__success__change_status,
+        //   type: 'success',
+        // })
       }
     } catch (error) {
       console.log(error)
@@ -203,21 +202,21 @@ const News = () => {
   return (
     <ContainScreenStyled>
       <PageHeader
-        title="Tin tức"
+        title="bài học"
         extra={
           <Button
             onClick={() => {
-              history.push(PATH.NEWS_ADD_UPDATE)
+              history.push(PATH.LESSON_ADD_UPDATE)
             }}
             type="primary"
           >
-            {R.strings().btn__add_new}
+            Thêm mới bài học
           </Button>
         }
         fixed={true}
       />
       <FilterHeader
-        search={{ placeholder: R.strings().news__filter__search }}
+        search={{ placeholder: 'Tìm kiếm' }}
         select={[
           {
             width: 200,
@@ -237,7 +236,7 @@ const News = () => {
           setFilter({ ...e, page: 1 })
         }}
       />
-      <ContentScreen loading={loading} countFilter={paging.totalItemCount}>
+      <ContentScreen loading={loading} countFilter={paging.total}>
         <Table
           border={true}
           columns={columns}

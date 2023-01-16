@@ -12,61 +12,48 @@ import AddAndEditAccount from './components/AddAndEditAccount'
 import { IPagination } from '../../interface'
 import message from '../../commons/message'
 import PageHeader from '../../commons/pageHeader'
-import { Button, Switch, Form } from 'antd'
-import { IAccount, IFormAddUpdateAccount, ILoadingSwitch } from './interface'
-import { ChangeStatusAccount, deleteAccount, getAccounts } from './api'
+import { Button, Switch, Form, Image } from 'antd'
+import { ITopics, IFormAddUpdateAccount, ILoadingSwitch } from './interface'
+import {
+  ChangeStatusAccount,
+  deleteAccount,
+  deleteTopic,
+  getTopics,
+} from './api'
 import { STATUS, TYPE_ACCOUNT } from '../../configs/constance'
 
 const Account = () => {
-  const columns: ColumnsType<IAccount> = [
+  const columns: ColumnsType<ITopics> = [
     {
       title: 'STT',
       dataIndex: 'stt',
       key: 'stt',
-      render: (text) => <span>{Configs.toString(text)}</span>,
+      render: (text) => <span>{Configs.renderText(text)}</span>,
     },
     {
-      title: R.strings().account_and_customer__title__name,
-      dataIndex: 'username',
-      key: 'username',
-      render: (text) => <span>{Configs.toString(text)}</span>,
+      title: 'Tên',
+      dataIndex: 'name',
+      key: 'name',
+      render: (text) => <span>{Configs.renderText(text)}</span>,
     },
     {
-      title: R.strings().account_and_customer__title__phone_number,
-      dataIndex: 'phone',
-      key: 'phone',
-      render: (text) => <span>{Configs.toString(text)}</span>,
+      title: 'Mô tả',
+      dataIndex: 'desc',
+      key: 'desc',
+      render: (text) => <span>{Configs.renderText(text)}</span>,
     },
     {
-      title: R.strings().account_and_customer__title__position,
-      dataIndex: 'roleID',
-      key: 'roleID',
-      render: (text) => <span>{Configs.toString(TYPE_ACCOUNT[text])}</span>,
-    },
-    {
-      title: R.strings().account_and_customer__title__email,
-      key: 'email',
-      dataIndex: 'email',
-      render: (text: string) => <span>{Configs.toString(text)}</span>,
-    },
-    {
-      title: R.strings().account_and_customer__title__status,
-      key: 'status',
-      dataIndex: 'status',
-      render: (status: number, record: IAccount) => (
-        <span>
-          <Switch
-            onClick={async () => {
-              await handleChangeStatus(record.id)
-              getData()
-            }}
-            loading={
-              loadingSwitch.id === record.id && loadingSwitch.loading === true
-            }
-            size="small"
-            checked={status === 1 ? true : false}
-          />
-        </span>
+      title: 'Logo',
+      dataIndex: 'picture',
+      key: 'picture',
+      render: (image) => (
+        <Image
+          width={50}
+          src={image || Configs._default_image}
+          preview={{
+            src: image || Configs._default_image,
+          }}
+        />
       ),
     },
     {
@@ -75,25 +62,22 @@ const Account = () => {
         <div>
           <ButtonAction
             buttonEdit={{
-              tooltipTitle: R.strings().account__title__add,
+              tooltipTitle: 'Thêm mới chủ đề',
               tooltipPlacement: 'topLeft',
               tooltipDisable: record.key === '1' ? true : false,
             }}
             buttonDelete={{
-              tooltipTitle: R.strings().account__title__delete,
+              tooltipTitle: 'Xóa chủ đề',
               tooltipPlacement: 'topLeft',
             }}
             onClick={(e: any) => (e === 'edit' ? handleEdit(record) : null)}
             confirm={{
-              title: R.strings().account__title__confirm_delete,
+              title: 'Bạn Đã chắc chắn xóa chủ đề ?',
               handleConfirm: async () => {
-                const res = await deleteAccount({ ID: record.id })
+                const res = await deleteTopic({ _id: record._id })
                 if (res) {
-                  message({
-                    content: R.strings().account__title__success_delete,
-                    type: 'success',
-                  }),
-                    getData()
+                  message.success('Xóa thành công')
+                  getData()
                 }
               },
             }}
@@ -105,54 +89,48 @@ const Account = () => {
   const [form] = Form.useForm()
   const [loading, setLoading] = useState<boolean>(false)
   const [visible, setVisible] = useState<boolean>()
-  const [accountDetail, setAccountDetail] =
-    useState<IFormAddUpdateAccount | null>(null)
-  const [accounts, setAccounts] = useState<IAccount[]>([])
-  const [filter, setFilter] = useState({})
+  const [accountDetail, setAccountDetail] = useState<ITopics | null>(null)
+  const [filter, setFilter] = useState<any>({})
+  const [topics, setTopics] = useState<ITopics[]>([])
   const [paging, setPaging] = useState<IPagination>({
     limit: Configs._limit,
     page: 1,
-    totalItemCount: 0,
+    total: 0,
   })
+
   const [loadingSwitch, setLoadingSwitch] = useState<ILoadingSwitch>({
     loading: false,
     id: 0,
   })
+
   useEffect(() => {
     getData()
   }, [paging.page, filter])
 
-  const handleEdit = (account: IAccount) => {
-    const dataInit: IFormAddUpdateAccount = {
-      id: account.id,
-      email: account.email,
-      name: account.username,
-      phone: account.phone,
-      role: account.roleID,
-      status: account.status,
+  const handleEdit = (account: ITopics) => {
+    const dataInit: any = {
+      desc: account.desc,
+      name: account.name,
+      picture: account.picture,
     }
     setAccountDetail(dataInit)
     setVisible(true)
   }
-  const typeAccount: { key: number; value: string }[] = Object.keys(
-    TYPE_ACCOUNT
-  ).map((key: string) => {
-    return { key: Number(key), value: TYPE_ACCOUNT[key] }
-  })
+
   const getData = async () => {
     setLoading(true)
     try {
-      const res = await getAccounts({
+      const res = await getTopics({
         ...filter,
         page: paging.page,
         limit: paging.limit,
       })
       if (res) {
-        setAccounts(res.data.data)
+        setTopics(res.data)
         setPaging({
-          page: res.data.page,
-          limit: res.data.limit,
-          totalItemCount: res.data.totalItemCount,
+          page: res.paging.page,
+          limit: res.paging.limit,
+          total: res.paging.total,
         })
       }
     } catch (error) {
@@ -161,6 +139,7 @@ const Account = () => {
       setLoading(false)
     }
   }
+
   const handleCloseModal = () => {
     form.resetFields()
     setAccountDetail(null)
@@ -176,7 +155,7 @@ const Account = () => {
     try {
       const res = await ChangeStatusAccount({ ID: id })
       if (res) {
-        message({ content: R.strings().account__title__success_change_status })
+        // message({ content: R.strings().account__title__success_change_status })
       }
     } catch (error) {
       console.log(error)
@@ -187,56 +166,38 @@ const Account = () => {
       })
     }
   }
+
   return (
     <ContainScreenStyled>
       <PageHeader
-        title={R.strings().menu__account}
+        title="Chủ đề"
         extra={
           <Button
             onClick={() => {
+              console.log(form.getFieldsValue())
               setVisible(true)
             }}
             type="primary"
           >
-            {R.strings().btn__add_new}
+            Thêm mới
           </Button>
         }
       />
       <FilterHeader
         size="middle"
-        datePicker={{
-          width: 300,
-          // disabledDate: (current) => current && current < moment('7/25/2022'),
-        }}
         search={{
-          placeholder: R.strings().account_and_customer__filter__title__search,
+          placeholder: 'Nhập vào tên chủ đề',
         }}
-        select={[
-          {
-            width: 200,
-            key: 'role',
-            placeholder:
-              R.strings().account_and_customer__filter__title__type_account,
-            data: TYPE_ACCOUNT,
-          },
-          {
-            width: 200,
-            key: 'status',
-            placeholder:
-              R.strings().account_and_customer__filter__title__status,
-            data: STATUS,
-          },
-        ]}
         onChangeFilter={(filter: any) => {
           setFilter(filter)
         }}
       />
-      <ContentScreen loading={loading} countFilter={paging.totalItemCount}>
+      <ContentScreen loading={loading} countFilter={paging.total}>
         <div>
           <Table
             border={true}
             columns={columns}
-            data={accounts}
+            data={topics}
             size={'middle'}
             onChangePram={(page: number) =>
               setPaging({ ...paging, page: page })
@@ -244,15 +205,11 @@ const Account = () => {
             pagination={paging}
           />
         </div>
-        {
+        {visible && (
           <ModalStyled
             width={500}
             footer={null}
-            title={
-              accountDetail
-                ? R.strings().account__title__edit
-                : R.strings().account__title__add
-            }
+            title={accountDetail ? 'Sửa chủ đề' : 'Thêm chủ đề'}
             visible={visible}
             onCancel={() => {
               form.resetFields()
@@ -267,7 +224,7 @@ const Account = () => {
               />
             }
           />
-        }
+        )}
       </ContentScreen>
     </ContainScreenStyled>
   )

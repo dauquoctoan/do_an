@@ -34,6 +34,8 @@ import SurveyReport from 'features/report/Survey/SurveyReport'
 import CategoryReportPage from 'features/report/CategoryInfomation/CategoryReportPage'
 
 export const PATH = {
+  TOPIC: '/topic',
+  //old
   HOME: '/',
   PRODUCT: '/product',
   ACCOUNT: '/account',
@@ -45,8 +47,8 @@ export const PATH = {
   EVENT_LIST: '/event',
   STAFF: '/staff',
   ADD_EDIT_STAFF: '/staff/add-edit',
-  NEWS: '/news',
-  NEWS_ADD_UPDATE: '/news/add-update',
+  LESSON: '/lesson',
+  LESSON_ADD_UPDATE: '/news/add-update',
   GIFT_AND_VOUCHER: '/sub1',
   GIFT: '/gift',
   VOUCHER: '/voucher',
@@ -92,15 +94,16 @@ const ROUTERS: Array<IRouter> = [
     title: R.strings().menu__home,
   },
   {
+    path: PATH.TOPIC,
+    component: Account,
+    title: 'Chủ đề',
+  },
+  {
     path: PATH.ADD_EDIT_QUESTION,
     component: AddEditNewIQuestion,
     title: R.strings().menu__home,
   },
-  {
-    path: PATH.CUSTOMER,
-    component: Customer,
-    title: R.strings().menu__customer,
-  },
+
   {
     path: PATH.CUSTOMER_DETAIL + '/:id',
     component: CustomerDetail,
@@ -143,14 +146,14 @@ const ROUTERS: Array<IRouter> = [
     title: R.strings().menu__staff,
   },
   {
-    path: PATH.NEWS,
+    path: PATH.LESSON,
     component: News,
-    title: R.strings().menu__news,
+    title: 'Bài học',
   },
   {
-    path: PATH.NEWS_ADD_UPDATE,
+    path: PATH.LESSON_ADD_UPDATE,
     component: AddAndEditNews,
-    title: R.strings().menu__news,
+    title: 'Thêm bài học',
   },
   {
     path: PATH_ADMIN.EVENT,
@@ -256,8 +259,8 @@ const MENUS = [
     icon: <MenuHome />,
   },
   {
-    label: R.strings().menu__stalls_list,
-    key: PATH.STALLS_LIST,
+    label: 'Chủ đề',
+    key: PATH.TOPIC,
     icon: <MenuStalls />,
   },
   {
@@ -267,8 +270,8 @@ const MENUS = [
   },
 
   {
-    label: R.strings().menu__news,
-    key: PATH.NEWS,
+    label: 'Bài học',
+    key: PATH.LESSON,
     icon: <MenuNews />,
   },
   {

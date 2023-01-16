@@ -1,4 +1,8 @@
-import { handleResultSuccess, handleResultError, createMessage } from '../utils'
+import {
+    handleResultSuccessNoPage,
+    handleResultError,
+    createMessage,
+} from '../utils'
 import argon2 from 'argon2'
 import jwt_decode from 'jwt-decode'
 import { STATUS_CODE } from '../configs/constants'
@@ -73,7 +77,7 @@ class authController {
                     token: token,
                 }
                 return res.json(
-                    handleResultSuccess(
+                    handleResultSuccessNoPage(
                         createMessage.loginSuccess('tài khoản'),
                         user
                     )

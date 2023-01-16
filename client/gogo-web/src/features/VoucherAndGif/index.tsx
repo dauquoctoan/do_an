@@ -135,10 +135,7 @@ const VoucherAndGif = () => {
                 try {
                   const res = await VoucherAndGiftDelete(record.id)
                   if (res) {
-                    message({
-                      content: 'Xóa quà tặng, voucher thành công',
-                      type: 'success',
-                    })
+                    message.success('Xóa quà tặng, voucher thành công')
                     getData()
                   }
                 } catch (error) {
@@ -155,7 +152,7 @@ const VoucherAndGif = () => {
   const [paging, setPaging] = useState<IPagination>({
     limit: Configs._limit,
     page: Configs._default_page,
-    totalItemCount: 0,
+    total: 0,
   })
   const [voucherAndGift, setVoucherAndGift] = useState<
     IFormatedVoucherAndGift[]
@@ -176,11 +173,11 @@ const VoucherAndGif = () => {
     if (res.data) {
       setallDataVoucherGift(res.data)
     }
-    if (res?.data?.page && res.data?.limit && res.data?.totalItemCount) {
+    if (res?.data?.page && res.data?.limit && res.data?.total) {
       setPaging({
         page: res.data.page,
         limit: res.data.limit,
-        totalItemCount: res.data.totalItemCount,
+        total: res.data.total,
       })
     }
     if (res.data.data) {
@@ -201,10 +198,10 @@ const VoucherAndGif = () => {
     try {
       const res = await VoucherAndGiftChangeStatus(id)
       if (res) {
-        message({
-          content: 'Thay đổi trạng thái thành công',
-          type: 'success',
-        })
+        // message({
+        //   content: 'Thay đổi trạng thái thành công',
+        //   type: 'success',
+        // })
         getData()
       }
     } catch (err) {
@@ -269,7 +266,7 @@ const VoucherAndGif = () => {
         datePicker={{ width: 300 }}
       />
       <ContentScreen
-        countFilter={allDataVoucherGift?.totalItemCount || 0}
+        countFilter={allDataVoucherGift?.total || 0}
         loading={false}
       >
         <Table

@@ -36,7 +36,7 @@ const SurveyReport = () => {
   const [paging, setPaging] = React.useState<any>({
     limit: 12,
     page: 1,
-    totalItemCount: 0,
+    total: 0,
   })
 
   const getQuestions = async () => {

@@ -24,24 +24,24 @@ const BillListModal = (props: IProps) => {
   const [paging, setPaging] = useState<any>({
     limit: 10000,
     page: currentPage,
-    totalItemCount: 0,
+    total: 0,
   })
 
   const columns: ColumnsType<IFormatedHisPointDetail> = [
     {
       title: 'STT',
       dataIndex: 'index',
-      render: (text) => <span>{Configs.toString(text)}</span>,
+      render: (text) => <span>{Configs.renderText(text)}</span>,
     },
     {
       title: 'Mã hóa đơn',
       dataIndex: 'code',
-      render: (text) => <span>{Configs.toString(text)}</span>,
+      render: (text) => <span>{Configs.renderText(text)}</span>,
     },
     {
       title: 'Tên gian hàng',
       dataIndex: 'stallName',
-      render: (value) => <span>{Configs.toString(value)}</span>,
+      render: (value) => <span>{Configs.renderText(value)}</span>,
     },
     {
       width: 120,
@@ -49,7 +49,7 @@ const BillListModal = (props: IProps) => {
       dataIndex: 'price',
       align: 'center',
       render: (totalMoney) => (
-        <span>{formatPrice(Configs.toString(totalMoney))}</span>
+        <span>{formatPrice(Configs.renderText(totalMoney))}</span>
       ),
     },
     {

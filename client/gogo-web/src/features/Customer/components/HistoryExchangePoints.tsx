@@ -30,7 +30,7 @@ const HistoryExchangePoints = (props: IProps) => {
   const [paging, setPaging] = useState<any>({
     limit: Configs._limit,
     page: Configs._default_page,
-    totalItemCount: 10,
+    total: 10,
   })
   const [params, setparams] = useState<IChangeHisPayload>({
     limit: Configs._limit,
@@ -58,13 +58,13 @@ const HistoryExchangePoints = (props: IProps) => {
     {
       title: 'Số điểm đổi',
       dataIndex: 'point',
-      render: (point) => <span>{formatPrice(Configs.toString(point))}</span>,
+      render: (point) => <span>{formatPrice(Configs.renderText(point))}</span>,
     },
     {
       title: 'Số dư',
       dataIndex: 'balance',
       render: (balance) => (
-        <span>{formatPrice(Configs.toString(balance))}</span>
+        <span>{formatPrice(Configs.renderText(balance))}</span>
       ),
     },
     {
@@ -93,7 +93,7 @@ const HistoryExchangePoints = (props: IProps) => {
       }
       if (res.data) {
         setPaging({
-          totalItemCount: res.data.totalItemCount,
+          total: res.data.total,
           page: res.data.page,
           limit: res.data.limit,
         })

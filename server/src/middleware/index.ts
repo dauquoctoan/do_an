@@ -1,7 +1,8 @@
 import { STATUS_CODE } from '../configs/constants'
-import { createMessage, handleResultError } from '../utils'
+import { handleResultError } from '../utils'
 const User = require('../models/User')
 import jwt_decode from 'jwt-decode'
+var multer = require('multer')
 
 export async function middleAuthenTication(req: any, res: any, next: any) {
     try {
@@ -37,3 +38,14 @@ export const validate = (schema: any) => (req: any, res: any, next: any) => {
         next()
     }
 }
+
+const storage = multer.diskStorage({
+    destination: function (req: any, file: any, cb: any) {
+        cb(null, 'uploads')
+    },
+    filename: function (req: any, file: any, cb: any) {
+        cb(null, file.fieldname + '-' + Date.now() + '-' + file.originalname)
+    },
+})
+
+export const middleUpload = multer({ storage: storage })

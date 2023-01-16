@@ -128,22 +128,22 @@ const AddAndEditStalls = () => {
       index: value.index,
     }
     if (isAllSpace || description === '') {
-      message({
-        type: 'error',
-        content: 'Vui lòng nhập mô tả',
-      })
+      // message({
+      //   type: 'error',
+      //   content: 'Vui lòng nhập mô tả',
+      // })
     } else {
       try {
         const res = id
           ? await updateStall({ ...data, id: Number(id) })
           : await createTypeStalls(data)
         if (res) {
-          message({
-            content: id
-              ? 'Sửa gian hàng thành công'
-              : 'Thêm mới gian hàng thành công',
-            type: 'success',
-          })
+          // message({
+          //   content: id
+          //     ? 'Sửa gian hàng thành công'
+          //     : 'Thêm mới gian hàng thành công',
+          //   type: 'success',
+          // })
           history.push(PATH.STALLS_LIST)
         }
       } catch (error) {}

@@ -124,10 +124,10 @@ const Stalls = () => {
                 try {
                   const res = await deleteStall({ ID: record.id })
                   if (res) {
-                    message({
-                      content: 'Xóa gian hàng thàn công!',
-                      type: 'success',
-                    })
+                    // message({
+                    //   content: 'Xóa gian hàng thàn công!',
+                    //   type: 'success',
+                    // })
                     getData()
                   }
                 } catch (error) {
@@ -148,7 +148,7 @@ const Stalls = () => {
   const [paging, setPaging] = useState<IPagination>({
     limit: Configs._limit,
     page: 1,
-    totalItemCount: 0,
+    total: 0,
   })
   const [loadingChecked, setLoadingChecked] = useState<ILoadingChecked>({
     id: null,
@@ -159,10 +159,10 @@ const Stalls = () => {
     try {
       const res = await changeStatusStall({ ID: id })
       if (res) {
-        message({
-          content: R.strings().stalls__success__change_status,
-          type: 'success',
-        })
+        // message({
+        //   content: R.strings().stalls__success__change_status,
+        //   type: 'success',
+        // })
       }
     } catch (error) {
       console.log(error)
@@ -190,7 +190,7 @@ const Stalls = () => {
       setStalls(res?.data?.data)
       setPaging({
         ...paging,
-        totalItemCount: res.data.totalItemCount,
+        total: res.data.total,
       })
     } catch (error) {
       console.log(error)
@@ -262,7 +262,7 @@ const Stalls = () => {
           setFilter({ ...e, page: 1 })
         }}
       />
-      <ContentScreen loading={loading} countFilter={paging.totalItemCount}>
+      <ContentScreen loading={loading} countFilter={paging.total}>
         <div>
           <Table
             border={true}

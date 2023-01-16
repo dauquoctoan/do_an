@@ -2,7 +2,7 @@ export interface ISizeAnt {}
 export interface IPagination {
   limit: number
   page: number
-  totalItemCount: number
+  total: number
 }
 
 export interface IPaging {

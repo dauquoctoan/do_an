@@ -51,7 +51,7 @@ const Table = ({
           pagination && onChangePram
             ? {
                 current: pagination?.page,
-                total: pagination?.totalItemCount,
+                total: pagination?.total,
                 pageSize: pagination?.limit,
                 onChange: async (page: number) => {
                   onChangePram(page)

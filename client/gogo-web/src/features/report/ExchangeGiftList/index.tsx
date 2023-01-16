@@ -130,7 +130,7 @@ const ExchangeGiftList = () => {
         setData(data.reverse())
         setPaginition({
           ...pagination,
-          total: res?.data?.totalItemCount,
+          total: res?.data?.total,
           current: res?.data?.page,
           limit: 10,
         })

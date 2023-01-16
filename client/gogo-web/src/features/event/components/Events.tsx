@@ -38,7 +38,7 @@ function Events() {
   const [paging, setPaging] = useState<IPagination>({
     limit: Configs._limit,
     page: Configs._default_page,
-    totalItemCount: 0,
+    total: 0,
   })
   const [isVisible, setIsVisible] = React.useState<boolean>(false)
   const [currentTitle, setCurrentTitle] = React.useState<string>('')
@@ -169,7 +169,7 @@ function Events() {
         setPaging({
           limit: res.data.limit,
           page: res.data.page,
-          totalItemCount: res.data.totalItemCount,
+          total: res.data.total,
         })
       }
     } catch (err) {
@@ -226,7 +226,7 @@ function Events() {
         //     history.push({ pathname: PATH_ADMIN.EVENT_ADD_UPDATE }),
         // }}
       />
-      <ContentScreen loading={isLoading} countFilter={paging.totalItemCount}>
+      <ContentScreen loading={isLoading} countFilter={paging.total}>
         <Table
           data={listEvent}
           columns={columns}

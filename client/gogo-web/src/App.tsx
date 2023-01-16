@@ -13,13 +13,13 @@ function App() {
   const history = useHistory()
   const location = useLocation()
 
-  React.useLayoutEffect(() => {
-    const cookie = Cookie.get(Configs._sessionId)
-    if (!cookie) {
-      if (location.pathname.includes('webview')) return
-      // history.push('/login')
-    }
-  }, [])
+  // React.useLayoutEffect(() => {
+  //   const cookie = Cookie.get(Configs._sessionId)
+  //   if (!cookie) {
+  //     if (location.pathname.includes('webview')) return
+  //     history.push('/login')
+  //   }
+  // }, [])
 
   return (
     <div className="App">

@@ -1,12 +1,11 @@
-import { _Finds } from '../service'
+import { STATUS_CODES } from 'http'
+import { STATUS_CODE } from '../configs/constants'
+import { _Find, _Finds } from '../service'
 
 import User from '../models/User'
 class adminController {
     async Users(req: any, res: any) {
-        const users = await _Finds(User, {}, 'user', {
-            index: Number(req.query.index),
-            limit: Number(req.query.limit),
-        })
+        const users = await _Finds(User, {}, req.body, 'user')
         res.send(users)
     }
 

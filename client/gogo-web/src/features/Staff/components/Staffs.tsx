@@ -56,7 +56,7 @@ function Staffs() {
   const [paging, setPaging] = useState<IPagination>({
     limit: Configs._limit,
     page: Configs._default_page,
-    totalItemCount: 0,
+    total: 0,
   })
   const [isLoading, setisLoading] = useState<boolean>(false)
   const [listStaff, setlistStaff] = useState<IFormatedListStaff[]>([])
@@ -65,17 +65,17 @@ function Staffs() {
     {
       title: 'STT',
       dataIndex: 'index',
-      render: (index) => <Text>{Configs.toString(index)}</Text>,
+      render: (index) => <Text>{Configs.renderText(index)}</Text>,
     },
     {
       title: 'Tên nhân viên',
       dataIndex: 'name',
-      render: (index) => <Text>{Configs.toString(index)}</Text>,
+      render: (index) => <Text>{Configs.renderText(index)}</Text>,
     },
     {
       title: 'Số điện thoại',
       dataIndex: 'phone',
-      render: (phone) => <Text>{Configs.toString(phone)}</Text>,
+      render: (phone) => <Text>{Configs.renderText(phone)}</Text>,
     },
     {
       title: 'Giới tính',
@@ -86,13 +86,13 @@ function Staffs() {
       width: 130,
       title: 'Địa chỉ',
       dataIndex: 'provinceName',
-      render: (index) => <Text>{Configs.toString(index)}</Text>,
+      render: (index) => <Text>{Configs.renderText(index)}</Text>,
     },
     {
       title: 'Ngày sinh',
       dataIndex: 'dob',
       render: (dob) => (
-        <Text>{convertTimeStampToString(Configs.toString(dob))}</Text>
+        <Text>{convertTimeStampToString(Configs.renderText(dob))}</Text>
       ),
     },
     {
@@ -124,7 +124,7 @@ function Staffs() {
         setPaging({
           page: res.data?.page,
           limit: res.data?.limit,
-          totalItemCount: res.data?.totalItemCount,
+          total: res.data?.total,
         })
         setlistStaff(dataStaff)
       }
@@ -221,13 +221,13 @@ function Staffs() {
       >
         <Descriptions>
           <Descriptions.Item label="Tên nhân viên">
-            {Configs.toString(record.name)}
+            {Configs.renderText(record.name)}
           </Descriptions.Item>
           <Descriptions.Item label="Ngày sinh" span={3}>
-            {Configs.toString(convertTimeStampToString(record.dob))}
+            {Configs.renderText(convertTimeStampToString(record.dob))}
           </Descriptions.Item>
           <Descriptions.Item label="Số điện thoại">
-            {Configs.toString(record.phone)}
+            {Configs.renderText(record.phone)}
           </Descriptions.Item>
           <Descriptions.Item label="Trạng thái" span={3}>
             {record.status == IS_ACTIVE.INACTIVE
@@ -238,9 +238,9 @@ function Staffs() {
             {record.gender == GENDER.MALE ? 'Nam' : 'Nữ'}
           </Descriptions.Item>
           <Descriptions.Item label="Địa chỉ">
-            {`${Configs.toString(record.wardName)}, ${Configs.toString(
+            {`${Configs.renderText(record.wardName)}, ${Configs.renderText(
               record.districtName
-            )}, ${Configs.toString(record.provinceName)}`}
+            )}, ${Configs.renderText(record.provinceName)}`}
           </Descriptions.Item>
         </Descriptions>
       </StyledCard>
@@ -268,7 +268,7 @@ function Staffs() {
           submitFieldValue={(value: IFilters) => setparams(value)}
         />
       </StyledDiv>
-      <ContentScreen countFilter={paging.totalItemCount}>
+      <ContentScreen countFilter={paging.total}>
         <StyledDiv>
           <Spin spinning={isLoading}>
             <Table
