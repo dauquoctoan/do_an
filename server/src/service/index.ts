@@ -1,7 +1,7 @@
 import { CODE, STRINGS } from '../configs/constants'
 import { createMessage, handleResultError, handleResultSuccess } from '../utils'
 
-export async function MCreate(
+export async function _Create(
     modal: any,
     query: any,
     name: string = 'đối tượng',
@@ -21,8 +21,22 @@ export async function MCreate(
         return handleResultError(createMessage.createFail(name))
     }
 }
-
-export async function Mfinds(
+export async function _Creates(
+    modal: any,
+    name: string = 'đối tượng',
+    data: any
+) {
+    const db = new modal(data)
+    try {
+        const modal = await db.save()
+        return handleResultSuccess(createMessage.createSuccess(name), {
+            ...modal._doc,
+        })
+    } catch (error) {
+        return handleResultError(createMessage.createFail(name))
+    }
+}
+export async function _Finds(
     modal: any,
     query: any,
     name: string = 'đối tượng',
@@ -51,7 +65,7 @@ export async function Mfinds(
     }
 }
 
-export async function Mfind(modal: any, query: any, name: string) {
+export async function _Find(modal: any, query: any, name: string) {
     try {
         const modals = await modal.findOne(query)
         if (modals) {
@@ -66,7 +80,7 @@ export async function Mfind(modal: any, query: any, name: string) {
     }
 }
 
-export async function MfindByIdAndDelete(
+export async function _FindByIdAndDelete(
     modal: any,
     _id: string,
     name: string

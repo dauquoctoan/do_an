@@ -13,7 +13,7 @@ export default function PrivateRoute({
   component,
   exact,
 }: PrivateRouteProps) {
-  const cookie = Cookie.get(configs._sessionId)
+  // const cookie = Cookie.get(configs._sessionId)
   const Component = component
   return (
     <Route

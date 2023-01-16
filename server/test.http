@@ -32,7 +32,7 @@ content-type: application/json
 
 {
     "name": "toansssdq",
-    "email": "dqtoan0123@gmail.com",
+    "email": "dqtoan0123s@gmail.com",
     "typeAccount": 0,
     "password": "password"
 }
@@ -42,8 +42,8 @@ post http://localhost:3005/auth/login
 content-type: application/json
 
 {
-    "email": "dqtoans@gmail.com",
-    "passWord": "kljsfljsdf"
+    "email": "dqtoan0123s@gmail.com",
+    "password": "password"
 }
 
 ###
@@ -56,4 +56,12 @@ content-type: application/json
 
 {
    "token": "eshvCHO1XRL4AB5DoK7Tq-f9JMTqdsLtZhxw7FEJXx9A"
+}
+
+###
+POST http://localhost:3005/admin/card
+content-type: application/json
+
+{
+   "name":"sss" 
 }

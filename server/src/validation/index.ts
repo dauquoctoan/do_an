@@ -18,3 +18,12 @@ export const JCreateUser = Joi.object({
     password: _password.required(),
     age: _birth_year,
 })
+
+export const JCreateCard = Joi.object({
+    type: Joi.string().required(),
+    question: Joi.string().required(),
+    answer: Joi.number().required(),
+    status: Joi.number(),
+    level: Joi.number().required(),
+    topic: Joi.string().required(),
+})

@@ -1,7 +1,7 @@
 import './App.css'
 import CreateGlobalStyle from './global-styled'
 import Navigation from './navigation'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import type { RootState } from './store/store'
 import Cookie from 'js-cookie'
 import Configs from './configs'
@@ -17,7 +17,7 @@ function App() {
     const cookie = Cookie.get(Configs._sessionId)
     if (!cookie) {
       if (location.pathname.includes('webview')) return
-      history.push('/login')
+      // history.push('/login')
     }
   }, [])
 

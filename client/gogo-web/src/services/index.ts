@@ -21,15 +21,16 @@ const createAPI = () => {
     },
     (error) => Promise.reject(error)
   )
+
   APIInstant.axiosInstance.interceptors.response.use((response) => {
     const data = response.data
     if (
       (data && data.code === Configs._api_status.RE_LOGIN) ||
       data.code === Configs._api_status.NOT_FOUND
     ) {
-      Cookies.set(Configs._sessionId, '')
-      localStorage.setItem('token', '')
-      history.push('logout')
+      // Cookies.set(Configs._sessionId, '')
+      // localStorage.setItem('token', '')
+      // history.push('logout')
       // const store = require('../redux/store').default
       //   store.dispatch({ type: LOGOUT })
       //   NavigationUtil.navigate(SCREEN_ROUTER_APP.HOME)
@@ -84,7 +85,7 @@ export const ApiClient = {
   uploadFile: async (url: string, payload: any, config: any) => {
     const res = await axiosInstance.post(url, payload, config)
     return res.data
-  }
+  },
 }
 // const axiosInstance = ''
 export default axiosInstance

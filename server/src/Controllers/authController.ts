@@ -1,10 +1,10 @@
 import { handleResultSuccess, handleResultError, createMessage } from '../utils'
 import argon2 from 'argon2'
-import User from '../models/User'
 import jwt_decode from 'jwt-decode'
 import { STATUS_CODE } from '../configs/constants'
-import { MCreate } from '../service'
+import { _Create } from '../service'
 import { IUser } from '../interfaces/user'
+import User from '../models/User'
 var jwt = require('jsonwebtoken')
 
 class authController {
@@ -24,7 +24,7 @@ class authController {
                     typeAccount: 1,
                     passWord: user.passWord,
                 }
-                const result = await MCreate(
+                const result = await _Create(
                     User,
                     { email: data.email },
                     'User',
@@ -42,26 +42,23 @@ class authController {
     }
     async saveUser(req: any, res: any) {
         const { name, email, password }: IUser = req.body
-
         const hashPw = await argon2.hash(password || '')
-
         const data = {
             name: name,
             email: email,
             typeAccount: 0,
             password: hashPw,
         }
-
-        const result = await MCreate(User, { email: email }, 'người dùng', data)
+        const result = await _Create(User, { email: email }, 'người dùng', data)
         res.json(result)
     }
     async login(req: any, res: any) {
-        const { email, passWord } = req.body
+        const { email, password } = req.body
         try {
             const info: any = await User.findOne({ email: email })
             if (
                 info._id &&
-                (await argon2.verify(info?.passWord, passWord)) &&
+                (await argon2.verify(info?.password, password)) &&
                 info?.typeAccount === 0
             ) {
                 const token = jwt.sign(
@@ -75,14 +72,12 @@ class authController {
                     name: info.name,
                     token: token,
                 }
-                return res
-                    .status(STATUS_CODE.OK)
-                    .json(
-                        handleResultSuccess(
-                            createMessage.loginSuccess('tài khoản'),
-                            user
-                        )
+                return res.json(
+                    handleResultSuccess(
+                        createMessage.loginSuccess('tài khoản'),
+                        user
                     )
+                )
             } else {
                 return res
                     .status(STATUS_CODE.proxyAuthenticationRequired)

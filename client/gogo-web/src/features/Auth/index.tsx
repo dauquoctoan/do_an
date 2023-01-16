@@ -25,11 +25,11 @@ const Login = () => {
     try {
       setLoading(true)
       const res = await login(user)
+      history.replace('/')
       if (res) {
         Cookies.set(configs._sessionId, res.data.token)
         // local.set(configs._sessionId, res.data.token)
         localStorage.setItem(Configs._userInfo, JSON.stringify(res?.data))
-
         // dispatch(getUserInfoAction())
         history.replace('/')
       }
@@ -43,7 +43,7 @@ const Login = () => {
     <LoginStyled>
       <FormStyled>
         <InfoStyled>
-          <img className="logo" src={R.logos.logoLogIn} />
+          {/* <img className="logo" src={R.logos.logoLogIn} /> */}
         </InfoStyled>
         <Form
           size="middle"
