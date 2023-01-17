@@ -33,7 +33,6 @@ const UploadComponent: React.FC<IProps> = ({
   const [previewVisible, setPreviewVisible] = useState<boolean>(false)
   const [previewImage, setPreviewImage] = useState<string>()
   const formInstances = useRef<FormInstance>()
-  console.log('fileList', fileList)
   const UploadButton = () => {
     return (
       <div>

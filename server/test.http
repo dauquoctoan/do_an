@@ -103,10 +103,14 @@ content-type: application/json
 
 
 ###
-put http://localhost:3005/admin/topic
+post http://localhost:3005/admin/lesson
 content-type: application/json
 
 {
-    "_id": "63c4f1dda65e2d5d60af9c57",
-    "name":"tét"
+    "title": "ads",
+    "type": 1,
+    "options": ["sdfsdf","sdfsdf"],
+    "answer": 1,
+    "level": 1,
+    "topic": "63c6627f47d3e55d34438050"
 }

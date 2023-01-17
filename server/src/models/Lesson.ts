@@ -10,7 +10,7 @@ const Lesson = new Schema(
         answers: { type: Array, required: false },
         status: { type: Object, required: false },
         level: { type: Number, required: true },
-        topic: { type: Schema.Types.ObjectId, ref: 'topics' },
+        topic: [{ type: Schema.Types.ObjectId, ref: 'topics' }],
     },
     {
         timestamps: true,

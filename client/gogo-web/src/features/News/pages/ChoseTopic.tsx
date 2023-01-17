@@ -14,6 +14,7 @@ const ChoseTopic = () => {
   const [topics, setTopics] = useState<ITopics[]>([])
   // const [selected, setSelected] = useState<ITopics | undefined>(undefined)
   const selected = useSelector((state: RootState) => {
+    console.log(state)
     return state.lessonReducer.topic
   })
 

@@ -20,13 +20,13 @@ export const JCreateUser = Joi.object({
 
 export const JCreateLesson = Joi.object({
     title: Joi.string().required(),
-    type: Joi.string().required(),
+    type: Joi.number().required(),
     options: Joi.array().required(),
     answer: Joi.number(),
     answers: Joi.number(),
     status: Joi.string(),
     level: Joi.number().required(),
-    topic: Joi.number().required(),
+    topic: Joi.string().required(),
 })
 
 export const JCreateTopic = Joi.object({

@@ -1,21 +1,25 @@
 import { Button, Input, Select } from 'antd'
 import FormItem from 'antd/es/form/FormItem'
 import { useForm } from 'antd/lib/form/Form'
+import message from 'commons/message'
 import style from 'configs/style'
 import { FormStyled, ModalStyled } from 'global-styled'
 import { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { IContent, prev, setContent } from 'store/lesson/lessonSlice'
+import { RootState } from 'store/store'
 import styled from 'styled-components'
-import UploadComponent from '../../../commons/uploads'
+import { createLesson } from '../api'
 import Lesson1 from './Lesson1'
 
 const Content = () => {
   const [form] = useForm()
   const [visible, setVisible] = useState(false)
   const dispatch = useDispatch()
+  const state = useSelector((e:RootState)=>{
+    return e.lessonReducer
+  })
   function handleFinish(form: any) {
-    console.log(form)
     const data: IContent = {
       answer: form.answer,
       level: form.level,
@@ -39,9 +43,24 @@ const Content = () => {
       ],
       title: form.title,
     }
+    console.log(data)
     dispatch(setContent(data))
     setVisible(true)
   }
+  
+ async function  handleCreteLesson(){
+  const lesson = {
+    title: state?.content?.title,
+    type: state?.type?._id,
+    options: [{picture:state.content?.options[0].picture,title:state.content?.options[0].title },{picture:state.content?.options[1].picture,title:state.content?.options[1].title },{picture:state.content?.options[2].picture,title:state.content?.options[2].title },{picture:state.content?.options[3].picture,title:state.content?.options[3].title }],
+    answer: state.content?.answer,
+    level: state.content?.level,
+    topic: state.topic?._id,
+  }
+  const result = await  createLesson(lesson)
+  message.success(result.message)
+ }
+  
   return (
     <SContent>
       <FormStyled className="form" onFinish={handleFinish} labelAlign={'left'}>
@@ -163,9 +182,6 @@ const Content = () => {
         <Button
           style={{ width: '100%' }}
           htmlType="submit"
-          onClick={() => {
-            // dispatch(prev())
-          }}
           type="primary"
         >
           Xong
@@ -192,7 +208,7 @@ const Content = () => {
               <Button style={{ width: 100 }} type="ghost">
                 Xem lại
               </Button>
-              <Button style={{ width: 100 }} type="primary">
+              <Button onClick={(handleCreteLesson)} style={{ width: 100 }} type="primary">
                 Tạo
               </Button>
               <Button style={{ width: 100 }} danger type="primary">
