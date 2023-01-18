@@ -9,16 +9,9 @@ router.get('/topics', lessonController.getTopics)
 router.post('/topic', validate(JCreateTopic), lessonController.createTopic)
 router.put('/topic', lessonController.updateTopic)
 router.delete('/topic', validate(JDeleteTopic), lessonController.deleteTopic)
-router.post('/lesson', validate(JCreateLesson), lessonController.createLesson)
 
-// router.get('/cards', (req, res, next) => {
-//     res.send('admin')
-// })
-// router.put('/card', (req, res, next) => {
-//     res.send('admin')
-// })
-// router.delete('/card', (req, res, next) => {
-//     res.send('admin')
-// })
+/* lesson */
+router.get('/lessons', lessonController.getLesson)
+router.post('/lesson', validate(JCreateLesson), lessonController.createLesson)
 
 export default router

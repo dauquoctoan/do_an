@@ -27,11 +27,7 @@ const Lesson1 = ({ form }: { form: any }) => {
   ]
   return (
     <SLesson1>
-      <Collapse
-        style={{ width: '100%' }}
-        collapsible={'icon'}
-        // activeKey={['1']}
-      >
+      <Collapse style={{ width: '100%' }} collapsible={'icon'}>
         {options.map((item, i) => {
           const index = i + 1
           return (
@@ -46,7 +42,6 @@ const Lesson1 = ({ form }: { form: any }) => {
                   {
                     required: true,
                     message: 'Vui lòng nhập nội dung đáp án',
-                    // pattern: Configs._reg.name,
                   },
                 ]}
               >

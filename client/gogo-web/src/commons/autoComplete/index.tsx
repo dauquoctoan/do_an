@@ -102,8 +102,12 @@ const AutoComplete = ({
           placeholder={placeholder}
           optionFilterProp="children"
         >
-          {options.map((item: IOptions) => {
-            return <Select.Option value={item.key}>{item.value}</Select.Option>
+          {options.map((item: IOptions, i) => {
+            return (
+              <Select.Option key={i} value={item.key}>
+                {item.value}
+              </Select.Option>
+            )
           })}
         </Select>
       </Form.Item>

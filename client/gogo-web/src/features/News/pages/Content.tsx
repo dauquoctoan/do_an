@@ -2,22 +2,30 @@ import { Button, Input, Select } from 'antd'
 import FormItem from 'antd/es/form/FormItem'
 import { useForm } from 'antd/lib/form/Form'
 import message from 'commons/message'
+import Configs from 'configs'
 import style from 'configs/style'
 import { FormStyled, ModalStyled } from 'global-styled'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { IContent, prev, setContent } from 'store/lesson/lessonSlice'
+import {
+  IContent,
+  prev,
+  resetLesson,
+  setContent,
+} from 'store/lesson/lessonSlice'
 import { RootState } from 'store/store'
 import styled from 'styled-components'
+import history from 'utils/history'
 import { createLesson } from '../api'
 import Lesson1 from './Lesson1'
 
 const Content = () => {
+  const id = Configs.getSearchParams().get('id')
   const [form] = useForm()
   const [visible, setVisible] = useState(false)
   const dispatch = useDispatch()
-  const state = useSelector((e:RootState)=>{
-    return e.lessonReducer
+  const { content, topic, type } = useSelector((state: RootState) => {
+    return state.lessonReducer
   })
   function handleFinish(form: any) {
     const data: IContent = {
@@ -43,27 +51,72 @@ const Content = () => {
       ],
       title: form.title,
     }
-    console.log(data)
     dispatch(setContent(data))
     setVisible(true)
   }
-  
- async function  handleCreteLesson(){
-  const lesson = {
-    title: state?.content?.title,
-    type: state?.type?._id,
-    options: [{picture:state.content?.options[0].picture,title:state.content?.options[0].title },{picture:state.content?.options[1].picture,title:state.content?.options[1].title },{picture:state.content?.options[2].picture,title:state.content?.options[2].title },{picture:state.content?.options[3].picture,title:state.content?.options[3].title }],
-    answer: state.content?.answer,
-    level: state.content?.level,
-    topic: state.topic?._id,
+  async function handleCreteLesson() {
+    const lesson = {
+      title: content?.title,
+      type: type,
+      options: [
+        {
+          picture: content?.options[0].picture,
+          title: content?.options[0].title,
+        },
+        {
+          picture: content?.options[1].picture,
+          title: content?.options[1].title,
+        },
+        {
+          picture: content?.options[2].picture,
+          title: content?.options[2].title,
+        },
+        {
+          picture: content?.options[3].picture,
+          title: content?.options[3].title,
+        },
+      ],
+      answer: Number(content?.answer),
+      level: content?.level,
+      topic: topic?._id,
+    }
+    const result = await createLesson(lesson)
+    message.success(result.message)
+    dispatch(resetLesson())
+    setVisible(false)
+    history.push('/lesson')
   }
-  const result = await  createLesson(lesson)
-  message.success(result.message)
- }
-  
+  useEffect(() => {
+    form.setFieldsValue({
+      title: content?.title,
+      level: content?.level,
+      answer: String(content?.answer),
+      option_1: content?.options[0].title,
+      picture_1: content?.options[0].picture
+        ? Configs.getDefaultFileList(content?.options[0].picture)
+        : [],
+      option_2: content?.options[1].title,
+      picture_2: content?.options[1].picture
+        ? Configs.getDefaultFileList(content?.options[0].picture)
+        : [],
+      option_3: content?.options[2].title,
+      picture_3: content?.options[2].picture
+        ? Configs.getDefaultFileList(content?.options[0].picture)
+        : [],
+      option_4: content?.options[3].title,
+      picture_4: content?.options[0].picture
+        ? Configs.getDefaultFileList(content?.options[3].picture)
+        : [],
+    })
+  }, [id])
   return (
     <SContent>
-      <FormStyled className="form" onFinish={handleFinish} labelAlign={'left'}>
+      <FormStyled
+        className="form"
+        form={form}
+        onFinish={handleFinish}
+        labelAlign={'left'}
+      >
         <div className="wrapper-content" style={{ display: 'flex' }}>
           <div className="wrap-form-item">
             <FormItem
@@ -140,6 +193,7 @@ const Content = () => {
             >
               <Select
                 showSearch
+                // defaultValue={content?.answer}
                 placeholder="Chọn đáp án đúng"
                 optionFilterProp="children"
                 filterOption={(input: any, option: any) =>
@@ -149,19 +203,19 @@ const Content = () => {
                 }
                 options={[
                   {
-                    value: 1,
+                    value: '1',
                     label: 'Đáp án 1',
                   },
                   {
-                    value: 2,
+                    value: '2',
                     label: 'Đáp án 2',
                   },
                   {
-                    value: 3,
+                    value: '3',
                     label: 'Đáp án 3',
                   },
                   {
-                    value: 4,
+                    value: '4',
                     label: 'Đáp án 4',
                   },
                 ]}
@@ -180,6 +234,9 @@ const Content = () => {
           </div>
         </div>
         <Button
+          onClick={() => {
+            content && setVisible(true)
+          }}
           style={{ width: '100%' }}
           htmlType="submit"
           type="primary"
@@ -197,7 +254,7 @@ const Content = () => {
         }}
         children={
           <div>
-            Bạn có muốn xem lại bài tập đã tạo ?
+            {'Bạn có muốn xem lại bài tập đã' + (id ? ' sửa ?' : ' tạo ?')}
             <div
               style={{
                 paddingTop: 10,
@@ -208,10 +265,22 @@ const Content = () => {
               <Button style={{ width: 100 }} type="ghost">
                 Xem lại
               </Button>
-              <Button onClick={(handleCreteLesson)} style={{ width: 100 }} type="primary">
-                Tạo
+              <Button
+                onClick={handleCreteLesson}
+                style={{ width: 100 }}
+                type="primary"
+              >
+                {id ? 'Sửa' : 'Tạo'}
               </Button>
-              <Button style={{ width: 100 }} danger type="primary">
+              <Button
+                onClick={() => {
+                  dispatch(resetLesson())
+                  history.goBack()
+                }}
+                style={{ width: 100 }}
+                danger
+                type="primary"
+              >
                 Hủy bỏ
               </Button>
             </div>

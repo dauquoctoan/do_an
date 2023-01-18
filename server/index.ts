@@ -7,8 +7,6 @@ import router from './src/routes'
 import db from './src/configs/db/index'
 var cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
-var multer = require('multer')
-var upload = multer()
 
 const port = process.env.SERVER_PORT
 const app = express()

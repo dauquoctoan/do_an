@@ -12,7 +12,7 @@ import { handleSearchMongoose } from '../utils'
 
 class lessonController {
     async createCard(req: any, res: any) {
-        const result = await _Creates(Card, 'card', req.body)
+        const result = await _Creates(Card, req.body, 'card')
         res.json(result)
     }
 
@@ -28,7 +28,7 @@ class lessonController {
     }
 
     async createTopic(req: any, res: any) {
-        const result = await _Creates(Topic, 'topic', req.body)
+        const result = await _Creates(Topic, req.body, 'topic')
         res.json(result)
     }
     async updateTopic(req: any, res: any) {
@@ -43,6 +43,17 @@ class lessonController {
 
     async createLesson(req: any, res: any) {
         const result = await _Creates(Lesson, req?.body, 'lesson')
+        res.json(result)
+    }
+
+    async getLesson(req: any, res: any) {
+        const result = await _Finds(
+            Lesson,
+            handleSearchMongoose('title', req.query.search || ''),
+            req.query,
+            'lesson',
+            'topic'
+        )
         res.json(result)
     }
 }

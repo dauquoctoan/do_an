@@ -30,8 +30,8 @@ export async function _Create(
 
 export async function _Creates(
     modal: any,
-    name: string = 'đối tượng',
-    data: any
+    data: any,
+    name: string = 'đối tượng'
 ) {
     const db = new modal(data)
     try {
@@ -47,7 +47,8 @@ export async function _Finds(
     modal: any,
     query: any,
     paging: { limit: number; page: number },
-    name: string = 'đối tượng'
+    name: string = 'đối tượng',
+    populate: string = ''
 ) {
     paging = {
         page: Number(paging.page) || DEFAULT_PAGE.page,
@@ -55,8 +56,11 @@ export async function _Finds(
     }
     const skip = (paging.page - 1) * paging.limit
     try {
-        const modals = await modal.find(query).skip(skip).limit(paging.limit)
-        console.log(modals)
+        const modals = await modal
+            .find(query)
+            .skip(skip)
+            .limit(paging.limit)
+            .populate(populate)
         if (modals) {
             const total = await modal.countDocuments()
             return handleResultSuccess(

@@ -1,5 +1,16 @@
 import { IFile } from '../../commons/uploads/interface'
 
+export interface IAnswer {
+  title: string
+  picture: string
+}
+export interface IFormContent {
+  title: string
+  level: number
+  options: IAnswer[]
+  answers?: []
+  answer?: []
+}
 export interface IDetailNews extends IForm {
   startDate?: string
   endDate?: string
@@ -18,7 +29,7 @@ export interface IForm {
   type: number
   listRelatedStall: number[]
   startDate?: string
-  endDate?:string
+  endDate?: string
   IsPopup?: number
   ListGiftNews?: any[]
   listVoucher?: any[]

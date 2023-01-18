@@ -13,4 +13,5 @@ class adminController {
         const body = req.body
     }
 }
+
 export default new adminController()

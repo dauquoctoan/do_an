@@ -10,9 +10,11 @@ export const POST_NEW_STATUS_DEFINE: IDefine = {
   POST: 2,
 }
 
-export const POST_NEW_STATUS: IConst = {
-  [POST_NEW_STATUS_DEFINE.POST]: 'Bài đăng',
-  [POST_NEW_STATUS_DEFINE.DRAFT]: 'Nháp',
+export const LEVEL: IConst = {
+  1: 'Dễ',
+  2: 'Trung bình',
+  3: 'Khó',
+  4: 'Cực khó',
 }
 
 export const TYPE_ACCOUNT: IConst = {
@@ -30,14 +32,12 @@ export const CUSTOMER_ORIGIN: any = {
   2: 'PG tạo',
 }
 
-
-
 export const FLOOR: IConst = {
   1: 'Tầng 1',
   2: 'Tầng 2',
   3: 'Tầng 3',
   4: 'Tầng hầm',
-  5: 'Toà B'
+  5: 'Toà B',
 }
 
 // export const KEY_NEWS_CATE: {
@@ -59,7 +59,7 @@ export const KEY_TYPE_NEW: {
   promotion: 1,
   event: 4,
   recruit: 3,
-  utilities: 5
+  utilities: 5,
 }
 
 // export const NEWS_CATEGORY: IConst = {
@@ -68,11 +68,11 @@ export const KEY_TYPE_NEW: {
 //   [KEY_TYPE_NEW.recruit]: 'Tuyển dụng',
 // }
 
-export const NEWS_TYPE: IConst = {
-  [KEY_TYPE_NEW.promotion]: 'Chương trình khuyến mại',
-  [KEY_TYPE_NEW.recruit]: 'Tuyển dụng',
-  [KEY_TYPE_NEW.event]: 'Sự kiện hoạt náo',
-  [KEY_TYPE_NEW.utilities]: 'Tiện ích',
+export const TYPE_LESSON: IConst = {
+  1: 'Chọn một trong 4 đáp án có hình ảnh',
+  2: 'Chọn một trong 4 đáp án không có hình ảnh',
+  3: 'Nối các cặp câu',
+  4: 'Sắp xếp các từ thành câu có nghĩa',
 }
 
 export const GIFT_TYPE: IConst = {
@@ -128,4 +128,11 @@ export const CHANEL = {
 }
 
 export const PHONE_REGEX =
-/^(0|\+84)(\s|\.)?((3[2-9])|(5[689])|(7[06-9])|(8[1-689])|(9[0-46-9]))(\d)(\s|\.)?(\d{3})(\s|\.)?(\d{3})$/
+  /^(0|\+84)(\s|\.)?((3[2-9])|(5[689])|(7[06-9])|(8[1-689])|(9[0-46-9]))(\d)(\s|\.)?(\d{3})(\s|\.)?(\d{3})$/
+
+///new
+export const type: any = {
+  1: 'Chọn một trong 4 đáp án',
+  2: 'Sắp xếp từ thành câu có nghĩa',
+  3: 'Chọn các cặp đáp án',
+}

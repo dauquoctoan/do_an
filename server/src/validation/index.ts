@@ -23,7 +23,7 @@ export const JCreateLesson = Joi.object({
     type: Joi.number().required(),
     options: Joi.array().required(),
     answer: Joi.number(),
-    answers: Joi.number(),
+    answers: Joi.array(),
     status: Joi.string(),
     level: Joi.number().required(),
     topic: Joi.string().required(),

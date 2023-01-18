@@ -10,7 +10,7 @@ authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzYjdhMGNiMmQ0ZTI3
 
 
 ###
-GET http://localhost:3005/admin/users?limit=10&index=10
+GET http://localhost:3005/admin/topics?limit=10&index=10
 
 
 ###
@@ -42,7 +42,7 @@ content-type: application/json
 }
 
 ###
-get http://localhost:3005/admin/users?index=1&limit=10
+get http://localhost:3005/admin/topics
 content-type: application/json
 
 ###
@@ -112,5 +112,5 @@ content-type: application/json
     "options": ["sdfsdf","sdfsdf"],
     "answer": 1,
     "level": 1,
-    "topic": "63c6627f47d3e55d34438050"
+    "topic": "63c42971c5688a1b5c8d50e2"
 }

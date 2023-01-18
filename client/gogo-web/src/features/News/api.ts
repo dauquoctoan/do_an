@@ -4,6 +4,9 @@ import { ApiClient } from '../../services'
 export const createLesson = (payload: any) => {
   return ApiClient.post('/lesson', payload)
 }
+export const getLessons = (payload: any) => {
+  return ApiClient.get('/lessons', payload)
+}
 ////old
 
 const path = apis.news

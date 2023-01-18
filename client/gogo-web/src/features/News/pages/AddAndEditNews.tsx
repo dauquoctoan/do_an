@@ -1,5 +1,6 @@
 import { Collapse, Space, Button } from 'antd'
 import { useForm } from 'antd/es/form/Form'
+import { type } from 'configs/constance'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { RootState } from 'store/store'
@@ -52,7 +53,10 @@ const AddAndEditNews = () => {
               collapsible={lesson.index < 3 ? 'disabled' : 'icon'}
               activeKey={lesson.index === 3 ? ['1'] : ['']}
             >
-              <Panel header={lesson.type?.value || 'card'} key="1">
+              <Panel
+                header={(lesson.type && type[lesson.type]) || 'card'}
+                key="1"
+              >
                 <Content />
               </Panel>
             </Collapse>

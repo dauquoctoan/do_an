@@ -12,4 +12,4 @@ const Topic = new Schema(
     }
 )
 
-export default mongoose.model('topics', Topic)
+export default mongoose.model('Topic', Topic)

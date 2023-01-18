@@ -1,13 +1,18 @@
 import { Button, Switch } from 'antd'
 import { ColumnsType } from 'antd/es/table'
+import message from 'commons/message'
 import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { ILesson, resetLesson, setLesson } from 'store/lesson/lessonSlice'
+import rootReducer from 'store/rootReducer'
+import { RootState } from 'store/store'
 import { ButtonAction } from '../../commons/button'
 import ContentScreen from '../../commons/contentScreen'
 import FilterHeader from '../../commons/filter'
 import PageHeader from '../../commons/pageHeader'
 import Table from '../../commons/table'
 import Configs from '../../configs'
-import { POST_NEW_STATUS, STATUS, NEWS_TYPE } from '../../configs/constance'
+import { STATUS, TYPE_LESSON, LEVEL } from '../../configs/constance'
 import { ContainScreenStyled } from '../../global-styled'
 import { IPagination } from '../../interface'
 import { PATH } from '../../navigation/Router/config'
@@ -15,7 +20,7 @@ import { renderText } from '../../utils/functions'
 import history from '../../utils/history'
 import R from '../../utils/R'
 import { DataType } from '../Stalls/interface'
-import { changeStatusNews, deleteNews, getNews } from './api'
+import { changeStatusNews, deleteNews, getLessons, getNews } from './api'
 import { INews } from './interface'
 
 interface ILoadingChecked {
@@ -23,22 +28,19 @@ interface ILoadingChecked {
   loading: boolean
 }
 const News = () => {
+  const dispatch = useDispatch()
+  const lesson = useSelector((state: RootState) => {
+    return state.lessonReducer
+  })
   const [paging, setPaging] = useState<IPagination>({
     limit: Configs._limit,
     page: Configs._default_page,
     total: 0,
   })
   const [filter, setFilter] = useState({})
-  const [params, setParams] = useState({
-    ...filter,
-    page: 1,
-  })
   const [loading, setLoading] = useState<boolean>(false)
-  const [news, setNews] = useState<INews[]>([])
-  const [loadingChecked, setLoadingChecked] = useState<ILoadingChecked>({
-    id: 0,
-    loading: false,
-  })
+  const [lessons, setLessons] = useState<INews[]>([])
+
   const columns: ColumnsType<INews> = [
     {
       width: 10,
@@ -48,86 +50,46 @@ const News = () => {
       render: (text) => <span>{renderText(text)}</span>,
     },
     {
-      title: R.strings().news__table__news_title,
+      title: 'Tiêu đề',
       dataIndex: 'title',
       key: 'title',
       render: (text) => <span>{renderText(text)}</span>,
     },
     {
       width: 150,
-      title: R.strings().news__table__news_type,
+      title: 'Loại bài tập',
       dataIndex: 'type',
       key: 'type',
-      render: (key: number) => <span>{renderText(NEWS_TYPE[key])}</span>,
-      // render: (key: number) => <span>{key}</span>,
-    },
-    {
-      title: R.strings().news__table__news_post_status,
-      dataIndex: 'typePost',
-      key: 'typePost',
-      render: (typePost) => (
-        <span>{Configs.renderText(POST_NEW_STATUS[typePost])}</span>
+      render: (key: number) => (
+        <span>{renderText(TYPE_LESSON[String(key)])}</span>
       ),
     },
     {
-      title: 'Thứ tự hiển thị',
-      dataIndex: 'index',
-      key: 'index',
-      render: (index: number) => <span>{index || '--'}</span>,
-    },
-    {
-      title: R.strings().news__table__news_create_date,
-      key: 'startDate',
-      dataIndex: 'startDate',
-      render: (startDate: string, record: any) => (
-        <span>{renderText(Configs.formatDate(record.createDate))}</span>
+      title: 'Cấp độ',
+      dataIndex: 'level',
+      key: 'level',
+      render: (level) => (
+        <span>{Configs.renderText(LEVEL[String(level)])}</span>
       ),
     },
     {
-      width: 90,
-      // title: R.strings().news__table__news_status,
-      title: 'Trạng thái hoạt động',
-      key: 'status',
-      dataIndex: 'status',
-      align: 'center',
-      render: (status: any, record: any) => {
-        return (
-          <div>
-            <Switch
-              size="small"
-              loading={
-                loadingChecked.loading === true &&
-                loadingChecked.id === record.id
-              }
-              onClick={async () => {
-                await handleChangeStatus(record.id)
-                getData()
-              }}
-              checked={status === 1 ? true : false}
-            />
-          </div>
-        )
-      },
+      title: 'Chủ đề',
+      key: 'topic',
+      dataIndex: 'topic',
+      render: (topic: any, record: any) => (
+        <span>{renderText(topic?.name)}</span>
+      ),
     },
     {
       width: 15,
       render: (_, record: any) => (
         <div>
           <ButtonAction
-            buttonEdit={
-              // record.typePost !== 2
-              //   ? {
-              //       tooltipTitle: 'Sửa tin tức',
-              //       tooltipPlacement: 'topLeft',
-              //       tooltipDisable: record.id === 1 ? true : false,
-              //     }
-              //   : undefined
-              {
-                tooltipTitle: 'Sửa tin tức',
-                tooltipPlacement: 'topLeft',
-                tooltipDisable: record.id === 1 ? true : false,
-              }
-            }
+            buttonEdit={{
+              tooltipTitle: 'Sửa tin tức',
+              tooltipPlacement: 'topLeft',
+              tooltipDisable: record.id === 1 ? true : false,
+            }}
             buttonDelete={{
               tooltipTitle: 'Xoá tin tức',
               tooltipPlacement: 'topLeft',
@@ -140,14 +102,11 @@ const News = () => {
               handleConfirm: async () => {
                 try {
                   const res = await deleteNews({ ID: record.id })
-                  if (res) {
-                    // message({
-                    //   content: R.strings().news__add_edit__success__delete_news,
-                    //   type: 'success',
-                    // })
-                    getData()
-                  }
-                } catch (error) {}
+                  message.success('Xóa thành công !')
+                  getData()
+                } catch (error) {
+                  console.log(error)
+                }
               },
             }}
           />
@@ -155,22 +114,42 @@ const News = () => {
       ),
     },
   ]
-  const handleEdit = (e: any) => {
-    history.push(PATH.LESSON_ADD_UPDATE.concat(`?id=${e.id}`))
+  const handleEdit = (item: any) => {
+    const data: ILesson = {
+      topic: {
+        _id: item.topic._id,
+        desc: item.topic.desc,
+        name: item.topic.name,
+        picture: item.topic.picture,
+      },
+      content: {
+        level: item.level,
+        title: item.title,
+        options: [
+          { title: item.options[0].title, picture: item.options[0].picture },
+          { title: item.options[1].title, picture: item.options[1].picture },
+          { title: item.options[2].title, picture: item.options[2].picture },
+          { title: item.options[3].title, picture: item.options[3].picture },
+        ],
+        answer: item.answer,
+      },
+      index: 1,
+      type: item.type,
+    }
+    dispatch(setLesson(data))
+    history.push('/lesson/add-update?id=' + item._id)
   }
 
   const getData = async () => {
     setLoading(true)
     try {
-      const res = await getNews(filter)
-      if (res) {
-        setNews(res.data.data)
-        setPaging({
-          limit: res.data.limit,
-          page: res.data.page,
-          total: res.data.total,
-        })
-      }
+      const res = await getLessons({
+        page: paging.page,
+        limit: paging.limit,
+        ...filter,
+      })
+      setLessons(res.data)
+      setPaging(res.paging)
     } catch (error) {
       console.log(error)
     } finally {
@@ -181,24 +160,9 @@ const News = () => {
   useEffect(() => {
     getData()
   }, [filter, paging.page])
+
   const handleDelete = (e: any) => {}
 
-  const handleChangeStatus = async (id: number) => {
-    setLoadingChecked({ id: id, loading: true })
-    try {
-      const res = await changeStatusNews({ ID: id })
-      if (res) {
-        // message({
-        //   content: R.strings().stalls__success__change_status,
-        //   type: 'success',
-        // })
-      }
-    } catch (error) {
-      console.log(error)
-    } finally {
-      setLoadingChecked({ id: id, loading: false })
-    }
-  }
   return (
     <ContainScreenStyled>
       <PageHeader
@@ -206,6 +170,7 @@ const News = () => {
         extra={
           <Button
             onClick={() => {
+              dispatch(resetLesson())
               history.push(PATH.LESSON_ADD_UPDATE)
             }}
             type="primary"
@@ -222,7 +187,7 @@ const News = () => {
             width: 200,
             placeholder: R.strings().news__filter__news_type,
             key: 'type',
-            data: NEWS_TYPE,
+            data: TYPE_LESSON,
           },
           {
             width: 200,
@@ -240,7 +205,7 @@ const News = () => {
         <Table
           border={true}
           columns={columns}
-          data={news}
+          data={lessons}
           size={'middle'}
           onChangePram={(page: number) => {
             setFilter({ ...filter, page: page })

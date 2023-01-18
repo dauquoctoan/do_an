@@ -20,17 +20,15 @@ export interface IContent {
   answer?: number
   answers?: number
 }
-export interface IType {
-  _id: number
-  value: string
-}
 
-let initialState: {
+export interface ILesson {
   index: number
-  type: IType | null
+  type: string | null
   topic: ITopic | null
   content: IContent | null
-} = {
+}
+
+let initialState: ILesson = {
   index: 1,
   type: null,
   topic: null,
@@ -66,9 +64,28 @@ export const lessonSlice = createSlice({
         state.index += 1
       }
     },
+    resetLesson: (state) => {
+      state.index = 1
+      state.type = null
+      state.topic = null
+      state.content = null
+    },
+    setLesson: (state, action: PayloadAction<ILesson>) => {
+      state.content = action.payload.content
+      state.index = action.payload.index
+      state.topic = action.payload.topic
+      state.type = action.payload.type
+    },
   },
 })
 
-export const { setTopic, prev, next, setTypeTopic, setContent } =
-  lessonSlice.actions
+export const {
+  setTopic,
+  prev,
+  next,
+  setTypeTopic,
+  setContent,
+  resetLesson,
+  setLesson,
+} = lessonSlice.actions
 export default lessonSlice.reducer

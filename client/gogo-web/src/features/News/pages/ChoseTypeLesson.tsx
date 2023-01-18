@@ -1,5 +1,6 @@
 import { AutoComplete, Descriptions, Button } from 'antd'
 import Configs from 'configs'
+import { type } from 'configs/constance'
 import { useDispatch, useSelector } from 'react-redux'
 import { next, prev, setTypeTopic } from 'store/lesson/lessonSlice'
 import { RootState } from 'store/store'
@@ -16,12 +17,12 @@ const ChoseTypeLesson = () => {
     { _id: 3, value: 'Chọn các cặp đáp án' },
   ]
   function onSelect(value: any) {
-    const option = options.find((item: any) => {
+    const option: any = options.find((item) => {
       if (item.value === value) {
         return item
       }
     })
-    dispatch(setTypeTopic(option))
+    dispatch(setTypeTopic(option._id))
   }
   return (
     <IChoseTypeLesson>
@@ -32,14 +33,16 @@ const ChoseTypeLesson = () => {
         filterOption={(inputValue, option) =>
           option!.value.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
         }
-        placeholder="level"
+        placeholder="Chọn loại câu hỏi"
       />
       <div className="content">
-        <Descriptions title="Loại bài tập đã chọn">
-          <Descriptions.Item label="Loại">
-            {Configs.renderText(lesson.type?.value)}
-          </Descriptions.Item>
-        </Descriptions>
+        {lesson.type && (
+          <Descriptions title="Loại bài tập đã chọn">
+            <Descriptions.Item label="Loại">
+              {Configs.renderText(type[lesson.type])}
+            </Descriptions.Item>
+          </Descriptions>
+        )}
       </div>
       <div className="action">
         <Button
