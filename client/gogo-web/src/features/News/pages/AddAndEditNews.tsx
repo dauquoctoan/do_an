@@ -1,10 +1,11 @@
 import { Collapse, Space, Button } from 'antd'
 import { useForm } from 'antd/es/form/Form'
 import { type } from 'configs/constance'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { RootState } from 'store/store'
 import styled from 'styled-components'
+import history from 'utils/history'
 import ContentScreen from '../../../commons/contentScreen'
 import PageHeader from '../../../commons/pageHeader'
 import Configs from '../../../configs'
@@ -20,6 +21,12 @@ const AddAndEditNews = () => {
   const lesson = useSelector((state: RootState) => {
     return state.lessonReducer
   })
+
+  useEffect(()=>{
+    if(id && !lesson.content){
+      history.push('/lesson')
+    }
+  },[])
 
   return (
     <ContainScreenStyled>

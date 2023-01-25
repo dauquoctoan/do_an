@@ -15,11 +15,11 @@ import { IPagination } from '../../interface'
 // import { ChangeStatusAccount, deleteAccount, getAccounts } from './api'
 import { deleteCategory, getCategories, updateCategory } from './api'
 import AddEditCategory from './components/AddEditCategory'
-import { ICategory } from './interface'
+import { IPart } from './interface'
 
 const Category = () => {
   const [form] = Form.useForm()
-  const columns: ColumnsType<ICategory> = [
+  const columns: ColumnsType<IPart> = [
     {
       title: 'STT',
       dataIndex: 'stt',
@@ -78,8 +78,8 @@ const Category = () => {
   ]
   const [loading, setLoading] = useState<boolean>(false)
   const [visible, setVisible] = useState<boolean>()
-  const [categoryDetail, setCategoryDetail] = useState<ICategory | null>(null)
-  const [categories, setCategories] = useState<ICategory[]>([])
+  const [categoryDetail, setCategoryDetail] = useState<IPart | null>(null)
+  const [categories, setCategories] = useState<IPart[]>([])
   const [filter, setFilter] = useState({})
   const [paging, setPaging] = useState<IPagination>({
     limit: Configs._limit,
@@ -151,7 +151,7 @@ const Category = () => {
   return (
     <ContainScreenStyled>
       <PageHeader
-        title={'Card'}
+        title={'Học phần'}
         extra={
           <Button
             onClick={() => {
@@ -159,7 +159,7 @@ const Category = () => {
             }}
             type="primary"
           >
-            Thêm mới cards
+            Thêm mới học phần
           </Button>
         }
       />
@@ -180,7 +180,7 @@ const Category = () => {
           <ModalStyled
             width={500}
             footer={null}
-            title={categoryDetail ? 'Sửa ngành hàng' : 'Thêm mới ngành hàng'}
+            title={categoryDetail ? 'Sửa học phần' : 'Thêm mới học phần'}
             visible={visible}
             onCancel={() => {
               form.resetFields()

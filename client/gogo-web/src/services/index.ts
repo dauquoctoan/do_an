@@ -50,7 +50,7 @@ function handleResult(api: any) {
   return api.then(
     (res: { data: { status: number; code: number; message: string } }) => {
       if (res?.data?.code !== 1) {
-        message.error(res?.data?.message || 'Có lỗi xảy ra vui lòng thử lại')
+        message.error(res.data.message || 'Có lỗi xảy ra vui lòng thử lại')
         return Promise.reject(res?.data)
       }
       return Promise.resolve(res?.data)

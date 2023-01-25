@@ -24,6 +24,12 @@ const Login = () => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     type RegisterInput = TypeOf<typeof loginSchema>;
+    useEffect(() => {
+        if (localStorage.getItem('token')) {
+            navigate('/lesson')
+        }
+
+    }, [])
 
     const {
         register,
@@ -127,8 +133,9 @@ const Login = () => {
                 </div>
                 <GoogleOAuthProvider clientId={process.env.REACT_APP_CLIENT_ID || ''}>
                     <GoogleLogin
-                        onSuccess={credentialResponse => {
-                            console.log(credentialResponse);
+                        onSuccess={(credentialResponse: any) => {
+                            localStorage.setItem('token', credentialResponse.credential)
+                            navigate('/lesson')
                         }}
                         onError={() => {
                             console.log('Login Failed');
@@ -136,7 +143,7 @@ const Login = () => {
                         useOneTap
                     />;
                 </GoogleOAuthProvider>
-                
+
             </div>
         </SLogin>
     );

@@ -5,6 +5,10 @@ export const createTopic = (payload: any) => {
   return ApiClient.post('/topic', payload)
 }
 
+export const updateTopic = (payload: any) => {
+  return ApiClient.put('/topic', payload)
+}
+
 export const getTopics = (payload: any) => {
   return ApiClient.get('/topics', payload)
 }

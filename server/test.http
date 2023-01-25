@@ -114,3 +114,6 @@ content-type: application/json
     "level": 1,
     "topic": "63c42971c5688a1b5c8d50e2"
 }
+
+###
+get http://localhost:3005/admin/lessons

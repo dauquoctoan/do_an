@@ -188,7 +188,6 @@ class Configs {
           name: `file${uuidv4()}`,
           status: 'done',
           url: file,
-          response: { data: [file] },
           lastModified: Date.now(),
         },
       ]
@@ -201,7 +200,6 @@ class Configs {
           name: `file${uuidv4()}`,
           status: 'done',
           url: file,
-          response: { data: [file] },
           lastModified: Date.now(),
         }
       })

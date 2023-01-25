@@ -3,6 +3,7 @@ import FormItem from 'antd/es/form/FormItem'
 import { useForm } from 'antd/lib/form/Form'
 import message from 'commons/message'
 import Configs from 'configs'
+import { type_key } from 'configs/constance'
 import style from 'configs/style'
 import { FormStyled, ModalStyled } from 'global-styled'
 import { useEffect, useState } from 'react'
@@ -16,99 +17,138 @@ import {
 import { RootState } from 'store/store'
 import styled from 'styled-components'
 import history from 'utils/history'
-import { createLesson } from '../api'
+import { createLesson, updateLesson } from '../api'
 import Lesson1 from './Lesson1'
+import Lesson3 from './Lesson3'
 
 const Content = () => {
   const id = Configs.getSearchParams().get('id')
   const [form] = useForm()
   const [visible, setVisible] = useState(false)
   const dispatch = useDispatch()
+
   const { content, topic, type } = useSelector((state: RootState) => {
     return state.lessonReducer
   })
+
   function handleFinish(form: any) {
-    const data: IContent = {
-      answer: form.answer,
-      level: form.level,
-      options: [
-        {
-          picture: form.picture_1[0].response.data[0],
-          title: form.option_1,
-        },
-        {
-          picture: form.picture_2[0].response.data[0],
-          title: form.option_2,
-        },
-        {
-          picture: form.picture_3[0].response.data[0],
-          title: form.option_3,
-        },
-        {
-          picture: form.picture_4[0].response.data[0],
-          title: form.option_4,
-        },
-      ],
-      title: form.title,
+    if (type === type_key.choose_one_of_4_image || type === type_key.choose_one_of_4) {
+      const data: IContent = {
+        answer: form.answer,
+        level: form.level,
+        options: [
+          {
+            picture: form?.picture_1?.shift()?.response?.data?.shift() || null,
+            title: form?.option_1,
+          },
+          {
+            picture: form?.picture_2?.shift()?.response?.data?.shift() || null,
+            title: form?.option_2,
+          },
+          {
+            picture: form?.picture_3?.shift()?.response?.data?.shift() || null,
+            title: form?.option_3,
+          },
+          {
+            picture: form?.picture_4?.shift()?.response?.data?.shift() || null,
+            title: form?.option_4,
+          },
+        ],
+        answers: [],
+        title: form.title,
+      }
+      dispatch(setContent(data))
     }
-    dispatch(setContent(data))
+    if (type === type_key.sort) {
+      const data: IContent = {
+        answer: form.answer,
+        level: form.level,
+        options: [],
+        answers: content.answers,
+        title: form.title,
+      }
+      dispatch(setContent(data))
+    }
     setVisible(true)
   }
+
   async function handleCreteLesson() {
-    const lesson = {
-      title: content?.title,
-      type: type,
-      options: [
-        {
-          picture: content?.options[0].picture,
-          title: content?.options[0].title,
-        },
-        {
-          picture: content?.options[1].picture,
-          title: content?.options[1].title,
-        },
-        {
-          picture: content?.options[2].picture,
-          title: content?.options[2].title,
-        },
-        {
-          picture: content?.options[3].picture,
-          title: content?.options[3].title,
-        },
-      ],
-      answer: Number(content?.answer),
-      level: content?.level,
-      topic: topic?._id,
+    let lesson = null
+    if (type === type_key.choose_one_of_4 || type === type_key.choose_one_of_4_image) {
+      lesson = {
+        title: content?.title,
+        type: type,
+        options: [
+          {
+            picture: content?.options && content?.options[0]?.picture,
+            title: content?.options && content?.options[0]?.title,
+          },
+          {
+            picture: content?.options && content?.options[1]?.picture,
+            title: content?.options && content?.options[1]?.title,
+          },
+          {
+            picture: content?.options && content?.options[2]?.picture,
+            title: content?.options && content?.options[2]?.title,
+          },
+          {
+            picture: content?.options && content?.options[3]?.picture,
+            title: content?.options && content?.options[3]?.title,
+          },
+        ],
+        answer: Number(content?.answer),
+        level: content?.level,
+        topic: topic?._id,
+      }
     }
-    const result = await createLesson(lesson)
+    if (type === type_key.sort) {
+      lesson = {
+        title: content?.title,
+        type: type,
+        options: content.answers,
+        answers: content.answers,
+        level: content?.level,
+        topic: topic?._id,
+      }
+    }
+    const result = id ? await updateLesson({ ...lesson, _id: id }) : await createLesson(lesson)
     message.success(result.message)
     dispatch(resetLesson())
     setVisible(false)
     history.push('/lesson')
   }
   useEffect(() => {
-    form.setFieldsValue({
-      title: content?.title,
-      level: content?.level,
-      answer: String(content?.answer),
-      option_1: content?.options[0].title,
-      picture_1: content?.options[0].picture
-        ? Configs.getDefaultFileList(content?.options[0].picture)
-        : [],
-      option_2: content?.options[1].title,
-      picture_2: content?.options[1].picture
-        ? Configs.getDefaultFileList(content?.options[0].picture)
-        : [],
-      option_3: content?.options[2].title,
-      picture_3: content?.options[2].picture
-        ? Configs.getDefaultFileList(content?.options[0].picture)
-        : [],
-      option_4: content?.options[3].title,
-      picture_4: content?.options[0].picture
-        ? Configs.getDefaultFileList(content?.options[3].picture)
-        : [],
-    })
+    if (id && content.title && (type === type_key.choose_one_of_4_image || type === type_key.choose_one_of_4)) {
+      form.setFieldsValue({
+        title: content?.title,
+        level: content?.level,
+        answer: String(content?.answer),
+        option_1: content?.options && content?.options[0]?.title,
+        picture_1: content?.options && content?.options[0]?.picture
+          ? Configs.getDefaultFileList(content?.options[0].picture)
+          : [],
+        option_2: content?.options && content?.options[1]?.title,
+        picture_2: content?.options && content?.options[1]?.picture
+          ? Configs.getDefaultFileList(content?.options[1].picture)
+          : [],
+        option_3: content?.options && content?.options[2].title,
+        picture_3: content?.options && content?.options[2].picture
+          ? Configs.getDefaultFileList(content?.options[2].picture)
+          : [],
+        option_4: content?.options && content?.options[3].title,
+        picture_4: content?.options && content?.options[3].picture
+          ? Configs.getDefaultFileList(content?.options[3].picture)
+          : [],
+      })
+    }
+    if (id && content.title && type === type_key.sort) {
+      form.setFieldsValue({
+        title: content?.title,
+        level: content?.level,
+      })
+    }
   }, [id])
+
   return (
     <SContent>
       <FormStyled
@@ -177,50 +217,56 @@ const Content = () => {
                 ]}
               />
             </FormItem>
-            <Lesson1 form={form} />
-            <FormItem
-              wrapperCol={style.layoutModal.wrapperCol}
-              labelCol={style.layoutModal.labelCol}
-              className="form-item"
-              name="answer"
-              label="Chọn đáp án đúng"
-              rules={[
-                {
-                  required: true,
-                  message: 'Trường đáp án không được bỏ trống',
-                },
-              ]}
-            >
-              <Select
-                showSearch
-                // defaultValue={content?.answer}
-                placeholder="Chọn đáp án đúng"
-                optionFilterProp="children"
-                filterOption={(input: any, option: any) =>
-                  (option?.label ?? '')
-                    .toLowerCase()
-                    .includes(input.toLowerCase())
-                }
-                options={[
+            {
+              (type === "1" || type === '2') && <Lesson1 form={form} type={type} />
+            }
+            {
+              type === '4' && <Lesson3 form={form} />
+            }
+            {
+              type !== '4' && <FormItem
+                wrapperCol={style.layoutModal.wrapperCol}
+                labelCol={style.layoutModal.labelCol}
+                className="form-item"
+                name="answer"
+                label="Chọn đáp án đúng"
+                rules={[
                   {
-                    value: '1',
-                    label: 'Đáp án 1',
-                  },
-                  {
-                    value: '2',
-                    label: 'Đáp án 2',
-                  },
-                  {
-                    value: '3',
-                    label: 'Đáp án 3',
-                  },
-                  {
-                    value: '4',
-                    label: 'Đáp án 4',
+                    required: true,
+                    message: 'Trường đáp án không được bỏ trống',
                   },
                 ]}
-              />
-            </FormItem>
+              >
+                <Select
+                  showSearch
+                  placeholder="Chọn đáp án đúng"
+                  optionFilterProp="children"
+                  filterOption={(input: any, option: any) =>
+                    (option?.label ?? '')
+                      .toLowerCase()
+                      .includes(input.toLowerCase())
+                  }
+                  options={[
+                    {
+                      value: '1',
+                      label: 'Đáp án 1',
+                    },
+                    {
+                      value: '2',
+                      label: 'Đáp án 2',
+                    },
+                    {
+                      value: '3',
+                      label: 'Đáp án 3',
+                    },
+                    {
+                      value: '4',
+                      label: 'Đáp án 4',
+                    },
+                  ]}
+                />
+              </FormItem>
+            }
           </div>
           <div className="wrap-action">
             <Button
@@ -235,7 +281,7 @@ const Content = () => {
         </div>
         <Button
           onClick={() => {
-            content && setVisible(true)
+            id && setVisible(true)
           }}
           style={{ width: '100%' }}
           htmlType="submit"
@@ -290,6 +336,7 @@ const Content = () => {
     </SContent>
   )
 }
+
 export default Content
 
 const SContent = styled.div`

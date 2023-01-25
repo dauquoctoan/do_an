@@ -4,11 +4,16 @@ import { ApiClient } from '../../services'
 export const createLesson = (payload: any) => {
   return ApiClient.post('/lesson', payload)
 }
+export const updateLesson = (payload: any) => {
+  return ApiClient.put('/lesson', payload)
+}
 export const getLessons = (payload: any) => {
   return ApiClient.get('/lessons', payload)
 }
+export const delteLesson = (payload: any) => {
+  return ApiClient.delete('/lesson', payload)
+}
 ////old
-
 const path = apis.news
 
 export const getNews = (payload: any) => {

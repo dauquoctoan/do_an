@@ -5,6 +5,7 @@ import {
     handleResultError,
     handleResultSuccessNoPage,
     handleResultSuccess,
+    handleRemoveKeysNull,
 } from '../utils'
 
 export async function _Create(
@@ -36,6 +37,7 @@ export async function _Creates(
     const db = new modal(data)
     try {
         const modal = await db.save()
+        console.log(modal)
         return handleResultSuccessNoPage(createMessage.createSuccess(name), {
             ...modal._doc,
         })
@@ -43,17 +45,23 @@ export async function _Creates(
         return handleResultError(createMessage.createFail(name))
     }
 }
+
 export async function _Finds(
     modal: any,
     query: any,
-    paging: { limit: number; page: number },
     name: string = 'đối tượng',
     populate: string = ''
 ) {
-    paging = {
-        page: Number(paging.page) || DEFAULT_PAGE.page,
-        limit: Number(paging.limit) || DEFAULT_PAGE.limit,
+    query = handleRemoveKeysNull(query)
+    const paging = {
+        page: Number(query.page) || DEFAULT_PAGE.page,
+        limit: Number(query.limit) || DEFAULT_PAGE.limit,
     }
+
+    delete query['page']
+    delete query['limit']
+    delete query['search']
+
     const skip = (paging.page - 1) * paging.limit
     try {
         const modals = await modal
@@ -90,23 +98,26 @@ export async function _Find(modal: any, query: any, name: string) {
 
 export async function _FindByIdAndDelete(
     modal: any,
-    query: object,
+    query: { _id: string },
     name: string
 ) {
     return modal
-        .findByIdAndDelete(query)
+        .findByIdAndDelete({ _id: query._id })
         .then((result: any) => {
             if (result) {
+                console.log('error1')
                 return handleResultSuccessNoPage(
                     createMessage.deleteSuccess(name),
                     result
                 )
             } else {
-                return handleResultError(createMessage.findFail('id ' + name))
+                console.log('error2')
+                return handleResultError(createMessage.findFail(name))
             }
         })
         .catch((error: any) => {
-            return handleResultError(error)
+            console.log(error)
+            return handleResultError(createMessage.deleteFail(name))
         })
 }
 
@@ -117,8 +128,10 @@ export async function _FindByIdAndUpdate(
     },
     name: string
 ) {
+    const _id = query._id
+    delete query['_id']
     return modal
-        .findOneAndUpdate(query._id, query)
+        .findByIdAndUpdate(_id, query)
         .then((result: any) => {
             if (result) {
                 return handleResultSuccessNoPage(
@@ -126,10 +139,10 @@ export async function _FindByIdAndUpdate(
                     result
                 )
             } else {
-                return handleResultError(createMessage.updateFail('id ' + name))
+                return handleResultError(createMessage.updateFail(name))
             }
         })
         .catch((error: any) => {
-            return handleResultError(error)
+            return handleResultError(createMessage.updateFail(error))
         })
 }

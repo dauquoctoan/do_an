@@ -1,4 +1,4 @@
-import { AutoComplete, Button, Descriptions, Image } from 'antd'
+import { AutoComplete, Button, Descriptions, Image, Select } from 'antd'
 import Configs from 'configs'
 import { getTopics } from 'features/Account/api'
 import { ITopics } from 'features/Account/interface'
@@ -12,9 +12,7 @@ const ChoseTopic = () => {
   const dispatch = useDispatch()
   const [search, setSearch] = useState<string>('')
   const [topics, setTopics] = useState<ITopics[]>([])
-  // const [selected, setSelected] = useState<ITopics | undefined>(undefined)
   const selected = useSelector((state: RootState) => {
-    console.log(state)
     return state.lessonReducer.topic
   })
 
@@ -55,7 +53,7 @@ const ChoseTopic = () => {
 
   return (
     <SChoseTopic>
-      <AutoComplete
+      <Select
         options={topics}
         style={{ width: 200, flex: 2 }}
         onSelect={onSelect}

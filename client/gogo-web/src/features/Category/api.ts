@@ -1,6 +1,10 @@
 import { apis } from '../../configs/api'
 import { ApiClient } from '../../services'
 
+export const getTopics = (payload: any) => {
+  return ApiClient.get('/topics', payload)
+}
+
 export const getCategories = (payload: any) => {
   return ApiClient.get(apis.category.GET_CATEGORIES, payload)
 }

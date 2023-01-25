@@ -132,7 +132,16 @@ export const PHONE_REGEX =
 
 ///new
 export const type: any = {
-  1: 'Chọn một trong 4 đáp án',
-  2: 'Sắp xếp từ thành câu có nghĩa',
+  1: 'Chọn một trong 4 đáp án, có hình ảnh',
+  2: 'Chọn một trong 4 đáp án',
   3: 'Chọn các cặp đáp án',
+  4: 'Sắp xếp từ thành câu có nghĩa'
 }
+
+export const type_key: { choose_one_of_4_image: string, choose_one_of_4: string, choose_a_pair: string, sort: string } = {
+  "choose_one_of_4_image": '1',
+  "choose_one_of_4": '2',
+  "choose_a_pair": '3',
+  'sort': '4'
+}
+

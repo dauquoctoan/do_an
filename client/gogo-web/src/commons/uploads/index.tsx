@@ -114,7 +114,7 @@ const UploadComponent: React.FC<IProps> = ({
     let fileList = values.fileList.filter((value: any) => {
       return value.status === DEFINE_STATUS_FILE.DONE
     })
-
+    console.log('values', values)
     values?.fileList?.forEach((file: any, index: number) => {
       if (!file.status) {
         isDisplayImgError

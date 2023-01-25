@@ -264,7 +264,7 @@ const MENUS = [
     icon: <MenuStalls />,
   },
   {
-    label: R.strings().menu__category,
+    label: "Học phần",
     key: PATH.CATEGORY,
     icon: <MenuCategory />,
   },

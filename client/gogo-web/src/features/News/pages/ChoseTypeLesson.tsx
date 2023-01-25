@@ -1,4 +1,4 @@
-import { AutoComplete, Descriptions, Button } from 'antd'
+import { AutoComplete, Descriptions, Button, Select } from 'antd'
 import Configs from 'configs'
 import { type } from 'configs/constance'
 import { useDispatch, useSelector } from 'react-redux'
@@ -8,14 +8,15 @@ import styled from 'styled-components'
 
 const ChoseTypeLesson = () => {
   const dispatch = useDispatch()
+
   const lesson = useSelector((state: RootState) => {
     return state.lessonReducer
   })
-  const options = [
-    { _id: 1, value: 'Chọn một trong 4 đáp án' },
-    { _id: 2, value: 'Sắp xếp từ thành câu có nghĩa' },
-    { _id: 3, value: 'Chọn các cặp đáp án' },
-  ]
+
+  const options = Object.keys(type).map((item) => {
+    return { _id: item, value: type[item] }
+  })
+
   function onSelect(value: any) {
     const option: any = options.find((item) => {
       if (item.value === value) {
@@ -24,10 +25,13 @@ const ChoseTypeLesson = () => {
     })
     dispatch(setTypeTopic(option._id))
   }
+
   return (
     <IChoseTypeLesson>
-      <AutoComplete
+      <Select
         options={options}
+        clearIcon
+        allowClear
         style={{ width: 300 }}
         onSelect={onSelect}
         filterOption={(inputValue, option) =>

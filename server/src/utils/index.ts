@@ -113,6 +113,17 @@ export const createMessage = {
 
 export const handleSearchMongoose = (name: string, search: string) => {
     return {
-        [name]: { $regex: '.*' + search + '.*' },
+        [name]: { $regex: '.*' + search + '.*',$options: 'i'},
     }
+}
+
+export const handleRemoveKeysNull=(query:any)=>{
+    Object.keys(query).forEach(element => {
+        if(
+            !query[element]
+        ){
+            delete query[element]
+        }
+    });
+    return query
 }

@@ -14,25 +14,33 @@ export interface IOptions {
 }
 
 export interface IContent {
-  title: string
-  level: number
-  options: IOptions[]
-  answer?: number
-  answers?: number
+  title: string | null
+  level: number | null
+  options: IOptions[] | []
+  answer?: number | null
+  answers: string[] | []
 }
 
 export interface ILesson {
   index: number
   type: string | null
   topic: ITopic | null
-  content: IContent | null
+  content: IContent
+}
+
+const defaultContent = {
+  level: null,
+  options: [],
+  title: null,
+  answers: [],
+  answer: null,
 }
 
 let initialState: ILesson = {
   index: 1,
   type: null,
   topic: null,
-  content: null,
+  content: defaultContent
 }
 
 export const lessonSlice = createSlice({
@@ -42,6 +50,15 @@ export const lessonSlice = createSlice({
     setTopic: (state, action: PayloadAction<ITopic>) => {
       state.topic = action.payload
       state.index = 2
+    },
+    setAnswers: (state, action: PayloadAction<string>) => {
+      state.content = {
+        ...state.content,
+        answers: [...state.content.answers, action.payload]
+      }
+    },
+    setSortAnswers: (state, action: PayloadAction<string[]>) => {
+      state.content.answers = action.payload
     },
     setContent: (state, action: PayloadAction<IContent>) => {
       state.content = action.payload
@@ -68,7 +85,7 @@ export const lessonSlice = createSlice({
       state.index = 1
       state.type = null
       state.topic = null
-      state.content = null
+      state.content = defaultContent
     },
     setLesson: (state, action: PayloadAction<ILesson>) => {
       state.content = action.payload.content
@@ -87,5 +104,7 @@ export const {
   setContent,
   resetLesson,
   setLesson,
+  setAnswers,
+  setSortAnswers,
 } = lessonSlice.actions
 export default lessonSlice.reducer

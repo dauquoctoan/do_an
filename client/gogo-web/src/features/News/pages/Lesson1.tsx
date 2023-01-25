@@ -1,12 +1,13 @@
 import { Collapse, Input } from 'antd'
 import FormItem from 'antd/es/form/FormItem'
+import Configs from 'configs'
 import style from 'configs/style'
-import React from 'react'
 import styled from 'styled-components'
 import UploadComponent from '../../../commons/uploads'
 const { Panel } = Collapse
 
-const Lesson1 = ({ form }: { form: any }) => {
+const Lesson1 = ({ form, type }: { form: any, type: string }) => {
+  const id = Configs.getSearchParams().get('id')
   const options = [
     {
       name: 'option_1',
@@ -27,7 +28,7 @@ const Lesson1 = ({ form }: { form: any }) => {
   ]
   return (
     <SLesson1>
-      <Collapse style={{ width: '100%' }} collapsible={'icon'}>
+      <Collapse style={{ width: '100%' }} defaultActiveKey={id ? ['1', "2", "3", "4"] : []} collapsible={'icon'}>
         {options.map((item, i) => {
           const index = i + 1
           return (
@@ -50,7 +51,7 @@ const Lesson1 = ({ form }: { form: any }) => {
                   placeholder="Nhập vào tiêu đề"
                 />
               </FormItem>
-              <UploadComponent
+              {type === '1' && <UploadComponent
                 wrapperCol={style.layoutModal.wrapperCol}
                 labelCol={style.layoutModal.labelCol}
                 label={'Hình ảnh'}
@@ -63,7 +64,7 @@ const Lesson1 = ({ form }: { form: any }) => {
                     message: 'Vui lòng chọ hình ảnh minh họa',
                   },
                 ]}
-              />
+              />}
             </Panel>
           )
         })}

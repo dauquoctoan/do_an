@@ -4,7 +4,7 @@ var Schema = mongoose.Schema
 const Lesson = new Schema(
     {
         title: { type: String, required: true },
-        type: { type: Number, required: true },
+        type: { type: String, required: true },
         options: { type: Array, required: true },
         answer: { type: Number, required: false },
         answers: { type: Array, required: false },

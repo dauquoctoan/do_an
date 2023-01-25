@@ -98,20 +98,16 @@ const Account = () => {
     total: 0,
   })
 
-  const [loadingSwitch, setLoadingSwitch] = useState<ILoadingSwitch>({
-    loading: false,
-    id: 0,
-  })
-
   useEffect(() => {
     getData()
   }, [paging.page, filter])
 
-  const handleEdit = (account: ITopics) => {
+  const handleEdit = (topic: ITopics) => {
     const dataInit: any = {
-      desc: account.desc,
-      name: account.name,
-      picture: account.picture,
+      _id: topic._id,
+      desc: topic.desc,
+      name: topic.name,
+      picture: topic.picture,
     }
     setAccountDetail(dataInit)
     setVisible(true)
@@ -148,10 +144,6 @@ const Account = () => {
   }
 
   const handleChangeStatus = async (id: number) => {
-    setLoadingSwitch({
-      loading: true,
-      id: id,
-    })
     try {
       const res = await ChangeStatusAccount({ ID: id })
       if (res) {
@@ -160,10 +152,6 @@ const Account = () => {
     } catch (error) {
       console.log(error)
     } finally {
-      setLoadingSwitch({
-        loading: false,
-        id: 0,
-      })
     }
   }
 
@@ -174,7 +162,6 @@ const Account = () => {
         extra={
           <Button
             onClick={() => {
-              console.log(form.getFieldsValue())
               setVisible(true)
             }}
             type="primary"
