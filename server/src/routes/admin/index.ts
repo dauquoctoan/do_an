@@ -2,7 +2,13 @@ import { Router } from 'express'
 import adminController from '../../Controllers/adminController'
 import lessonController from '../../Controllers/lessonController'
 import { middleAuthenTication, validate } from '../../middleware'
-import { JCreateLesson, JCreatePart, JCreateTopic, JDelete, JUpdatePart } from '../../validation'
+import {
+    JCreateLesson,
+    JCreatePart,
+    JCreateTopic,
+    JDelete,
+    JUpdatePart,
+} from '../../validation'
 const router = Router()
 
 /* topic */
@@ -22,5 +28,8 @@ router.get('/parts', lessonController.getParts)
 router.post('/part', validate(JCreatePart), lessonController.createPart)
 router.put('/part', validate(JUpdatePart), lessonController.upadatePart)
 router.delete('/part', validate(JDelete), lessonController.deletePart)
+
+/* user */
+router.get('/users', lessonController.getUsers)
 
 export default router

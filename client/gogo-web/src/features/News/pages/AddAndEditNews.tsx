@@ -58,16 +58,16 @@ const AddAndEditNews = () => {
               </Panel>
             </Collapse>
             <Collapse
-              collapsible={lesson.index < 2 ? 'disabled' : 'icon'}
-              activeKey={lesson.index === 2 ? ['1'] : ['']}
+              collapsible={lesson.index < 3 ? 'disabled' : 'icon'}
+              activeKey={lesson.index === 3 ? ['1'] : ['']}
             >
               <Panel header="Chọn loại bài tập" key="1">
                 <ChoseTypeLesson />
               </Panel>
             </Collapse>
             <Collapse
-              collapsible={lesson.index < 3 ? 'disabled' : 'icon'}
-              activeKey={lesson.index === 3 ? ['1'] : ['']}
+              collapsible={lesson.index < 4 ? 'disabled' : 'icon'}
+              activeKey={lesson.index === 4 ? ['1'] : ['']}
             >
               <Panel
                 header={(lesson.type && type[lesson.type]) || 'card'}

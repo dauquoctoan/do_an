@@ -87,9 +87,8 @@ const Category = () => {
         let option = {}
         res?.data?.forEach((e: any) => {
           option = { ...option, [e._id]: e.name }
+          // option =
         })
-        console.log('option', option)
-        console.log('option1', res)
         setOptions(option)
       }
     } catch (error) {
@@ -103,13 +102,19 @@ const Category = () => {
 
   const getData = async () => {
     setLoading(true)
-    const res = await getParts({ page: paging.page, limit: paging.limit, ...filter })
+    const res = await getParts({
+      page: paging.page,
+      limit: paging.limit,
+      ...filter,
+    })
     setPartLessons(res.data)
     setLoading(false)
   }
 
   const handleCloseModal = () => {
     setVisible(false)
+    form.resetFields()
+    setPartDetail(null)
     getData()
   }
 
@@ -157,10 +162,10 @@ const Category = () => {
         select={[
           {
             width: 200,
-            placeholder: "Chủ đề",
+            placeholder: 'Chủ đề',
             key: 'type',
             data: options,
-          }
+          },
         ]}
       />
       <ContentScreen loading={loading} countFilter={partLessons.length}>

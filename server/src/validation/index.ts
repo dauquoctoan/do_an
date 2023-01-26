@@ -3,14 +3,14 @@ const _userName = Joi.string().alphanum().min(3).max(30)
 const _email = Joi.string().email()
 const _password = Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{3,30}$'))
 const _token = Joi.string().token()
-const _birth_year = Joi.number().integer().min(1900).max(2013)
+const _birth_year = Joi.number().integer().min(0).max(20)
 
 export const JCreateUser = Joi.object({
     name: _userName.required(),
     email: _email.required(),
     picture: Joi.string(),
     givenName: _userName,
-    typeAccount: Joi.number().required(),
+    typeAccount: Joi.number(),
     iat: Joi.string(),
     exp: Joi.string(),
     email_verified: Joi.string(),
@@ -40,7 +40,8 @@ export const JCreateLesson = Joi.object({
     answers: Joi.array(),
     status: Joi.string(),
     level: Joi.number().required(),
-    topic: Joi.string().required(),
+    // topic: Joi.string().required(),
+    part: Joi.string().required(),
     _id: Joi.string(),
 })
 
@@ -52,7 +53,7 @@ export const JUpdateLesson = Joi.object({
     answers: Joi.array(),
     status: Joi.string(),
     level: Joi.number().required(),
-    topic: Joi.string().required(),
+    part: Joi.string().required(),
     _id: Joi.string().required(),
 })
 
@@ -90,7 +91,7 @@ export const JCreatePart = Joi.object({
     title: Joi.string().required(),
     desc: Joi.string(),
     picture: Joi.string().required(),
-    topic: Joi.string().required()
+    topic: Joi.string().required(),
 })
 
 export const JUpdatePart = Joi.object({
@@ -98,5 +99,5 @@ export const JUpdatePart = Joi.object({
     title: Joi.string().required(),
     desc: Joi.string(),
     picture: Joi.string().required(),
-    topic: Joi.string().required()
+    topic: Joi.string().required(),
 })

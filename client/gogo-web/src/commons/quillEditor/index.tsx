@@ -8,8 +8,6 @@ import 'react-quill/dist/quill.snow.css'
 import 'quill-emoji/dist/quill-emoji.css'
 import 'react-quill/dist/quill.snow.css'
 import './styles.css'
-import React from 'react'
-import { useDebounce } from 'commons/hooks/Debounce'
 
 Quill.register('modules/emoji', Emoji)
 
@@ -42,7 +40,6 @@ export default function Editor(props: EditorProps) {
 
   const onChange = (content: string) => {
     setValue(content)
-
     if (props.onChange) {
       props.onChange({
         html: content,

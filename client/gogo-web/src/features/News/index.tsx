@@ -20,7 +20,13 @@ import { renderText } from '../../utils/functions'
 import history from '../../utils/history'
 import R from '../../utils/R'
 import { DataType } from '../Stalls/interface'
-import { changeStatusNews, deleteNews, delteLesson, getLessons, getNews } from './api'
+import {
+  changeStatusNews,
+  deleteNews,
+  delteLesson,
+  getLessons,
+  getNews,
+} from './api'
 import { INews } from './interface'
 
 interface ILoadingChecked {
@@ -74,10 +80,18 @@ const News = () => {
     },
     {
       title: 'Chủ đề',
-      key: 'topic',
-      dataIndex: 'topic',
-      render: (topic: any, record: any) => (
-        <span>{renderText(topic?.name)}</span>
+      key: 'part',
+      dataIndex: 'part',
+      render: (part: any, record: any) => (
+        <span>{renderText(part?.topic.name)}</span>
+      ),
+    },
+    {
+      title: 'Học phần',
+      key: 'part',
+      dataIndex: 'part',
+      render: (part: any, record: any) => (
+        <span>{renderText(part?.title)}</span>
       ),
     },
     {
@@ -114,10 +128,13 @@ const News = () => {
       ),
     },
   ]
+
   const handleEdit = (item: any) => {
     let data: ILesson
-    if (item.type === type_key.choose_one_of_4_image || item.type === type_key.choose_one_of_4) {
-      console.log('data0', item)
+    if (
+      item.type === type_key.choose_one_of_4_image ||
+      item.type === type_key.choose_one_of_4
+    ) {
       data = {
         topic: {
           _id: item?.topic?._id,
@@ -125,6 +142,7 @@ const News = () => {
           name: item?.topic?.name,
           picture: item?.topic?.picture,
         },
+        part: '',
         content: {
           level: item.level,
           title: item.title,
@@ -135,14 +153,12 @@ const News = () => {
             { title: item.options[3].title, picture: item.options[3].picture },
           ],
           answer: item.answer,
-          answers: []
+          answers: [],
         },
         index: 1,
         type: item.type,
       }
-      console.log('data01', data)
-    }
-    else if (item.type === type_key.sort) {
+    } else if (item.type === type_key.sort) {
       data = {
         topic: {
           _id: item?.topic?._id,
@@ -150,6 +166,7 @@ const News = () => {
           name: item?.topic?.name,
           picture: item?.topic?.picture,
         },
+        part: '',
         content: {
           level: item.level,
           title: item.title,
@@ -168,12 +185,13 @@ const News = () => {
           name: null,
           picture: null,
         },
+        part: '',
         content: {
           level: null,
           title: null,
           options: [],
           answer: null,
-          answers: []
+          answers: [],
         },
         index: 1,
         type: null,
@@ -204,7 +222,7 @@ const News = () => {
     getData()
   }, [filter, paging.page])
 
-  const handleDelete = (e: any) => { }
+  const handleDelete = (e: any) => {}
 
   return (
     <ContainScreenStyled>
@@ -228,10 +246,10 @@ const News = () => {
         select={[
           {
             width: 200,
-            placeholder: "Loại bài tập",
+            placeholder: 'Loại bài tập',
             key: 'type',
             data: TYPE_LESSON,
-          }
+          },
         ]}
         datePicker={{ width: 300 }}
         onChangeFilter={(e: any) => {

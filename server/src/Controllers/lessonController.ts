@@ -11,6 +11,7 @@ import {
     _Finds,
 } from '../service'
 import { handleSearchMongoose } from '../utils'
+import User from '../models/User'
 
 class lessonController {
     async createCard(req: any, res: any) {
@@ -59,13 +60,20 @@ class lessonController {
         res.json(result)
     }
 
-
     async getLesson(req: any, res: any) {
         const result = await _Finds(
             Lesson,
-            { ...handleSearchMongoose('title', req.query.search || ''), ...req.query },
+            {
+                ...handleSearchMongoose('title', req.query.search || ''),
+                ...req.query,
+            },
             'chủ đề',
-            'topic'
+            {
+                path: 'part',
+                populate: {
+                    path: 'topic',
+                },
+            }
         )
         res.json(result)
     }
@@ -73,7 +81,10 @@ class lessonController {
     async getParts(req: any, res: any) {
         const result = await _Finds(
             Part,
-            { ...handleSearchMongoose('title', req.query.search || ''), ...req.query },
+            {
+                ...handleSearchMongoose('title', req.query.search || ''),
+                ...req.query,
+            },
             'học phần',
             'topic'
         )
@@ -92,6 +103,18 @@ class lessonController {
 
     async deletePart(req: any, res: any) {
         const result = await _FindByIdAndDelete(Part, req?.body, 'học phần')
+        res.json(result)
+    }
+    /* user */
+    async getUsers(req: any, res: any) {
+        const result = await _Finds(
+            User,
+            {
+                ...handleSearchMongoose('name', req.query.search || ''),
+                ...req.query,
+            },
+            'Người dùng'
+        )
         res.json(result)
     }
 }

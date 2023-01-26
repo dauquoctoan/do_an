@@ -1,6 +1,7 @@
 var mongoose = require('mongoose')
 var Schema = mongoose.Schema
 
+/* Creating a new schema for the Topic model. */
 const Topic = new Schema(
     {
         name: { type: String, required: true },

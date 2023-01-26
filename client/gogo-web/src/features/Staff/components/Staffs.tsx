@@ -1,24 +1,14 @@
-import {
-  Button,
-  Card,
-  Descriptions,
-  message,
-  Popconfirm,
-  Spin,
-  Switch,
-  Tag,
-  Typography,
-} from 'antd'
+import { Button, Card, message, Spin, Switch, Tag, Typography } from 'antd'
 import { EditOutlined, DeleteFilled } from '@ant-design/icons'
 import { ColumnsType } from 'antd/es/table'
 import Table from 'commons/table'
 import Configs from 'configs'
-import { GENDER, IS_ACTIVE } from 'configs/constance'
+import { GENDER, IS_ACTIVE, type_account } from 'configs/constance'
 import { IPagination } from 'interface'
 import { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { convertTimeStampToString } from 'utils/TimerHelper'
-import { changeStatus, deleteStaff, getListStaff } from '../StaffAPI'
+import { changeStatus, deleteStaff, getListStaff, getUsers } from '../StaffAPI'
 import {
   IFilters,
   IFormatedListStaff,
@@ -29,21 +19,8 @@ import { useHistory } from 'react-router-dom'
 import PageHeader from 'commons/pageHeader'
 import ContentScreen from 'commons/contentScreen'
 import R from 'utils/R'
+import FilterHeader from 'commons/filter'
 const { Text } = Typography
-
-const StyledDiv = styled.div`
-  background-color: white;
-  padding: 8px 5px;
-  margin: 5px;
-`
-const StyledCard = styled(Card)`
-  background-color: white;
-  border-color: '#1890ff';
-  border-top: 'none';
-`
-const TextStyled = styled(Text)`
-  padding-left: 10px;
-`
 
 function Staffs() {
   const [params, setparams] = useState<IListStaffPayload>({
@@ -59,23 +36,25 @@ function Staffs() {
     total: 0,
   })
   const [isLoading, setisLoading] = useState<boolean>(false)
-  const [listStaff, setlistStaff] = useState<IFormatedListStaff[]>([])
+  const [users, setUsers] = useState<any[]>([])
   const history = useHistory()
   const columns: ColumnsType<IFormatedListStaff> = [
     {
+      width: 10,
       title: 'STT',
-      dataIndex: 'index',
-      render: (index) => <Text>{Configs.renderText(index)}</Text>,
+      dataIndex: 'stt',
+      key: '',
+      render: (index) => <span>{Configs.renderText(index)}</span>,
     },
     {
-      title: 'Tên nhân viên',
+      title: 'Tên người dùng',
       dataIndex: 'name',
-      render: (index) => <Text>{Configs.renderText(index)}</Text>,
+      render: (name) => <Text>{Configs.renderText(name)}</Text>,
     },
     {
-      title: 'Số điện thoại',
-      dataIndex: 'phone',
-      render: (phone) => <Text>{Configs.renderText(phone)}</Text>,
+      title: 'Email',
+      dataIndex: 'email',
+      render: (email) => <Text>{Configs.renderText(email)}</Text>,
     },
     {
       title: 'Giới tính',
@@ -84,15 +63,15 @@ function Staffs() {
     },
     {
       width: 130,
-      title: 'Địa chỉ',
-      dataIndex: 'provinceName',
-      render: (index) => <Text>{Configs.renderText(index)}</Text>,
+      title: 'Tuổi',
+      dataIndex: 'age',
+      render: (age) => <Text>{Configs.renderText(age)}</Text>,
     },
     {
-      title: 'Ngày sinh',
-      dataIndex: 'dob',
-      render: (dob) => (
-        <Text>{convertTimeStampToString(Configs.renderText(dob))}</Text>
+      title: 'Loại tài khoản',
+      dataIndex: 'typeAccount',
+      render: (typeAccount) => (
+        <Text>{Configs.renderText(type_account[typeAccount])}</Text>
       ),
     },
     {
@@ -102,9 +81,9 @@ function Staffs() {
       dataIndex: 'status',
       render: (status) => {
         switch (status) {
-          case IS_ACTIVE.ACTIVE:
+          case '1':
             return <Tag color={'cyan'}>Đang hoạt động</Tag>
-          case IS_ACTIVE.INACTIVE:
+          case '0':
             return <Tag color={'red'}>Ngừng hoạt động</Tag>
         }
       },
@@ -113,139 +92,14 @@ function Staffs() {
 
   const getData = async () => {
     setisLoading(true)
-    try {
-      const res = await getListStaff(params)
-      if (res.data) {
-        const dataStaff = res.data?.data.map((item, index) => ({
-          ...item,
-          key: index,
-          index: index + 1,
-        }))
-        setPaging({
-          page: res.data?.page,
-          limit: res.data?.limit,
-          total: res.data?.total,
-        })
-        setlistStaff(dataStaff)
-      }
-    } catch (err) {
-      console.log(err)
-    } finally {
-      setisLoading(false)
-    }
+    const res = await getUsers({ limit: paging.limit, page: paging.page })
+    setUsers(res.data)
+    setisLoading(false)
   }
 
   useEffect(() => {
     getData()
   }, [params])
-
-  const handleChangeStatus = async (id: number) => {
-    try {
-      const res = await changeStatus(id)
-      if (res.message == 'Thành công') {
-        getData()
-        message.success('Thay đổi trạng thái thành công')
-      }
-    } catch (err) {
-      console.log(err)
-    }
-  }
-
-  const handleDeleteStaff = async (id: number) => {
-    try {
-      const res = await deleteStaff(id)
-      if (res.message == 'Thành công') {
-        getData()
-        message.success('Xoá nhân viên thành công')
-      }
-    } catch (err) {
-      console.log(err)
-    }
-  }
-
-  const staffInfo = (record: IFormatedListStaff) => {
-    return (
-      <StyledCard
-        bordered
-        actions={[
-          <>
-            <Switch
-              size="small"
-              checked={record.status == IS_ACTIVE.ACTIVE ? true : false}
-              onChange={() => handleChangeStatus(record.id)}
-            />
-            {record.status == IS_ACTIVE.ACTIVE ? (
-              <TextStyled type="success"> Đang hoạt động </TextStyled>
-            ) : (
-              <TextStyled type="danger">Ngừng hoạt động </TextStyled>
-            )}
-          </>,
-          <Button
-            type="text"
-            size="large"
-            icon={<EditOutlined />}
-            style={{ color: '#1abc9c' }}
-            onClick={() =>
-              history.push({
-                pathname: `/staff/add-edit`,
-                state: {
-                  data: record,
-                },
-              })
-            }
-          >
-            Chỉnh sửa
-          </Button>,
-          <Popconfirm
-            title={'Bạn chắc chắn muốn xoá?'}
-            onConfirm={async () => {
-              handleDeleteStaff(record.id)
-            }}
-            okText="Xoá"
-            cancelText="Quay lại"
-            okButtonProps={{
-              danger: true,
-              type: 'primary',
-            }}
-          >
-            <Button
-              type="text"
-              size="large"
-              icon={<DeleteFilled />}
-              style={{ color: 'red' }}
-            >
-              Xoá nhân viên
-            </Button>
-          </Popconfirm>,
-        ]}
-      >
-        <Descriptions>
-          <Descriptions.Item label="Tên nhân viên">
-            {Configs.renderText(record.name)}
-          </Descriptions.Item>
-          <Descriptions.Item label="Ngày sinh" span={3}>
-            {Configs.renderText(convertTimeStampToString(record.dob))}
-          </Descriptions.Item>
-          <Descriptions.Item label="Số điện thoại">
-            {Configs.renderText(record.phone)}
-          </Descriptions.Item>
-          <Descriptions.Item label="Trạng thái" span={3}>
-            {record.status == IS_ACTIVE.INACTIVE
-              ? 'Ngừng hoạt động'
-              : 'Đang hoạt động'}
-          </Descriptions.Item>
-          <Descriptions.Item label="Giới tính">
-            {record.gender == GENDER.MALE ? 'Nam' : 'Nữ'}
-          </Descriptions.Item>
-          <Descriptions.Item label="Địa chỉ">
-            {`${Configs.renderText(record.wardName)}, ${Configs.renderText(
-              record.districtName
-            )}, ${Configs.renderText(record.provinceName)}`}
-          </Descriptions.Item>
-        </Descriptions>
-      </StyledCard>
-    )
-  }
 
   return (
     <>
@@ -263,23 +117,34 @@ function Staffs() {
           </Button>
         }
       />
-      <StyledDiv>
-        <StaffFilters
-          submitFieldValue={(value: IFilters) => setparams(value)}
-        />
-      </StyledDiv>
+      <FilterHeader
+        size="middle"
+        search={{
+          placeholder: 'Nhập vào tên học phần',
+        }}
+        onChangeFilter={(filter: any) => {
+          // setFilter(filter)
+        }}
+        // select={[
+        //   {
+        //     width: 200,
+        //     placeholder: 'Chủ đề',
+        //     key: 'type',
+        //     data: options,
+        //   },
+        // ]}
+      />
       <ContentScreen countFilter={paging.total}>
         <StyledDiv>
           <Spin spinning={isLoading}>
             <Table
-              border
-              data={listStaff}
+              border={true}
               columns={columns}
-              expandedRowRender={(record) => staffInfo(record)}
-              onChangePram={(page: number) => {
-                setparams({ ...params, page: page })
-                setPaging({ ...paging, page })
-              }}
+              data={users}
+              size={'middle'}
+              onChangePram={(page: number) =>
+                setPaging({ ...paging, page: page })
+              }
               pagination={paging}
             />
           </Spin>
@@ -290,6 +155,17 @@ function Staffs() {
 }
 
 export default Staffs
-function useDebounce(searchTerm: any, arg1: number) {
-  throw new Error('Function not implemented.')
-}
+
+const StyledDiv = styled.div`
+  background-color: white;
+  padding: 8px 5px;
+  margin: 5px;
+`
+const StyledCard = styled(Card)`
+  background-color: white;
+  border-color: '#1890ff';
+  border-top: 'none';
+`
+const TextStyled = styled(Text)`
+  padding-left: 10px;
+`

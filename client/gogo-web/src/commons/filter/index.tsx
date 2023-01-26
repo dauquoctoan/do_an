@@ -45,7 +45,7 @@ const SelectItem = ({
     >
       {data &&
         Object.keys(data).map((key: string) => (
-          <Option key={Number(key)}>{data[key]}</Option>
+          <Option key={key}>{data[key]}</Option>
         ))}
     </Select>
   )

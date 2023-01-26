@@ -13,7 +13,6 @@ interface IProps {
 }
 
 function StaffFilters(props: IProps) {
-  const history = useHistory()
   const [listProvince, setlistProvince] = useState<IAddress[]>([])
   const [values, setvalues] = useState<IFilters>({
     searchKey: undefined,
@@ -84,16 +83,6 @@ function StaffFilters(props: IProps) {
             </Option>
           </Select>
         </Col>
-        {/* <Col>
-          <Button
-            type="primary"
-            onClick={() => {
-              history.push(`/staff/add-edit`)
-            }}
-          >
-            <PlusCircleOutlined /> Thêm mới
-          </Button>
-        </Col> */}
       </Row>
     </>
   )

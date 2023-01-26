@@ -50,7 +50,7 @@ export async function _Finds(
     modal: any,
     query: any,
     name: string = 'đối tượng',
-    populate: string = ''
+    populate: string | object | null = null
 ) {
     query = handleRemoveKeysNull(query)
     const paging = {

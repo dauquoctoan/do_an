@@ -208,7 +208,6 @@ function Events() {
         ]}
         datePicker={{ width: 300 }}
         onChangeFilter={(filter: any) => {
-          console.log(filter)
           setparams({
             ...params,
             page: 1,
@@ -218,13 +217,13 @@ function Events() {
             toDate: filter.toDate,
           })
         }}
-        // button={{
-        //   width: 130,
-        //   type: 'add',
-        //   title: 'Thêm mới',
-        //   onClick: () =>
-        //     history.push({ pathname: PATH_ADMIN.EVENT_ADD_UPDATE }),
-        // }}
+        button={{
+          width: 130,
+          type: 'add',
+          title: 'Thêm mới',
+          onClick: () =>
+            history.push({ pathname: PATH_ADMIN.EVENT_ADD_UPDATE }),
+        }}
       />
       <ContentScreen loading={isLoading} countFilter={paging.total}>
         <Table

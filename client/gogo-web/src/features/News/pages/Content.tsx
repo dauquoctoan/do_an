@@ -27,12 +27,15 @@ const Content = () => {
   const [visible, setVisible] = useState(false)
   const dispatch = useDispatch()
 
-  const { content, topic, type } = useSelector((state: RootState) => {
+  const { content, topic, type, part } = useSelector((state: RootState) => {
     return state.lessonReducer
   })
 
   function handleFinish(form: any) {
-    if (type === type_key.choose_one_of_4_image || type === type_key.choose_one_of_4) {
+    if (
+      type === type_key.choose_one_of_4_image ||
+      type === type_key.choose_one_of_4
+    ) {
       const data: IContent = {
         answer: form.answer,
         level: form.level,
@@ -74,7 +77,10 @@ const Content = () => {
 
   async function handleCreteLesson() {
     let lesson = null
-    if (type === type_key.choose_one_of_4 || type === type_key.choose_one_of_4_image) {
+    if (
+      type === type_key.choose_one_of_4 ||
+      type === type_key.choose_one_of_4_image
+    ) {
       lesson = {
         title: content?.title,
         type: type,
@@ -98,7 +104,7 @@ const Content = () => {
         ],
         answer: Number(content?.answer),
         level: content?.level,
-        topic: topic?._id,
+        part: part,
       }
     }
     if (type === type_key.sort) {
@@ -108,37 +114,48 @@ const Content = () => {
         options: content.answers,
         answers: content.answers,
         level: content?.level,
-        topic: topic?._id,
+        part: part,
       }
     }
-    const result = id ? await updateLesson({ ...lesson, _id: id }) : await createLesson(lesson)
+    const result = id
+      ? await updateLesson({ ...lesson, _id: id })
+      : await createLesson(lesson)
     message.success(result.message)
     dispatch(resetLesson())
     setVisible(false)
     history.push('/lesson')
   }
   useEffect(() => {
-    if (id && content.title && (type === type_key.choose_one_of_4_image || type === type_key.choose_one_of_4)) {
+    if (
+      id &&
+      content.title &&
+      (type === type_key.choose_one_of_4_image ||
+        type === type_key.choose_one_of_4)
+    ) {
       form.setFieldsValue({
         title: content?.title,
         level: content?.level,
         answer: String(content?.answer),
         option_1: content?.options && content?.options[0]?.title,
-        picture_1: content?.options && content?.options[0]?.picture
-          ? Configs.getDefaultFileList(content?.options[0].picture)
-          : [],
+        picture_1:
+          content?.options && content?.options[0]?.picture
+            ? Configs.getDefaultFileList(content?.options[0].picture)
+            : [],
         option_2: content?.options && content?.options[1]?.title,
-        picture_2: content?.options && content?.options[1]?.picture
-          ? Configs.getDefaultFileList(content?.options[1].picture)
-          : [],
+        picture_2:
+          content?.options && content?.options[1]?.picture
+            ? Configs.getDefaultFileList(content?.options[1].picture)
+            : [],
         option_3: content?.options && content?.options[2].title,
-        picture_3: content?.options && content?.options[2].picture
-          ? Configs.getDefaultFileList(content?.options[2].picture)
-          : [],
+        picture_3:
+          content?.options && content?.options[2].picture
+            ? Configs.getDefaultFileList(content?.options[2].picture)
+            : [],
         option_4: content?.options && content?.options[3].title,
-        picture_4: content?.options && content?.options[3].picture
-          ? Configs.getDefaultFileList(content?.options[3].picture)
-          : [],
+        picture_4:
+          content?.options && content?.options[3].picture
+            ? Configs.getDefaultFileList(content?.options[3].picture)
+            : [],
       })
     }
     if (id && content.title && type === type_key.sort) {
@@ -217,14 +234,12 @@ const Content = () => {
                 ]}
               />
             </FormItem>
-            {
-              (type === "1" || type === '2') && <Lesson1 form={form} type={type} />
-            }
-            {
-              type === '4' && <Lesson3 form={form} />
-            }
-            {
-              type !== '4' && <FormItem
+            {(type === '1' || type === '2') && (
+              <Lesson1 form={form} type={type} />
+            )}
+            {type === '4' && <Lesson3 form={form} />}
+            {type !== '4' && (
+              <FormItem
                 wrapperCol={style.layoutModal.wrapperCol}
                 labelCol={style.layoutModal.labelCol}
                 className="form-item"
@@ -266,7 +281,7 @@ const Content = () => {
                   ]}
                 />
               </FormItem>
-            }
+            )}
           </div>
           <div className="wrap-action">
             <Button

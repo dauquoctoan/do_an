@@ -18,7 +18,7 @@ const registerSchema = object({
         .nonempty("Tên không được bỏ trống")
         .max(32, "Tên quá độ dài tối đa"),
     email: string().nonempty("Email bắt buộc điền").email("Email không hợp lệ"),
-    passWord: string()
+    password: string()
         .nonempty("Vui lòng nhập mật khẩu")
         .min(8, "Mật khẩu phải tối thiểu 8 ký tự")
         .max(32, "Mật khẩu không được dài quá 32 ký tự"),
@@ -137,14 +137,14 @@ const Register = () => {
                                 label="Password"
                                 fullWidth
                                 required
-                                type="passWord"
-                                error={!!errors["passWord"]}
+                                type="password"
+                                error={!!errors["password"]}
                                 helperText={
-                                    errors["passWord"]
-                                        ? errors["passWord"].message
+                                    errors["password"]
+                                        ? errors["password"].message
                                         : ""
                                 }
-                                {...register("passWord")}
+                                {...register("password")}
                             />
                             <LoadingButton
                                 variant="contained"

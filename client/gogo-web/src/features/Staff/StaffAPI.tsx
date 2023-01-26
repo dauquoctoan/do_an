@@ -9,6 +9,11 @@ import {
   ResponseData,
 } from './StaffInterface'
 
+export const getUsers = (payload: any) => {
+  return ApiClient.get(`/users`, payload)
+}
+//old
+
 export const getListStaff = (
   payload: IListStaffPayload
 ): Promise<ResponseData<Idata<IListStaff[]>>> => {
