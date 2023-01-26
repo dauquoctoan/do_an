@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react'
 import { Form, FormInstance, Modal, Upload } from 'antd'
 import Configs from '../../configs'
 import message from '../message'
-import Cookies from 'js-cookie'
 import { IFile, IProps } from './interface'
 
 const DEFINE_STATUS_FILE = {
@@ -111,10 +110,10 @@ const UploadComponent: React.FC<IProps> = ({
   }
 
   const handleChange = (values: any) => {
+    console.log('values', values)
     let fileList = values.fileList.filter((value: any) => {
       return value.status === DEFINE_STATUS_FILE.DONE
     })
-    console.log('values', values)
     values?.fileList?.forEach((file: any, index: number) => {
       if (!file.status) {
         isDisplayImgError
@@ -122,10 +121,7 @@ const UploadComponent: React.FC<IProps> = ({
           : values.fileList.splice(index, 1)
       }
       if (file.response && file.response.status === 0) {
-        // message({
-        //   type: 'error',
-        //   content: file.response.message,
-        // })
+        message.error('Lỗi tải ảnh')
       }
     })
 

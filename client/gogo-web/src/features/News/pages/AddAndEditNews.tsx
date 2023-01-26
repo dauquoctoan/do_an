@@ -13,6 +13,7 @@ import { ContainScreenStyled } from '../../../global-styled'
 import ChoseTopic from './ChoseTopic'
 import ChoseTypeLesson from './ChoseTypeLesson'
 import Content from './Content'
+import PartLesson from './PartLesson'
 
 const AddAndEditNews = () => {
   const id = Configs.getSearchParams().get('id')
@@ -22,11 +23,11 @@ const AddAndEditNews = () => {
     return state.lessonReducer
   })
 
-  useEffect(()=>{
-    if(id && !lesson.content){
+  useEffect(() => {
+    if (id && !lesson.content) {
       history.push('/lesson')
     }
-  },[])
+  }, [])
 
   return (
     <ContainScreenStyled>
@@ -46,6 +47,14 @@ const AddAndEditNews = () => {
             >
               <Panel header="Chọn chủ đề" key="1">
                 <ChoseTopic />
+              </Panel>
+            </Collapse>
+            <Collapse
+              collapsible={lesson.index < 2 ? 'disabled' : 'icon'}
+              activeKey={lesson.index === 2 ? ['1'] : ['']}
+            >
+              <Panel header="Chọn học phần" key="1">
+                <PartLesson />
               </Panel>
             </Collapse>
             <Collapse

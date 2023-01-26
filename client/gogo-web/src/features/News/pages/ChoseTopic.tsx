@@ -57,6 +57,12 @@ const ChoseTopic = () => {
         options={topics}
         style={{ width: 200, flex: 2 }}
         onSelect={onSelect}
+        optionFilterProp="children"
+        filterOption={(input: any, option: any) =>
+          (option?.label ?? '')
+            .toLowerCase()
+            .includes(input.toLowerCase())
+        }
         onChange={setSearch}
         placeholder="Nhập vào tên chủ đề"
         className="autocomplete"

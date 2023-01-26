@@ -4,7 +4,7 @@ import style from '../../../configs/style'
 import { FormStyled } from '../../../global-styled'
 import R from '../../../utils/R'
 import Configs from '../../../configs'
-import { createCategory, getTopics, updateCategory } from '../api'
+import { createPart, getTopics, updateParts } from '../api'
 import message from '../../../commons/message'
 import { useEffect, useState } from 'react'
 import { FormInstance } from 'antd/es/form'
@@ -14,30 +14,16 @@ import { ITopics } from 'features/Account/interface'
 import { IPart } from '../interface'
 
 const AddEditCategory = ({
-  detailCategory,
+  detailPartLesson,
   form,
   handleCloseModal,
 }: {
-  detailCategory: any
+  detailPartLesson: IPart | null
   handleCloseModal: () => void
   form: FormInstance
 }) => {
   const [search, setSearch] = useState<string>('')
-  const [topics, setTopics] = useState<ITopics[]>([])
-
-  const onSelect = (data: any) => {
-    const topicSelected: any = topics.find((item: any) => {
-      if (item.name === data) {
-        const itemSlect: ITopic = {
-          name: item.name || null,
-          desc: item.desc || null,
-          picture: item.picture || null,
-          _id: item._id || null,
-        }
-        return itemSlect
-      }
-    })
-  }
+  const [topics, setTopics] = useState<{ value: string, label: string }[]>([])
 
   const getTopic = async () => {
     try {
@@ -46,7 +32,7 @@ const AddEditCategory = ({
       })
       if (res) {
         const options = res?.data?.map((e: any) => {
-          return { ...e, value: e.name, title: e.name }
+          return { value: e._id, label: e.name }
         })
         setTopics(options)
       }
@@ -62,37 +48,27 @@ const AddEditCategory = ({
 
 
   const handleFinish = async (Form: any) => {
-    console.log('Form', Form)
     const data: IPart = {
       title: Form.title,
       topic: Form.topic,
-      picture: Form.picture,
+      picture: Form.picture[0].response.data[0],
       desc: Form.desc
     }
-    try {
-      // const res = detailCategory
-      //   ? await updateCategory({ ...data, id: detailCategory.id })
-      //   : await createCategory(data)
-      // if (res) {
-      //   message.success('Thêm card hàng thành công')
-      //   form.resetFields()
-      //   handleCloseModal()
-      // }
-    } catch (error) {
-      console.log(error)
-    }
+    const res = detailPartLesson ? await updateParts({ ...data, _id: detailPartLesson._id }) : await createPart(data)
+    message.success(res.message)
+    handleCloseModal()
   }
 
   useEffect(() => {
     form.setFieldsValue({
-      ...detailCategory,
-      imageUrl:
-        detailCategory?.imageUrl?.length > 0
-          ? Configs.getDefaultFileList(detailCategory?.imageUrl)
+      ...detailPartLesson,
+      topic: typeof detailPartLesson?.topic !== 'string' && detailPartLesson?.topic?._id,
+      picture:
+        detailPartLesson
+          ? Configs.getDefaultFileList(detailPartLesson?.picture)
           : [],
-      status: detailCategory?.status === 1 ? true : false,
     })
-  }, [detailCategory])
+  }, [detailPartLesson])
 
   return (
     <FormStyled labelAlign={'left'} form={form} onFinish={handleFinish}>
@@ -149,7 +125,6 @@ const AddEditCategory = ({
       >
         <Select
           options={topics}
-          onSelect={onSelect}
           onChange={setSearch}
           placeholder="Nhập vào tên chủ đề"
           className="autocomplete"
@@ -169,20 +144,9 @@ const AddEditCategory = ({
           },
         ]}
       />
-      {detailCategory && (
-        <FormItem
-          wrapperCol={style.layoutModal.wrapperCol}
-          labelCol={style.layoutModal.labelCol}
-          className="form-item"
-          name="status"
-          valuePropName="checked"
-        >
-          <Checkbox>Bật trạng thái hoạt động</Checkbox>
-        </FormItem>
-      )}
       <div style={{ display: 'flex', justifyContent: 'center' }}>
         <Button htmlType="submit" type="primary">
-          {detailCategory ? 'Sửa' : 'Thêm'}
+          {detailPartLesson ? 'Sửa' : 'Thêm'}
         </Button>
       </div>
     </FormStyled>

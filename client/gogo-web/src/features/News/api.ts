@@ -20,6 +20,10 @@ export const getNews = (payload: any) => {
   return ApiClient.get(path.GET_NEWS, payload)
 }
 
+export const getPartLessons = (payload: any) => {
+  return ApiClient.get('/parts', payload)
+}
+
 export const createNews = (payload: any) => {
   return ApiClient.post(path.CREATE_NEWS, payload)
 }

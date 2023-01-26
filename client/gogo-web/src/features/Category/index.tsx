@@ -5,17 +5,15 @@ import ContentScreen from '../../commons/contentScreen'
 import Table from '../../commons/table'
 import Configs from '../../configs'
 import { ContainScreenStyled, ModalStyled } from '../../global-styled'
-import R from '../../utils/R'
-// import AddAndEditAccount from './components/AddAndEditAccount'
-import { Button, Form, Switch } from 'antd'
+import { Button, Form } from 'antd'
 import message from '../../commons/message'
 import PageHeader from '../../commons/pageHeader'
 import { IPagination } from '../../interface'
-// import { IAccount, IFormAddUpdateAccount, ILoadingSwitch } from './interface'
-// import { ChangeStatusAccount, deleteAccount, getAccounts } from './api'
-import { deleteCategory, getCategories, updateCategory } from './api'
+import { deletePart, getParts, getTopics } from './api'
 import AddEditCategory from './components/AddEditCategory'
 import { IPart } from './interface'
+import FilterHeader from 'commons/filter'
+import { TYPE_LESSON } from 'configs/constance'
 
 const Category = () => {
   const [form] = Form.useForm()
@@ -27,25 +25,17 @@ const Category = () => {
       render: (text) => <span>{Configs.renderText(text)}</span>,
     },
     {
-      title: 'Tên',
-      dataIndex: 'name',
-      key: 'name',
+      title: 'Tiêu đề',
+      dataIndex: 'title',
+      key: 'title',
       render: (text) => <span>{Configs.renderText(text)}</span>,
     },
     {
-      title: 'Trạng thái',
-      key: 'status',
-      dataIndex: 'status',
-      render: (status: number, record: any) => (
-        <span>
-          <Switch
-            onClick={() => {
-              changeStatus(record)
-            }}
-            size="small"
-            checked={status === 1 ? true : false}
-          />
-        </span>
+      title: 'topic',
+      key: 'topic',
+      dataIndex: 'topic',
+      render: (topic: any, record: any) => (
+        <span>{Configs.renderText(topic.name)}</span>
       ),
     },
     {
@@ -64,10 +54,9 @@ const Category = () => {
             }}
             onClick={(e: any) => (e === 'edit' ? handleEdit(record) : null)}
             confirm={{
-              // title: R.strings().account__title__confirm_delete,
-              title: 'Bạn có chắc chắn muốn xoá ngành hàng này không?',
+              title: 'Bạn có chắc chắn muốn xóa học phần này không?',
               handleConfirm: async () => {
-                await handleDelete(record.id)
+                await handleDelete(record._id)
                 getData()
               },
             }}
@@ -78,76 +67,70 @@ const Category = () => {
   ]
   const [loading, setLoading] = useState<boolean>(false)
   const [visible, setVisible] = useState<boolean>()
-  const [categoryDetail, setCategoryDetail] = useState<IPart | null>(null)
-  const [categories, setCategories] = useState<IPart[]>([])
+  const [partDetail, setPartDetail] = useState<IPart | null>(null)
+  const [partLessons, setPartLessons] = useState<IPart[]>([])
   const [filter, setFilter] = useState({})
   const [paging, setPaging] = useState<IPagination>({
     limit: Configs._limit,
     page: 1,
     total: 0,
   })
+  const [options, setOptions] = useState({})
+
+  const getTopic = async () => {
+    try {
+      const res = await getTopics({
+        // search: search,
+      })
+      console.log(res)
+      if (res) {
+        let option = {}
+        res?.data?.forEach((e: any) => {
+          option = { ...option, [e._id]: e.name }
+        })
+        console.log('option', option)
+        console.log('option1', res)
+        setOptions(option)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   useEffect(() => {
     getData()
   }, [paging.page, filter])
 
   const getData = async () => {
     setLoading(true)
-    try {
-      const res = await getCategories({
-        // ...filter,
-        page: paging.page,
-        limit: paging.limit,
-      })
-      if (res) {
-        setCategories(res.data.data)
-        setPaging({
-          page: res.data.page,
-          limit: res.data.limit,
-          total: res.data.total,
-        })
-      }
-    } catch (error) {
-      console.log(error)
-    } finally {
-      setLoading(false)
-    }
+    const res = await getParts({ page: paging.page, limit: paging.limit, ...filter })
+    setPartLessons(res.data)
+    setLoading(false)
   }
+
   const handleCloseModal = () => {
     setVisible(false)
     getData()
   }
+
   const handleEdit = (record: any) => {
-    setCategoryDetail(record)
+    setPartDetail(record)
     setVisible(true)
   }
+
   const handleDelete = async (id: number) => {
     try {
-      const res = await deleteCategory({ ID: id })
+      const res = await deletePart({ _id: id })
       if (res) {
-        // message({ type: 'success', content: 'Xóa thành công ngành hàng' })
+        message.success(res.message)
       }
     } catch (error) {
       console.log(error)
     }
   }
-
-  const changeStatus = async (record: any) => {
-    try {
-      setLoading(true)
-      const updatedRecord = { ...record, status: record?.status === 1 ? 0 : 1 }
-      const res = await updateCategory(updatedRecord)
-      if (res.status) {
-        message.error('Chỉnh sửa trạng thái ngành hàng thành công')
-        getData()
-      } else {
-        message.error('Chỉnh sửa trạng thái ngành hàng thất bại')
-      }
-    } catch (error) {
-      console.log('ERROR')
-    } finally {
-      setLoading(false)
-    }
-  }
+  useEffect(() => {
+    getTopic()
+  }, [])
   return (
     <ContainScreenStyled>
       <PageHeader
@@ -159,16 +142,33 @@ const Category = () => {
             }}
             type="primary"
           >
-            Thêm mới học phần
+            Thêm mới
           </Button>
         }
       />
-      <ContentScreen loading={loading} countFilter={paging.total}>
+      <FilterHeader
+        size="middle"
+        search={{
+          placeholder: 'Nhập vào tên học phần',
+        }}
+        onChangeFilter={(filter: any) => {
+          setFilter(filter)
+        }}
+        select={[
+          {
+            width: 200,
+            placeholder: "Chủ đề",
+            key: 'type',
+            data: options,
+          }
+        ]}
+      />
+      <ContentScreen loading={loading} countFilter={partLessons.length}>
         <div>
           <Table
             border={true}
             columns={columns}
-            data={categories}
+            data={partLessons}
             size={'middle'}
             onChangePram={(page: number) =>
               setPaging({ ...paging, page: page })
@@ -180,17 +180,17 @@ const Category = () => {
           <ModalStyled
             width={500}
             footer={null}
-            title={categoryDetail ? 'Sửa học phần' : 'Thêm mới học phần'}
+            title={partDetail ? 'Sửa học phần' : 'Thêm mới học phần'}
             visible={visible}
             onCancel={() => {
               form.resetFields()
-              setCategoryDetail(null)
+              setPartDetail(null)
               setVisible(false)
             }}
             children={
               <AddEditCategory
                 handleCloseModal={handleCloseModal}
-                detailCategory={categoryDetail}
+                detailPartLesson={partDetail}
                 form={form}
               />
             }
@@ -202,4 +202,3 @@ const Category = () => {
 }
 
 export default Category
-///

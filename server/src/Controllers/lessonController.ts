@@ -64,7 +64,7 @@ class lessonController {
         const result = await _Finds(
             Lesson,
             { ...handleSearchMongoose('title', req.query.search || ''), ...req.query },
-            'lesson',
+            'chủ đề',
             'topic'
         )
         res.json(result)
@@ -74,8 +74,8 @@ class lessonController {
         const result = await _Finds(
             Part,
             { ...handleSearchMongoose('title', req.query.search || ''), ...req.query },
-            'lesson',
-            'học phần'
+            'học phần',
+            'topic'
         )
         res.json(result)
     }

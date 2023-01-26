@@ -94,7 +94,7 @@ export const JCreatePart = Joi.object({
 })
 
 export const JUpdatePart = Joi.object({
-    id: Joi.string().required(),
+    _id: Joi.string().required(),
     title: Joi.string().required(),
     desc: Joi.string(),
     picture: Joi.string().required(),
