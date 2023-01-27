@@ -18,32 +18,28 @@ const Login = () => {
   const [loading, setLoading] = useState<boolean>(false)
 
   const onFinish = async (values: IFormLogin) => {
-    const user: IFormLogin = {
-      phone: values.phone,
-      password: values.password,
-    }
     try {
       setLoading(true)
-      const res = await login(user)
-      history.replace('/')
+      const res = await login(values)
       if (res) {
-        Cookies.set(configs._sessionId, res.data.token)
-        // local.set(configs._sessionId, res.data.token)
+        localStorage.setItem(Configs._token, JSON.stringify(res?.data?.token))
         localStorage.setItem(Configs._userInfo, JSON.stringify(res?.data))
-        // dispatch(getUserInfoAction())
         history.replace('/')
       }
     } catch (error) {
-      console.log(error)
-    } finally {
       setLoading(false)
     }
   }
+
   return (
     <LoginStyled>
       <FormStyled>
         <InfoStyled>
-          {/* <img className="logo" src={R.logos.logoLogIn} /> */}
+          <img
+            style={{ width: 200, height: 200, objectFit: 'contain' }}
+            className="logo"
+            src={R.logos.logoLogIn}
+          />
         </InfoStyled>
         <Form
           size="middle"
@@ -52,7 +48,7 @@ const Login = () => {
           onFinish={onFinish}
         >
           <Form.Item
-            name="phone"
+            name="username"
             rules={[
               { required: true, message: R.strings().login__warning__user },
             ]}
@@ -75,11 +71,11 @@ const Login = () => {
               placeholder={R.strings().login__placeholder__password}
             />
           </Form.Item>
-          <Form.Item>
+          {/* <Form.Item>
             <Form.Item name="remember" valuePropName="checked" noStyle>
               <Checkbox>{R.strings().login__save_info_login}</Checkbox>
             </Form.Item>
-          </Form.Item>
+          </Form.Item> */}
 
           <Form.Item
             className="wrapper-button"
@@ -87,8 +83,13 @@ const Login = () => {
           >
             <ButtonStyled
               icon={
-                loading ? <LoginLoading style={{ marginRight: '5px' }} /> : null
+                loading ? (
+                  <LoginLoading
+                    style={{ marginRight: '5px', marginTop: '20px' }}
+                  />
+                ) : null
               }
+              disabled={loading}
               type="primary"
               htmlType="submit"
             >
@@ -104,7 +105,7 @@ const LoginStyled = styled.div`
   height: 100vh;
   width: 100%;
   display: flex;
-  background-color: #e2d0d0;
+  background-color: #ffe1e1;
 `
 const FormStyled = styled.div`
   background-color: white;

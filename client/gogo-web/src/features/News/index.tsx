@@ -128,7 +128,6 @@ const News = () => {
       ),
     },
   ]
-
   const handleEdit = (item: any) => {
     let data: ILesson
     if (
@@ -200,7 +199,6 @@ const News = () => {
     dispatch(setLesson(data))
     history.push('/lesson/add-update?id=' + item._id)
   }
-
   const getData = async () => {
     setLoading(true)
     try {
@@ -217,7 +215,6 @@ const News = () => {
       setLoading(false)
     }
   }
-
   useEffect(() => {
     getData()
   }, [filter, paging.page])

@@ -46,12 +46,9 @@ get http://localhost:3005/admin/topics
 content-type: application/json
 
 ###
-post http://localhost:3005/
+post http://localhost:3005/site
 content-type: application/json
 
-{
-   "token": "eshvCHO1XRL4AB5DoK7Tq-f9JMTqdsLtZhxw7FEJXx9A"
-}
 
 ###
 post http://localhost:3005/admin/card

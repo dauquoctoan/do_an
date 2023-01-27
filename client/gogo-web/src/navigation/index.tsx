@@ -30,16 +30,6 @@ const Navigation = () => {
 }
 
 const MainNavigator = () => {
-  const [menuTheme, setMenuTheme] = useState<any>(
-    localStorage.getItem(Configs._themeMenu) !== null
-      ? localStorage.getItem(Configs._themeMenu)
-      : 'light'
-  )
-
-  const handleSetThemeMenu = (colorTheme: 'dark' | 'light') => {
-    setMenuTheme(colorTheme)
-  }
-
   function handleClick(index: any) {
     history.push(index.key)
   }
@@ -66,10 +56,8 @@ const MainNavigator = () => {
     <Layout>
       <SideOutStyled
         collapsible
-        theme_collapsible={menuTheme}
         collapsedWidth={55}
         breakpoint="xl"
-        theme={menuTheme}
         width={230}
       >
         <InfoStyled>
@@ -77,8 +65,6 @@ const MainNavigator = () => {
         </InfoStyled>
         <Divider style={{ margin: '1px' }} />
         <MenuStyled
-          theme={menuTheme}
-          triggerSubMenuAction="click"
           onClick={handleClick}
           mode="inline"
           defaultOpenKeys={[handleGetCurrentSelectedRouter()]}
@@ -87,10 +73,7 @@ const MainNavigator = () => {
         />
       </SideOutStyled>
       <LayoutItemStyled>
-        <Header
-          colorTheme={menuTheme}
-          handleSetThemeMenu={handleSetThemeMenu}
-        />
+        <Header />
         <ContentStyled>
           <Nav />
         </ContentStyled>

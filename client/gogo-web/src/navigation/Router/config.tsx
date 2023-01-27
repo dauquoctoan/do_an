@@ -1,10 +1,9 @@
 import { PATH_ADMIN } from './PathName'
 import Account from 'features/Account'
 import Category from 'features/Category'
-import Customer from 'features/Customer'
-import CustomerDetail from 'features/Customer/pages/CustomerDetail'
-import Staff from 'features/Staff'
-import AddEditStaff from 'features/Staff/components/AddEditStaff'
+import Admin from 'features/Admin'
+import User from 'features/User'
+import AddEditStaff from 'features/User/components/AddEditStaff'
 import GiftExchange from 'features/GiftExchange'
 import Home from 'features/Homes'
 import News from 'features/News'
@@ -15,7 +14,6 @@ import Stalls from 'features/Stalls'
 import AddAndEditStalls from 'features/Stalls/pages/AddAndEditStalls'
 import VoucherAndGif from 'features/VoucherAndGif'
 import AddUpdateVoucherAndGif from 'features/VoucherAndGif/pages/AddUpdateVoucherAndGif'
-// import VoucherGiftDetail from 'features/VoucherAndGif/components/VoucherGiftDetail'
 import JoinEvent from 'features/report/JoinEventReport/index'
 import DetailCustomerEvent from 'features/report/JoinEventReport/components/CountCustomerDetail'
 import UsageFrequency from 'features/report/UsageFrequency'
@@ -24,7 +22,6 @@ import { IRouter } from './interface'
 import StallsStatistic from 'features/report/StallsInfomation/components/StallsStatistic'
 import CustomerReport from 'features/report/CustomerInfomation/components/CustomerReport'
 import EventDetail from 'features/event/components/EventDetail'
-import Webview from 'features/Webview'
 import ExchangeGiftList from 'features/report/ExchangeGiftList'
 import DetailExchangeGift from 'features/report/ExchangeGiftList/DetailExchangeGift'
 import SettingPage from 'features/Settings/page'
@@ -47,7 +44,7 @@ export const PATH = {
   CATEGORY: '/category',
   STALLS_ADD_UPDATE: '/stalls/add-update',
   EVENT_LIST: '/event',
-  STAFF: '/staff',
+  ADMIN: '/admin',
   ADD_EDIT_STAFF: '/staff/add-edit',
   GIFT_AND_VOUCHER: '/sub1',
   GIFT: '/gift',
@@ -103,13 +100,11 @@ const ROUTERS: Array<IRouter> = [
     component: AddEditNewIQuestion,
     title: R.strings().menu__home,
   },
-
   {
-    path: PATH.CUSTOMER_DETAIL + '/:id',
-    component: CustomerDetail,
+    path: PATH.CUSTOMER,
+    component: User,
     title: R.strings().menu__customer,
   },
-
   {
     path: PATH.ACCOUNT,
     component: Account,
@@ -136,14 +131,14 @@ const ROUTERS: Array<IRouter> = [
   //   title: R.strings().menu__event_list,
   // },
   {
-    path: PATH.STAFF,
-    component: Staff,
-    title: R.strings().menu__staff,
+    path: PATH.ADMIN,
+    component: Admin,
+    title: 'Quản trị',
   },
   {
     path: PATH.ADD_EDIT_STAFF,
     component: AddEditStaff,
-    title: R.strings().menu__staff,
+    title: 'Sửa tk',
   },
   {
     path: PATH.LESSON,
@@ -217,7 +212,7 @@ const ROUTERS: Array<IRouter> = [
   },
   {
     path: PATH.CONTACT,
-    component: Staff,
+    component: User,
     title: R.strings().menu__contact,
   },
   {
@@ -264,7 +259,7 @@ const MENUS = [
     icon: <MenuStalls />,
   },
   {
-    label: "Học phần",
+    label: 'Học phần',
     key: PATH.CATEGORY,
     icon: <MenuCategory />,
   },
@@ -280,13 +275,13 @@ const MENUS = [
     icon: <MenuNews />,
   },
   {
-    label: R.strings().menu__customer,
-    key: PATH.CUSTOMER,
+    label: 'Quản trị',
+    key: PATH.ADMIN,
     icon: <MenuCustomer />,
   },
   {
-    label: R.strings().menu__staff,
-    key: PATH.STAFF,
+    label: 'Người dùng',
+    key: PATH.CUSTOMER,
     icon: <MenuStaff />,
   },
   {

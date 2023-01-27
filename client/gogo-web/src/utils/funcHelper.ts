@@ -17,3 +17,11 @@ export const validHeadPhoneNumber = (value: any) => {
     reg6.test(value)
   )
 }
+
+export const getOptionSelect = (data: any) => {
+  const options: { value: string; label: string }[] = []
+  Object.keys(data).map((item: string) => {
+    options.push({ value: item, label: data[item] })
+  })
+  return options
+}

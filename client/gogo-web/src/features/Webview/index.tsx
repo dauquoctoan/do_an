@@ -15,8 +15,8 @@ import {
   getListDistrict,
   getListProvince,
   getListWard,
-} from 'features/Staff/StaffAPI'
-import { IAddress } from 'features/Staff/StaffInterface'
+} from 'features/User/StaffAPI'
+import { IAddress } from 'features/User/StaffInterface'
 import { FormStyled } from 'global-styled'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'

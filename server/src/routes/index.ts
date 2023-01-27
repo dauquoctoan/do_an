@@ -1,14 +1,14 @@
 import express from 'express'
 import adminRouter from './admin/index'
-import comMRouter from './community/index'
+import siteRouter from './site/index'
 import authRouter from './auth'
 import uploadRouter from './upload'
+import { middleAuthenTication } from '../middleware'
 
 function router(app: express.Application) {
-    app.use('/', comMRouter)
-    app.use('/admin', adminRouter)
-    app.use('/auth', authRouter)
     app.use('/upload', uploadRouter)
+    app.use('/', authRouter)
+    app.use('/site', siteRouter)
+    app.use('/admin', middleAuthenTication, adminRouter)
 }
-
 export default router

@@ -1,4 +1,3 @@
-import { apis } from '../../configs/api'
 import { ApiClient } from '../../services'
 import {
   IChangeHisPayload,
@@ -9,23 +8,22 @@ import {
   ResponseData,
 } from './interface'
 
-export const getCustomers = (payload: any) => {
-  return ApiClient.get(apis.customer.GET_CUSTOMERS, payload)
+export const createAUser = (payload: any) => {
+  return ApiClient.post('/a-user', payload)
 }
-
-export const getCustomerDetail = (payload: any) => {
-  return ApiClient.get(
-    apis.customer.GET_CUSTOMER_DETAIL.concat(`/${payload.id}`),
-    payload
-  )
+export const updateAUser = (payload: any) => {
+  return ApiClient.put('/a-user', payload)
 }
-
-export const ChangeStatusCustomer = (payload: any) => {
-  return ApiClient.post(
-    apis.customer.CHANGE_STATUS_CUSTOMER.concat(`/${payload.ID}`),
-    {}
-  )
+export const getAUsers = (payload: any) => {
+  return ApiClient.get('/a-users', payload)
 }
+export const changeStatusAUser = (payload: any) => {
+  return ApiClient.patch('/a-user', payload)
+}
+export const deleteAUser = (payload: any) => {
+  return ApiClient.delete('/a-user', payload)
+}
+/* new */
 
 export const getHistoryOfPoints = (
   payload: IHistoryPointPayload
@@ -50,5 +48,7 @@ export const exportExcel = () => {
 }
 
 export const getBillList = (payload: any) => {
-  return ApiClient.get(`/Statistic/GetEventParticipantDetail?ID=${payload?.id}&page=${payload?.page}&limit=10`)
+  return ApiClient.get(
+    `/Statistic/GetEventParticipantDetail?ID=${payload?.id}&page=${payload?.page}&limit=10`
+  )
 }

@@ -37,7 +37,6 @@ export async function _Creates(
     const db = new modal(data)
     try {
         const modal = await db.save()
-        console.log(modal)
         return handleResultSuccessNoPage(createMessage.createSuccess(name), {
             ...modal._doc,
         })
@@ -88,7 +87,7 @@ export async function _Find(modal: any, query: any, name: string) {
         if (modals) {
             return handleResultSuccessNoPage(
                 createMessage.findSuccess('name'),
-                modals
+                modals?._doc
             )
         }
     } catch (error) {

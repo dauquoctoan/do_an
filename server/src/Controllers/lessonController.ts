@@ -96,7 +96,7 @@ class lessonController {
         res.json(result)
     }
 
-    async upadatePart(req: any, res: any) {
+    async updatePart(req: any, res: any) {
         const result = await _FindByIdAndUpdate(Part, req?.body, 'học phần')
         res.json(result)
     }

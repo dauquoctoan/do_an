@@ -1,3 +1,5 @@
+import { IFile } from 'commons/uploads/interface'
+
 export interface ResponseData<T> {
   status: number
   code: number
@@ -92,4 +94,26 @@ export interface IChangeHistory {
 export interface IFormatedChangeHistory extends IChangeHistory {
   key: number
   index: number
+}
+/* new */
+export interface IAdmin {
+  _id?: string
+  name: string
+  age: string
+  email?: string
+  picture?: string
+  password: string
+  status: string
+  role: string
+}
+
+export interface IFormAdmin {
+  _id?: string
+  name: string
+  age: string
+  email?: string
+  picture?: IFile[]
+  password: string
+  status: string
+  role: string
 }

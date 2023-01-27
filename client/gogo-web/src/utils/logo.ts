@@ -1,4 +1,4 @@
-import logo from '../assets/logo/logo.png'
+import logo from '../assets/logo/logo.svg'
 
 export const logos = {
   logoLogIn: logo,

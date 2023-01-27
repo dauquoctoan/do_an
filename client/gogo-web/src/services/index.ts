@@ -6,8 +6,8 @@ const Configs = {
   _baseUrl: process.env.REACT_APP_BASE_URL + '/admin',
   _sessionId: 'session',
   _api_status: {
-    RE_LOGIN: '400',
-    NOT_FOUND: '404',
+    RE_LOGIN: 400,
+    NOT_FOUND: 404,
   },
 }
 
@@ -17,20 +17,17 @@ const createAPI = () => {
     timeout: 20000,
     headers: { 'Content-Type': 'application/json' },
   })
-  // APIInstant.setHeader(
-  //     "Authorization",
-  //     Cookies.get(configs._sessionId) || ""
-  // );
-
+  APIInstant.setHeader('Authorization', localStorage.getItem('token') || '')
   APIInstant.axiosInstance.interceptors.request.use(
     async (config: any) => {
-      //config.headers.Authorization = Cookies.get(Configs._sessionId);
+      config.headers.Authorization = localStorage.getItem('token') || ''
       return config
     },
     (error: any) => Promise.reject(error)
   )
 
   APIInstant.axiosInstance.interceptors.response.use((response: any) => {
+    console.log('response', response)
     if (
       (response && response.status === Configs._api_status.RE_LOGIN) ||
       response.status === Configs._api_status.NOT_FOUND
@@ -48,9 +45,17 @@ const axiosInstance = createAPI()
 /* Support function */
 function handleResult(api: any) {
   return api.then(
-    (res: { data: { status: number; code: number; message: string } }) => {
+    (res: {
+      status: number
+      data: { status: number; code: number; message: string }
+    }) => {
+      console.log('response', res)
+      if (res.status === Configs._api_status.RE_LOGIN) {
+        localStorage.setItem('token', '')
+        localStorage.setItem('user_info', '')
+      }
       if (res?.data?.code !== 1) {
-        message.error(res.data.message || 'Có lỗi xảy ra vui lòng thử lại')
+        message.error(res?.data?.message || 'Có lỗi xảy ra vui lòng thử lại')
         return Promise.reject(res?.data)
       }
       return Promise.resolve(res?.data)
@@ -70,7 +75,7 @@ export const ApiClient = {
     handleResult(axiosInstance.post(url, payload)),
   put: (url: string, payload?: any) =>
     handleResult(axiosInstance.put(url, payload)),
-  path: (url: string, payload: any) =>
+  patch: (url: string, payload: any) =>
     handleResult(axiosInstance.patch(url, payload)),
   delete: (url: string, payload: any) =>
     handleResult(axiosInstance.delete(url, {}, { data: payload })),

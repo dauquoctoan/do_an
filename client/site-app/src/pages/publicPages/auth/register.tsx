@@ -40,22 +40,19 @@ const Register = () => {
 
     useEffect(() => {
         if (isSubmitSuccessful) {
-            reset();
+            // reset();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isSubmitSuccessful]);
 
     const onSubmitHandler: SubmitHandler<RegisterInput> = async (values) => {
         setLoading(true);
-        try {
-            await apiCreateUser(values);
-            notify.success("Đăng ký khoản thành công, vui lòng đăng nhập lại");
-            setLoading(false);
-            navigate("/login");
-        } catch (error) {
-            notify.error("Có lỗi xảy ra vui lòng thử lại");
-            setLoading(false);
-        }
+        await apiCreateUser(values);
+        notify.success(
+            "Đăng ký khoản thành công, vui lòng đăng nhập lại để xác nhận"
+        );
+        setLoading(false);
+        navigate("/login");
     };
 
     async function handleCreateUserWithGoogle(user: any) {

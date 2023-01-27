@@ -2,31 +2,30 @@ import { STATUS_CODE } from '../configs/constants'
 import { handleResultError } from '../utils'
 const User = require('../models/User')
 import jwt_decode from 'jwt-decode'
+import AdminUser from '../models/AdminUser'
 var multer = require('multer')
 
 export async function middleAuthenTication(req: any, res: any, next: any) {
-    try {
-        const token = req.headers.authorization
-        if (token) {
+    const token = req?.headers?.authorization
+    if (token) {
+        try {
             var result: any = jwt_decode(req.headers.authorization)
-            const info = await User.findOne({ email: result.email })
+            let info = result.isLoginAdmin
+                ? await AdminUser.findOne({ _id: result?.id })
+                : await User.findOne({ email: result.email })
             if (info) {
                 req.id = info._id
                 return next()
             } else {
-                res.status(STATUS_CODE.proxyAuthenticationRequired).json(
+                res.status(400).json(
                     handleResultError('Tài khoản không tồn tại')
                 )
             }
-        } else {
-            return res
-                .status(STATUS_CODE.proxyAuthenticationRequired)
-                .json(handleResultError('Vui lòng đăng nhập'))
+        } catch (error) {
+            return res.status(400).json(handleResultError('Lỗi xác thực'))
         }
-    } catch (error) {
-        return res
-            .status(STATUS_CODE.proxyAuthenticationRequired)
-            .json(handleResultError('Lỗi xác thực'))
+    } else {
+        return res.status(400).json(handleResultError('Vui lòng đăng nhập'))
     }
 }
 

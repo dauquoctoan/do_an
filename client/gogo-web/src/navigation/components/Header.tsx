@@ -20,13 +20,7 @@ const {
   MenuCollapse,
 } = R.icons
 
-const Header = ({
-  handleSetThemeMenu,
-  colorTheme,
-}: {
-  handleSetThemeMenu: (colorTheme: 'dark' | 'light') => void
-  colorTheme: 'dark' | 'light'
-}) => {
+const Header = ({}) => {
   const [titleHeader, setTitleHeader] = useState<String>('')
 
   // const [visitableCollapse, setVisitableCollapse] = useState<boolean>(false)

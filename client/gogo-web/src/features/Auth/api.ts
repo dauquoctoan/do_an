@@ -2,7 +2,7 @@ import { apis } from '../../configs/api'
 import { ApiClient } from '../../services'
 
 export const login = (payload: any) => {
-  return ApiClient.post(apis.auth.LOGIN, payload)
+  return ApiClient.post('/login', payload)
 }
 
 export const logout = () => {

@@ -151,6 +151,11 @@ export const type_key: {
 }
 
 export const type_account: any = {
-  0: 'Tự tạo',
-  1: 'Tạo bằng email có sẵn',
+  0: 'Đăng ký',
+  1: 'Tạo bằng email',
+}
+
+export const type_account_admin: any = {
+  0: 'Super Admin',
+  1: 'Admin',
 }

@@ -3,7 +3,7 @@ import { EditOutlined, DeleteFilled } from '@ant-design/icons'
 import { ColumnsType } from 'antd/es/table'
 import Table from 'commons/table'
 import Configs from 'configs'
-import { GENDER, IS_ACTIVE, type_account } from 'configs/constance'
+import { GENDER, IS_ACTIVE, STATUS, type_account } from 'configs/constance'
 import { IPagination } from 'interface'
 import { useState, useEffect } from 'react'
 import styled from 'styled-components'
@@ -14,7 +14,6 @@ import {
   IFormatedListStaff,
   IListStaffPayload,
 } from '../StaffInterface'
-import StaffFilters from './Filters'
 import { useHistory } from 'react-router-dom'
 import PageHeader from 'commons/pageHeader'
 import ContentScreen from 'commons/contentScreen'
@@ -23,19 +22,14 @@ import FilterHeader from 'commons/filter'
 const { Text } = Typography
 
 function Staffs() {
-  const [params, setparams] = useState<IListStaffPayload>({
-    page: 1,
-    limit: 10,
-    status: undefined,
-    searchKey: undefined,
-    searcProvince: undefined,
-  })
   const [paging, setPaging] = useState<IPagination>({
     limit: Configs._limit,
     page: Configs._default_page,
     total: 0,
   })
-  const [isLoading, setisLoading] = useState<boolean>(false)
+  const [filter, setFilter] = useState<any>({})
+
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const [users, setUsers] = useState<any[]>([])
   const history = useHistory()
   const columns: ColumnsType<IFormatedListStaff> = [
@@ -43,7 +37,7 @@ function Staffs() {
       width: 10,
       title: 'STT',
       dataIndex: 'stt',
-      key: '',
+      key: 'stt',
       render: (index) => <span>{Configs.renderText(index)}</span>,
     },
     {
@@ -82,57 +76,67 @@ function Staffs() {
       render: (status) => {
         switch (status) {
           case '1':
-            return <Tag color={'cyan'}>Đang hoạt động</Tag>
+            return <Tag color={'cyan'}>{STATUS[status]}</Tag>
           case '0':
-            return <Tag color={'red'}>Ngừng hoạt động</Tag>
+            return <Tag color={'red'}>{STATUS[status]}</Tag>
         }
       },
     },
   ]
 
   const getData = async () => {
-    setisLoading(true)
-    const res = await getUsers({ limit: paging.limit, page: paging.page })
+    setIsLoading(true)
+    const res = await getUsers({
+      limit: paging.limit,
+      page: paging.page,
+      ...filter,
+    })
     setUsers(res.data)
-    setisLoading(false)
+    setIsLoading(false)
   }
 
   useEffect(() => {
     getData()
-  }, [params])
+  }, [paging, filter])
 
   return (
     <>
       <PageHeader
-        title="Nhân viên"
+        title="Người dùng"
         fixed={true}
         extra={
           <Button
             onClick={() => {
-              history.push(`/staff/add-edit`)
+              // history.push(`/staff/add-edit`)
             }}
             type="primary"
           >
-            {R.strings().btn__add_new}
+            {/* {R.strings().btn__add_new} */}
           </Button>
         }
       />
       <FilterHeader
         size="middle"
         search={{
-          placeholder: 'Nhập vào tên học phần',
+          placeholder: 'Nhập vào tên người dùng',
         }}
+        select={[
+          {
+            width: 200,
+            placeholder: 'Loại bài tập',
+            key: 'typeAccount',
+            data: type_account,
+          },
+          {
+            width: 200,
+            placeholder: 'Trạng thái hoạt động',
+            key: 'status',
+            data: STATUS,
+          },
+        ]}
         onChangeFilter={(filter: any) => {
-          // setFilter(filter)
+          setFilter(filter)
         }}
-        // select={[
-        //   {
-        //     width: 200,
-        //     placeholder: 'Chủ đề',
-        //     key: 'type',
-        //     data: options,
-        //   },
-        // ]}
       />
       <ContentScreen countFilter={paging.total}>
         <StyledDiv>

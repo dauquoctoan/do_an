@@ -23,7 +23,7 @@ const AddEditCategory = ({
   form: FormInstance
 }) => {
   const [search, setSearch] = useState<string>('')
-  const [topics, setTopics] = useState<{ value: string, label: string }[]>([])
+  const [topics, setTopics] = useState<{ value: string; label: string }[]>([])
 
   const getTopic = async () => {
     try {
@@ -45,16 +45,16 @@ const AddEditCategory = ({
     getTopic()
   }, [search])
 
-
-
   const handleFinish = async (Form: any) => {
     const data: IPart = {
       title: Form.title,
       topic: Form.topic,
       picture: Form.picture[0].response.data[0],
-      desc: Form.desc
+      desc: Form.desc,
     }
-    const res = detailPartLesson ? await updateParts({ ...data, _id: detailPartLesson._id }) : await createPart(data)
+    const res = detailPartLesson
+      ? await updateParts({ ...data, _id: detailPartLesson._id })
+      : await createPart(data)
     message.success(res.message)
     handleCloseModal()
   }
@@ -62,11 +62,12 @@ const AddEditCategory = ({
   useEffect(() => {
     form.setFieldsValue({
       ...detailPartLesson,
-      topic: typeof detailPartLesson?.topic !== 'string' && detailPartLesson?.topic?._id,
-      picture:
-        detailPartLesson
-          ? Configs.getDefaultFileList(detailPartLesson?.picture)
-          : [],
+      topic:
+        typeof detailPartLesson?.topic !== 'string' &&
+        detailPartLesson?.topic?._id,
+      picture: detailPartLesson
+        ? Configs.getDefaultFileList(detailPartLesson?.picture)
+        : [],
     })
   }, [detailPartLesson])
 
@@ -120,7 +121,7 @@ const AddEditCategory = ({
           {
             required: true,
             message: 'Vui lòng nhập chủ đề!',
-          }
+          },
         ]}
       >
         <Select

@@ -9,6 +9,7 @@ import { STATUS_CODE } from '../configs/constants'
 import { _Create } from '../service'
 import { IUser } from '../interfaces/user'
 import User from '../models/User'
+import AdminUser from '../models/AdminUser'
 var jwt = require('jsonwebtoken')
 
 class authController {
@@ -17,6 +18,7 @@ class authController {
         if (token) {
             try {
                 const user: any = jwt_decode(token)
+                console.log('user', user)
                 const data = {
                     name: user.name,
                     email: user.email,
@@ -26,7 +28,6 @@ class authController {
                     iat: user.iat,
                     picture: user.picture,
                     typeAccount: 1,
-                    passWord: user.passWord,
                 }
                 const result = await _Create(
                     User,
@@ -38,16 +39,17 @@ class authController {
             } catch (error) {
                 return res
                     .status(STATUS_CODE.proxyAuthenticationRequired)
-                    .json(handleResultError('Vui lòng đăng nhập'))
+                    .json(handleResultError('Vui lòng đăng ký tài khoản!'))
             }
         } else {
-            return res.json(handleResultError('Lỗi đăng nhập'))
+            return res.json(handleResultError('Lỗi đăn ký tài khoản!'))
         }
     }
     async saveUser(req: any, res: any) {
-        const { name, email, password }: IUser = req.body
+        const { name, email, password, age }: IUser = req.body
         const hashPw = await argon2.hash(password || '')
         const data = {
+            age: age,
             name: name,
             email: email,
             typeAccount: 0,
@@ -83,16 +85,46 @@ class authController {
                     )
                 )
             } else {
-                return res
-                    .status(STATUS_CODE.proxyAuthenticationRequired)
-                    .json(
-                        handleResultError(createMessage.loginFail('tài khoản'))
-                    )
+                return res.json(
+                    handleResultError(createMessage.loginFail('tài khoản'))
+                )
             }
         } catch (error) {
             return res
                 .status(STATUS_CODE.proxyAuthenticationRequired)
                 .json(handleResultError(createMessage.loginFail('tài khoản')))
+        }
+    }
+
+    async loginAdmin(req: any, res: any) {
+        const { username, password } = req.body
+        try {
+            const info: any = await AdminUser.findOne({ name: username })
+            if (info._id && (await argon2.verify(info?.password, password))) {
+                const token = jwt.sign(
+                    {
+                        id: info._id,
+                        name: info.name,
+                        role: info.role,
+                        isLoginAdmin: true,
+                    },
+                    process.env.JWT_PRIVATE_KEY
+                )
+                return res.json(
+                    handleResultSuccessNoPage(
+                        createMessage.loginSuccess('tài khoản'),
+                        { ...info._doc, token: token }
+                    )
+                )
+            } else {
+                return res.json(
+                    handleResultError('Tên tài khoản hặc mật khẩu không đúng!')
+                )
+            }
+        } catch (error) {
+            return res.json(
+                handleResultError('Tên tài khoản hặc mật khẩu không đúng!')
+            )
         }
     }
 }

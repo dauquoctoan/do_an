@@ -3,10 +3,11 @@ const _userName = Joi.string().alphanum().min(3).max(30)
 const _email = Joi.string().email()
 const _password = Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{3,30}$'))
 const _token = Joi.string().token()
-const _birth_year = Joi.number().integer().min(0).max(20)
+const _birth_year = Joi.string()
 
 export const JCreateUser = Joi.object({
     name: _userName.required(),
+    age: Joi.string().required(),
     email: _email.required(),
     picture: Joi.string(),
     givenName: _userName,
@@ -15,7 +16,10 @@ export const JCreateUser = Joi.object({
     exp: Joi.string(),
     email_verified: Joi.string(),
     password: _password.required(),
-    age: _birth_year,
+})
+
+export const JCreateUserWithToken = Joi.object({
+    token: Joi.string().required(),
 })
 
 export const JUpdateUser = Joi.object({
@@ -29,7 +33,7 @@ export const JUpdateUser = Joi.object({
     exp: Joi.string(),
     email_verified: Joi.string(),
     password: _password.required(),
-    age: _birth_year,
+    age: Joi.string().required(),
 })
 
 export const JCreateLesson = Joi.object({
@@ -100,4 +104,35 @@ export const JUpdatePart = Joi.object({
     desc: Joi.string(),
     picture: Joi.string().required(),
     topic: Joi.string().required(),
+})
+
+export const JCreateAUser = Joi.object({
+    name: Joi.string().required(),
+    email: _email,
+    age: Joi.number(),
+    picture: Joi.string(),
+    password: Joi.string().required(),
+    status: Joi.string(),
+    role: Joi.string().required(),
+})
+
+export const JUpdateAUser = Joi.object({
+    _id: Joi.string().required(),
+    name: _userName.required(),
+    email: _email,
+    age: Joi.number(),
+    picture: Joi.string(),
+    password: Joi.string(),
+    status: Joi.string(),
+    role: Joi.string().required(),
+})
+
+export const JChangeStatusAUser = Joi.object({
+    _id: Joi.string().required(),
+    status: Joi.string().required(),
+})
+
+export const JLoginAdmin = Joi.object({
+    username: Joi.string().required(),
+    password: Joi.string().required(),
 })
