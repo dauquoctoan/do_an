@@ -1,4 +1,4 @@
-/* .restyle-date-picker .ant-picker-year-panel .ant-picker-cell-inner,
+.restyle-date-picker .ant-picker-year-panel .ant-picker-cell-inner,
 .ant-picker-quarter-panel .ant-picker-cell-inner,
 .ant-picker-month-panel .ant-picker-cell-inner {
   width: 70px !important;
@@ -20,7 +20,7 @@
   background: #9c9c9c;
 }
 
-notification */
+/* 
 .App {
   width: 100vw;
   height: 100vh;
@@ -211,4 +211,4 @@ body {
 }
 .hide {
   opacity: 0 !important;
-}
+} */

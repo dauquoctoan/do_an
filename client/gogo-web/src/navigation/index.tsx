@@ -61,7 +61,7 @@ const MainNavigator = () => {
         width={230}
       >
         <InfoStyled>
-          {/* <img className="logo" src={R.logos.logoInfo} /> */}
+          <img className="logo" src={R.logos.logoInfo} />
         </InfoStyled>
         <Divider style={{ margin: '1px' }} />
         <MenuStyled
@@ -109,7 +109,8 @@ const InfoStyled = styled.div`
   width: 100%;
   height: 110px;
   display: flex;
-  background-color: ${COLOR.menuDark};
+  /* background-color: ${COLOR.menuDark}; */
+  background-color: transparent;
   .logo {
     margin: auto;
     width: 100%;

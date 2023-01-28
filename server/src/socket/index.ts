@@ -2,7 +2,7 @@ const { Server } = require('socket.io')
 function createSocket(server: any) {
     const io = new Server(server, {
         cors: {
-            origin: 'http://localhost:3000',
+            origin: ['http://localhost:3000', 'http://localhost:3006'],
             methods: ['GET', 'POST'],
         },
     })
@@ -22,3 +22,18 @@ function createSocket(server: any) {
     })
 }
 export default createSocket
+/* 
+user{
+    name
+    list  room friend[
+        {
+            id:phong
+            friend
+        }
+    ]
+    list room [
+        
+    ]
+}
+
+*/
