@@ -5,6 +5,10 @@ import Login from "../pages/publicPages/auth/login";
 import { IRouter } from "./routerInterface";
 import Register from "../pages/publicPages/auth/register";
 import LearnMain from "../pages/publicPages/learn";
+import Topic from "../pages/privatePages/Topic";
+import Top from "../pages/privatePages/Top";
+import Event from "../pages/privatePages/Event";
+import Store from "../pages/privatePages/Store";
 
 export const ROUTER: IRouter = {
     privateRouters: [
@@ -12,8 +16,20 @@ export const ROUTER: IRouter = {
             element: <PrivateHome />,
         },
         {
-            path: "blogs",
-            element: <PrivateHome />,
+            path: "topic",
+            element: <Topic />,
+        },
+        {
+            path: "top",
+            element: <Top />,
+        },
+        {
+            path: "store",
+            element: <Store />,
+        },
+        {
+            path: "event",
+            element: <Event />,
         },
         {
             path: "*",

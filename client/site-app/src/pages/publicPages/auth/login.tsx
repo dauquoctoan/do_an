@@ -6,7 +6,7 @@ import { object, string, TypeOf, number } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoadingButton } from "@mui/lab";
 import styled from "styled-components";
-import { apiLogin, apiCreateUser, apiCreateUserWithToken } from "../api";
+import { apiLogin, apiLoginToken } from "../api";
 import CloseIcon from "@mui/icons-material/Close";
 import { history } from "../../../utils/history";
 import { notify } from "../../../commons/notification";
@@ -24,11 +24,6 @@ const Login = () => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     type RegisterInput = TypeOf<typeof loginSchema>;
-    useEffect(() => {
-        if (localStorage.getItem("token")) {
-            navigate("/lesson");
-        }
-    }, []);
 
     const {
         register,
@@ -51,9 +46,10 @@ const Login = () => {
         try {
             const res: any = await apiLogin(values);
             localStorage.setItem("token", res?.data?.token || "");
+            localStorage.setItem("info", res?.data || "");
             notify.success("Đăng nhập thành công");
             setLoading(false);
-            navigate("/");
+            navigate("/Learn");
         } catch (error) {
             setLoading(false);
         }
@@ -134,12 +130,22 @@ const Login = () => {
                     clientId={process.env.REACT_APP_CLIENT_ID || ""}
                 >
                     <GoogleLogin
-                        onSuccess={(credentialResponse: any) => {
-                            localStorage.setItem(
-                                "token",
-                                credentialResponse.credential
-                            );
-                            navigate("/lesson");
+                        onSuccess={async (credentialResponse: any) => {
+                            const res = await apiLoginToken({
+                                token: credentialResponse.credential,
+                            });
+                            if (res) {
+                                localStorage.setItem(
+                                    "token",
+                                    JSON.stringify(res.data.token)
+                                );
+                                localStorage.setItem(
+                                    "info",
+                                    JSON.stringify(res.data)
+                                );
+                                notify.success("Đăng nhập thành công");
+                                navigate("/Learn");
+                            }
                         }}
                         onError={() => {
                             console.log("Login Failed");
