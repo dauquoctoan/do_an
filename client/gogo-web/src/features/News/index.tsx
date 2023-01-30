@@ -83,7 +83,7 @@ const News = () => {
       key: 'part',
       dataIndex: 'part',
       render: (part: any, record: any) => (
-        <span>{renderText(part?.topic.name)}</span>
+        <span>{renderText(part?.topic?.name)}</span>
       ),
     },
     {
@@ -135,13 +135,8 @@ const News = () => {
       item.type === type_key.choose_one_of_4
     ) {
       data = {
-        topic: {
-          _id: item?.topic?._id,
-          desc: item?.topic?.desc,
-          name: item?.topic?.name,
-          picture: item?.topic?.picture,
-        },
-        part: '',
+        topic: item?.part?.topic,
+        part: item?.part,
         content: {
           level: item.level,
           title: item.title,
@@ -159,13 +154,22 @@ const News = () => {
       }
     } else if (item.type === type_key.sort) {
       data = {
-        topic: {
-          _id: item?.topic?._id,
-          desc: item?.topic?.desc,
-          name: item?.topic?.name,
-          picture: item?.topic?.picture,
+        topic: item?.part?.topic,
+        part: item?.part,
+        content: {
+          level: item.level,
+          title: item.title,
+          options: item.answers,
+          answer: item.answer,
+          answers: item.answers,
         },
-        part: '',
+        index: 1,
+        type: item.type,
+      }
+    } else if (item.type === type_key.choose_a_pair) {
+      data = {
+        topic: item?.part?.topic,
+        part: item?.part,
         content: {
           level: item.level,
           title: item.title,
@@ -178,13 +182,8 @@ const News = () => {
       }
     } else {
       data = {
-        topic: {
-          _id: null,
-          desc: null,
-          name: null,
-          picture: null,
-        },
-        part: '',
+        topic: null,
+        part: null,
         content: {
           level: null,
           title: null,

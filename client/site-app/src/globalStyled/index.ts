@@ -23,6 +23,7 @@ export const SLearnContent = styled.div`
 `;
 
 const GlobalStyle = createGlobalStyle`
+
     @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap');
   body {
     margin: 0;
@@ -37,7 +38,26 @@ const GlobalStyle = createGlobalStyle`
     }
     .MuiModal-root{
         background-color: rgba(0, 0, 0, 0.5);
+    }    
+        
+    &::-webkit-scrollbar-track
+    {
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+        background-color: #F5F5F5;
     }
+
+    &::-webkit-scrollbar
+    {
+        width: 10px;
+        background-color: #F5F5F5;
+    }
+
+    &::-webkit-scrollbar-thumb
+    {
+        background-color: #000000;
+        border: 2px solid #555555;
+    }
+
   }
 `;
 

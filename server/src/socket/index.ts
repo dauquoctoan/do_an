@@ -1,17 +1,11 @@
-const { Server } = require('socket.io')
-function createSocket(server: any) {
-    const io = new Server(server, {
-        cors: {
-            origin: ['http://localhost:3000', 'http://localhost:3006'],
-            methods: ['GET', 'POST'],
-        },
-    })
-
+function createSocket(io: any) {
     io.on('connection', (socket: any) => {
         console.log(`User Connected: ${socket.id}`)
-        socket.on('join_room', (data: any) => {
-            socket.join(data)
-            console.log(`User with ID: ${socket.id} joined room: ${data}`)
+        socket.on('join_room', (room: any) => {
+            socket.join(room)
+            console.log(
+                `User with ID: ${socket.id} joined room: ${typeof room}`
+            )
         })
         socket.on('send_message', (data: any) => {
             socket.to(data.room).emit('receive_message', data)
@@ -22,18 +16,3 @@ function createSocket(server: any) {
     })
 }
 export default createSocket
-/* 
-user{
-    name
-    list  room friend[
-        {
-            id:phong
-            friend
-        }
-    ]
-    list room [
-        
-    ]
-}
-
-*/

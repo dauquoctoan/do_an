@@ -2,6 +2,7 @@ import {
     handleResultSuccessNoPage,
     handleResultError,
     createMessage,
+    handleResultSuccess,
 } from '../utils'
 import argon2 from 'argon2'
 import jwt_decode from 'jwt-decode'
@@ -18,7 +19,6 @@ class authController {
         if (token) {
             try {
                 const user: any = jwt_decode(token)
-                console.log('user', user)
                 const data = {
                     name: user.name,
                     email: user.email,
@@ -125,6 +125,39 @@ class authController {
             return res.json(
                 handleResultError('Tên tài khoản hặc mật khẩu không đúng!')
             )
+        }
+    }
+
+    async loginToken(req: any, res: any) {
+        const token = req.body.token
+        if (token) {
+            try {
+                const user: any = jwt_decode(token)
+                const info: any = await User.findOne({ email: user.email })
+                const info_token = jwt.sign(
+                    {
+                        id: info._id,
+                        name: info.name,
+                        email: info.email,
+                    },
+                    process.env.JWT_PRIVATE_KEY
+                )
+                return res.status(200).json(
+                    handleResultSuccessNoPage('login thành công', {
+                        id: info._id,
+                        name: info.name,
+                        email: info.email,
+                        picture: info.picture,
+                        token: info_token,
+                    })
+                )
+            } catch (error) {
+                return res
+                    .status(400)
+                    .json(handleResultError('Vui lòng đăng ký tài khoản!'))
+            }
+        } else {
+            return res.status(400).json(handleResultError('Lỗi đăng nhập'))
         }
     }
 }

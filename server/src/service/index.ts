@@ -104,13 +104,11 @@ export async function _FindByIdAndDelete(
         .findByIdAndDelete({ _id: query._id })
         .then((result: any) => {
             if (result) {
-                console.log('error1')
                 return handleResultSuccessNoPage(
                     createMessage.deleteSuccess(name),
                     result
                 )
             } else {
-                console.log('error2')
                 return handleResultError(createMessage.findFail(name))
             }
         })

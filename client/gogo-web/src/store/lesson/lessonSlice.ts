@@ -25,14 +25,14 @@ export interface IContent {
   level: number | null
   options: IOptions[] | []
   answer?: number | null
-  answers: string[] | []
+  answers: any[] | []
 }
 
 export interface ILesson {
   index: number
   type: string | null
   topic?: ITopic | null
-  part: string | IPart
+  part?: IPart | null
   content: IContent
 }
 
@@ -47,7 +47,7 @@ const defaultContent = {
 let initialState: ILesson = {
   index: 1,
   type: null,
-  part: '',
+  part: null,
   topic: null,
   content: defaultContent,
 }
@@ -60,7 +60,7 @@ export const lessonSlice = createSlice({
       state.topic = action.payload
       state.index = 2
     },
-    setPart: (state, action: PayloadAction<string>) => {
+    setPart: (state, action: PayloadAction<IPart>) => {
       state.part = action.payload
       state.index = 3
     },
@@ -70,7 +70,13 @@ export const lessonSlice = createSlice({
         answers: [...state.content.answers, action.payload],
       }
     },
-    setSortAnswers: (state, action: PayloadAction<string[]>) => {
+    setAnswersArray: (state, action: PayloadAction<any>) => {
+      state.content = {
+        ...state.content,
+        answers: [...state.content.answers, ...action.payload],
+      }
+    },
+    setSortAnswers: (state, action: PayloadAction<any[]>) => {
       state.content.answers = action.payload
     },
     setContent: (state, action: PayloadAction<IContent>) => {
@@ -98,6 +104,7 @@ export const lessonSlice = createSlice({
       state.index = 1
       state.type = null
       state.topic = null
+      state.part = null
       state.content = defaultContent
     },
     setLesson: (state, action: PayloadAction<ILesson>) => {
@@ -105,6 +112,7 @@ export const lessonSlice = createSlice({
       state.index = action.payload.index
       state.topic = action.payload.topic
       state.type = action.payload.type
+      state.part = action.payload.part
     },
   },
 })
@@ -119,6 +127,7 @@ export const {
   setLesson,
   setAnswers,
   setSortAnswers,
+  setAnswersArray,
   setPart,
 } = lessonSlice.actions
 export default lessonSlice.reducer

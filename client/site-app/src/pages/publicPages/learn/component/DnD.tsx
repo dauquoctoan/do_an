@@ -15,6 +15,8 @@ import { useDispatch } from "react-redux";
 // import { setSortAnswers } from "store/lesson/lessonSlice";
 import Tag from "antd/lib/tag";
 import { COLOR } from "../../../../constant";
+import { RootState } from "../../../../store";
+import { setChose } from "../../../../store/features/learn/learnSlice";
 
 interface ISortableHandleElement {
     children: React.ReactNode;
@@ -66,21 +68,16 @@ const DndList: React.ComponentClass<ISortableContainer, any> =
     );
 const DnD = () => {
     const dispatch = useDispatch();
-    // const answers: any = useSelector((state: RootState) => {
-    //     return state.lessonReducer.content.answers;
-    // });
-
-    const [answers, setState] = useState<any[]>([
-        "Item 1",
-        "Item 2",
-        "Item 3",
-        "Item 4",
-        "Item 5",
-        "Item 6",
-        "Item 1",
-        "Item 5",
-    ]);
-
+    const mainLearn = useSelector((state: RootState) => {
+        return state.mainLearn;
+    });
+    function getData() {
+        if (!mainLearn.chose) {
+            return mainLearn.data[mainLearn.index - 1].options;
+        } else {
+            return mainLearn.chose;
+        }
+    }
     const onSortEnd = ({
         oldIndex,
         newIndex,
@@ -88,10 +85,7 @@ const DnD = () => {
         oldIndex: number;
         newIndex: number;
     }): void => {
-        answers &&
-            // dispatch();
-            // setSortAnswers(arrayMoveImmutable(answers, oldIndex, newIndex))
-            setState(arrayMoveImmutable(answers, oldIndex, newIndex));
+        dispatch(setChose(arrayMoveImmutable(getData(), oldIndex, newIndex)));
     };
     return (
         <IDND>
@@ -102,12 +96,11 @@ const DnD = () => {
                 // useDragHandle
                 className="itemsContainer"
             >
-                {answers &&
-                    answers.map((value: any, index: number) => (
-                        <DndItem key={`item-${index}`} index={index}>
-                            <div className="item"> {value}</div>
-                        </DndItem>
-                    ))}
+                {getData().map((value: any, index: number) => (
+                    <DndItem key={`item-${index}`} index={index}>
+                        <div className="item"> {value}</div>
+                    </DndItem>
+                ))}
             </DndList>
         </IDND>
     );

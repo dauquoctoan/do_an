@@ -1,5 +1,9 @@
 import React from "react";
 import styled from "styled-components";
+import { type_key } from "../../../constant";
+import Card from "./card";
+import CardNoImage from "./CardNoImage";
+import ChoseAPair from "./ChoseAPair";
 import Sort from "./Sort";
 
 interface IProps {
@@ -8,10 +12,14 @@ interface IProps {
 
 function renderCourse(type: string) {
     switch (type) {
-        case "card":
+        case type_key.choose_a_pair:
+            return <ChoseAPair />;
+        case type_key.sort:
             return <Sort />;
-        case "sort":
-            return <Sort />;
+        case type_key.choose_one_of_4_image:
+            return <Card />;
+        case type_key.choose_one_of_4:
+            return <CardNoImage />;
         default:
             return <></>;
     }

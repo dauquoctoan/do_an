@@ -13,7 +13,7 @@ const CardNoImage = () => {
         <SCardNoImage>
             <div className="wrapper">
                 <div className="wrapper-item">
-                    {mainLearn?.data[mainLearn.index - 1]?.option.map(
+                    {mainLearn?.data[mainLearn.index - 1]?.options.map(
                         (item: any, i: number) => {
                             const index = i + 1;
                             return (
