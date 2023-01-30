@@ -129,5 +129,4 @@ get http://localhost:3005/site/lessons?part=63d5033df1484b058c10fcfa
 
 
 ###
-get http://localhost:3005/site/lessons
-
+get http://localhost:3005/site/random-lessons

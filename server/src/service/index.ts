@@ -1,3 +1,4 @@
+import { limits } from 'argon2'
 import { CODE, DEFAULT_PAGE, STRINGS } from '../configs/constants'
 
 import {
@@ -56,11 +57,9 @@ export async function _Finds(
         page: Number(query.page) || DEFAULT_PAGE.page,
         limit: Number(query.limit) || DEFAULT_PAGE.limit,
     }
-
     delete query['page']
     delete query['limit']
     delete query['search']
-
     const skip = (paging.page - 1) * paging.limit
     try {
         const modals = await modal
@@ -158,21 +157,14 @@ export async function _FindsRandom(
     delete query['page']
     delete query['limit']
     delete query['search']
-
     try {
-        modal.count().exec(function (err: any, count: any) {
-            var random = Math.floor(Math.random() * (count - paging.limit))
-            console.log(query, random, populate)
-            modal
-                .find(query)
-                .skip(random)
-                .populate(populate)
-                .exec(function (err: any, result: any) {
-                    return handleResultSuccessNoPage(
-                        createMessage.findSuccess(name),
-                        result
-                    )
-                })
+        const total = await modal.count()
+        var random = Math.floor(Math.random() * (total - paging.limit))
+        random = random < 0 ? 0 : random
+        const result = await modal.find(query).skip(random).populate(populate)
+        return handleResultSuccess(createMessage.findSuccess(name), result, {
+            ...paging,
+            total: total,
         })
     } catch (error) {
         return handleResultError(createMessage.findFail(name) + ':' + error)

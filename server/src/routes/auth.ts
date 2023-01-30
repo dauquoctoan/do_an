@@ -13,7 +13,6 @@ router.post(
 router.post('/save-user', validate(JCreateUser), authController.saveUser)
 router.post('/login', authController.login)
 router.post('/login-token', authController.loginToken)
-/* login */
 router.post('/admin/login', validate(JLoginAdmin), authController.loginAdmin)
 
 export default router

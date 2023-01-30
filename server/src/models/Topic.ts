@@ -7,6 +7,10 @@ const Topic = new Schema(
         name: { type: String, required: true },
         desc: { type: String, required: false },
         picture: { type: String, required: false },
+        ageGroup: {
+            type: Schema.Types.ObjectId,
+            ref: 'ageGroup',
+        },
     },
     {
         timestamps: true,
