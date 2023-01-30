@@ -9,130 +9,84 @@ import { useDispatch } from "react-redux";
 import {
     incrementByAmount,
     next,
+    setListAnswer,
+    setOpen,
 } from "../../../store/features/learn/learnSlice";
 import { IDataItem } from "./interface";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import { Button, Modal, Box } from "@mui/material";
-import DoneIcon from "@mui/icons-material/Done";
-import { COLOR } from "../../../constant";
+import { COLOR, type_key } from "../../../constant";
+import { useSearchParams } from "react-router-dom";
+import { getLessonsBuyPart } from "../../api";
+import { shuffle } from "../../../utils";
+import ConFirmResult from "./component/ConFirmResult";
 
 const LearnMain = () => {
+    const [searchParams] = useSearchParams();
+    const id = searchParams.get("part");
     const dispatch = useDispatch();
     const mainLearn = useSelector((state: RootState) => state.mainLearn);
-    const [open, setOpen] = React.useState(false);
 
-    const handleOpen = () => {
-        setOpen(true);
+    function mixData(data: any[]) {
+        let newArray: any[] = [];
+        if (data.length > 0) {
+            newArray = data.map((item) => {
+                if (
+                    item.type === type_key.choose_a_pair ||
+                    item.type === type_key.sort
+                ) {
+                    return { ...item, options: shuffle(item.options) };
+                } else {
+                    return item;
+                }
+            });
+        }
+        return newArray;
+    }
+    const getData = async () => {
+        const res = await getLessonsBuyPart({ part: id });
+        dispatch(incrementByAmount(mixData(res.data)));
     };
 
-    const handleClose = () => {
-        setOpen(false);
-    };
-
-    const data: IDataItem[] = [
-        {
-            type: "card",
-            option: [
-                {
-                    img: "https://d2pur3iezf4d1j.cloudfront.net/images/0516427ca6895c2a3921b745a175fe77",
-                    title: "title",
-                },
-                {
-                    img: "https://d2pur3iezf4d1j.cloudfront.net/images/0516427ca6895c2a3921b745a175fe77",
-                    title: "title",
-                },
-                {
-                    img: "https://d2pur3iezf4d1j.cloudfront.net/images/0516427ca6895c2a3921b745a175fe77",
-                    title: "title",
-                },
-                {
-                    img: "https://d2pur3iezf4d1j.cloudfront.net/images/0516427ca6895c2a3921b745a175fe77",
-                    title: "title",
-                },
-            ],
-            answer: 1,
-        },
-        {
-            type: "card",
-            option: [
-                {
-                    img: "https://d2pur3iezf4d1j.cloudfront.net/images/0516427ca6895c2a3921b745a175fe77",
-                    title: "title",
-                },
-                {
-                    img: "https://d2pur3iezf4d1j.cloudfront.net/images/0516427ca6895c2a3921b745a175fe77",
-                    title: "title",
-                },
-                {
-                    img: "https://d2pur3iezf4d1j.cloudfront.net/images/0516427ca6895c2a3921b745a175fe77",
-                    title: "title",
-                },
-                {
-                    img: "https://d2pur3iezf4d1j.cloudfront.net/images/0516427ca6895c2a3921b745a175fe77",
-                    title: "title",
-                },
-            ],
-            answer: 1,
-        },
-        {
-            type: "card",
-            option: [
-                {
-                    img: "https://d2pur3iezf4d1j.cloudfront.net/images/0516427ca6895c2a3921b745a175fe77",
-                    title: "title",
-                },
-                {
-                    img: "https://d2pur3iezf4d1j.cloudfront.net/images/0516427ca6895c2a3921b745a175fe77",
-                    title: "title",
-                },
-                {
-                    img: "https://d2pur3iezf4d1j.cloudfront.net/images/0516427ca6895c2a3921b745a175fe77",
-                    title: "title",
-                },
-                {
-                    img: "https://d2pur3iezf4d1j.cloudfront.net/images/0516427ca6895c2a3921b745a175fe77",
-                    title: "title",
-                },
-            ],
-            answer: 1,
-        },
-        {
-            type: "card",
-            option: [
-                {
-                    img: "https://d2pur3iezf4d1j.cloudfront.net/images/0516427ca6895c2a3921b745a175fe77",
-                    title: "title",
-                },
-                {
-                    img: "https://d2pur3iezf4d1j.cloudfront.net/images/0516427ca6895c2a3921b745a175fe77",
-                    title: "title",
-                },
-                {
-                    img: "https://d2pur3iezf4d1j.cloudfront.net/images/0516427ca6895c2a3921b745a175fe77",
-                    title: "title",
-                },
-                {
-                    img: "https://d2pur3iezf4d1j.cloudfront.net/images/0516427ca6895c2a3921b745a175fe77",
-                    title: "title",
-                },
-            ],
-            answer: 1,
-        },
-    ];
     useEffect(() => {
-        dispatch(incrementByAmount(data));
+        getData();
     }, []);
 
     function valueLabelFormat(value: number) {
         return `Câu số: ${value}`;
     }
-
-    function handleCheckAnswer() {
-        if (mainLearn.chose === mainLearn.data[mainLearn.index].answer) {
-            handleOpen();
+    function getItemIndex() {
+        return mainLearn.data[mainLearn.index - 1];
+    }
+    function CheckCompareTwoArray(arr1: any[] = [], arr2: any[] = []) {
+        if (arr1.length < 0 || arr2.length < 0) {
+            return false;
+        }
+        return arr1.every((item, index) => {
+            return item.title === arr2[index].title;
+        });
+    }
+    function checkTrueFalse() {
+        if (getItemIndex().type === type_key.sort) {
+            return CheckCompareTwoArray(
+                getItemIndex().answers,
+                mainLearn.chose
+            );
         } else {
-            handleOpen();
+            if (mainLearn.chose === mainLearn.data[mainLearn.index].answer) {
+                return true;
+            }
+        }
+        return false;
+    }
+    function handleCheckAnswer() {
+        if (checkTrueFalse()) {
+            dispatch(setListAnswer(true));
+            dispatch(setOpen(true));
+        } else {
+            dispatch(setListAnswer(false));
+            dispatch(setOpen(true));
         }
     }
 
@@ -184,32 +138,9 @@ const LearnMain = () => {
                             Kiểm tra
                         </Button>
                     </div>
+                    <ConFirmResult />
                 </div>
             </SLearnContent>
-            <Modal
-                aria-labelledby="transition-modal-title"
-                aria-describedby="transition-modal-description"
-                hideBackdrop
-                closeAfterTransition
-                open={open}
-                onClose={handleClose}
-            >
-                <SBox>
-                    <div className="icon">
-                        <DoneIcon className="check" />
-                    </div>
-                    <h2 id="child-modal-title">Chính xác</h2>
-                    <Button
-                        variant="contained"
-                        onClick={() => {
-                            handleClose();
-                            dispatch(next());
-                        }}
-                    >
-                        Tiếp tục
-                    </Button>
-                </SBox>
-            </Modal>
         </SLearnMain>
     );
 };
@@ -242,35 +173,6 @@ const SLearnMain = styled.div`
             display: flex;
             width: 100%;
             justify-content: space-between;
-        }
-    }
-`;
-
-const SBox = styled(Box)`
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 400px;
-    background-color: white;
-    border: 2px solid ${COLOR.primary.light};
-    box-shadow: 24;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-items: center;
-    align-items: center;
-    .icon {
-        width: 110px;
-        height: 110px;
-        border-radius: 50%;
-        background-color: ${COLOR.primary.light};
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        .check {
-            font-size: 80px;
-            color: white;
         }
     }
 `;

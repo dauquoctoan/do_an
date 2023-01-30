@@ -5,6 +5,7 @@ import { SContent } from "../../../globalStyled";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { Popover, Button, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import Chart from "../../privatePages/chat";
 
 const Home = () => {
     const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(

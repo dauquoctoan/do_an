@@ -49,7 +49,6 @@ function handleResult(api: any) {
       status: number
       data: { status: number; code: number; message: string }
     }) => {
-      console.log('response', res)
       if (res.status === Configs._api_status.RE_LOGIN) {
         localStorage.setItem('token', '')
         localStorage.setItem('user_info', '')

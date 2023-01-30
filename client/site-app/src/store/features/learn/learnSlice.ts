@@ -1,54 +1,49 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface LearnState {
-    chose: number;
+    listAnswer: boolean[];
+    chose: any;
     index: number;
+    open: boolean;
     data: IQuestions[];
 }
 
 export interface IQuestions {
     type: string;
-    option: {
-        title: string;
-        img: string;
-    }[];
-    answer: number;
-    status?: boolean | null;
+    title: string;
+    options: any[];
+    answers?: any[];
+    answer?: number;
+    status?: boolean;
 }
 
 const initialState: LearnState = {
-    chose: 0,
+    listAnswer: [],
+    chose: null,
     index: 1,
     data: [
         {
-            type: "card",
-            option: [
-                {
-                    img: "https://d2pur3iezf4d1j.cloudfront.net/images/0516427ca6895c2a3921b745a175fe77",
-                    title: "title",
-                },
-                {
-                    img: "https://d2pur3iezf4d1j.cloudfront.net/images/0516427ca6895c2a3921b745a175fe77",
-                    title: "title",
-                },
-                {
-                    img: "https://d2pur3iezf4d1j.cloudfront.net/images/0516427ca6895c2a3921b745a175fe77",
-                    title: "title",
-                },
-                {
-                    img: "https://d2pur3iezf4d1j.cloudfront.net/images/0516427ca6895c2a3921b745a175fe77",
-                    title: "title",
-                },
-            ],
+            type: "",
+            title: "",
+            options: [],
+            answers: [],
             answer: 1,
+            status: false,
         },
     ],
+    open: false,
 };
 
 export const learnSlice = createSlice({
     name: "mainLearning",
     initialState,
     reducers: {
+        setListAnswer: (state, action: PayloadAction<boolean>) => {
+            state.listAnswer = [...state.listAnswer, action.payload];
+        },
+        setOpen: (state, action: PayloadAction<boolean>) => {
+            state.open = action.payload;
+        },
         next: (state) => {
             state.index += state.index < state.data.length ? 1 : 0;
             state.chose = 0;
@@ -56,13 +51,14 @@ export const learnSlice = createSlice({
         incrementByAmount: (state, action: PayloadAction<IQuestions[]>) => {
             state.data = action.payload;
         },
-        setChose: (state, action: PayloadAction<number>) => {
+        setChose: (state, action: PayloadAction<any>) => {
             state.chose = action.payload;
         },
     },
 });
 
 // Action creators are generated for each case reducer function
-export const { next, incrementByAmount, setChose } = learnSlice.actions;
+export const { next, incrementByAmount, setChose, setListAnswer, setOpen } =
+    learnSlice.actions;
 
 export default learnSlice.reducer;

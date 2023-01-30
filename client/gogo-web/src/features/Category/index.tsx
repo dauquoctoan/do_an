@@ -35,7 +35,7 @@ const Category = () => {
       key: 'topic',
       dataIndex: 'topic',
       render: (topic: any, record: any) => (
-        <span>{Configs.renderText(topic.name)}</span>
+        <span>{Configs.renderText(topic?.name)}</span>
       ),
     },
     {
@@ -82,7 +82,6 @@ const Category = () => {
       const res = await getTopics({
         // search: search,
       })
-      console.log(res)
       if (res) {
         let option = {}
         res?.data?.forEach((e: any) => {

@@ -1,6 +1,6 @@
 import { AutoComplete, Descriptions, Button, Select } from 'antd'
 import Configs from 'configs'
-import { type } from 'configs/constance'
+import { TYPE_LESSON } from 'configs/constance'
 import { useDispatch, useSelector } from 'react-redux'
 import { next, prev, setTypeTopic } from 'store/lesson/lessonSlice'
 import { RootState } from 'store/store'
@@ -13,8 +13,8 @@ const ChoseTypeLesson = () => {
     return state.lessonReducer
   })
 
-  const options = Object.keys(type).map((item) => {
-    return { _id: item, value: type[item] }
+  const options = Object.keys(TYPE_LESSON).map((item) => {
+    return { _id: item, value: TYPE_LESSON[item] }
   })
 
   function onSelect(value: any) {
@@ -43,7 +43,7 @@ const ChoseTypeLesson = () => {
         {lesson.type && (
           <Descriptions title="Loại bài tập đã chọn">
             <Descriptions.Item label="Loại">
-              {Configs.renderText(type[lesson.type])}
+              {Configs.renderText(TYPE_LESSON[lesson.type])}
             </Descriptions.Item>
           </Descriptions>
         )}

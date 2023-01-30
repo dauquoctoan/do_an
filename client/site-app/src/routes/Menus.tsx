@@ -1,30 +1,39 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { history } from "../utils/history";
+import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
+import HourglassDisabledIcon from "@mui/icons-material/HourglassDisabled";
+import StoreOutlinedIcon from "@mui/icons-material/StoreOutlined";
+import DateRangeIcon from "@mui/icons-material/DateRange";
+import MenuBookIcon from "@mui/icons-material/MenuBook";
 
 const Menus = () => {
     const navigate = useNavigate();
     const [index, setIndex] = useState<number>(0);
     const menus = [
         {
-            name: "Học",
-            path: "/learn",
-            image: "https://d35aaqx5ub95lt.cloudfront.net/vendor/784035717e2ff1d448c0f6cc4efc89fb.svg",
+            name: "Thử thách",
+            path: "/",
+            image: <HourglassDisabledIcon className="icon" />,
         },
         {
-            name: "Giải trí",
-            path: "/learn?id=10",
-            image: "https://d35aaqx5ub95lt.cloudfront.net/vendor/784035717e2ff1d448c0f6cc4efc89fb.svg",
+            name: "Chủ đề",
+            path: "/topic",
+            image: <MenuBookIcon className="icon"></MenuBookIcon>,
         },
         {
             name: "Bảng xếp hạng",
-            path: "/learn",
-            image: "https://d35aaqx5ub95lt.cloudfront.net/vendor/784035717e2ff1d448c0f6cc4efc89fb.svg",
+            path: "/top",
+            image: <EmojiEventsIcon className="icon"></EmojiEventsIcon>,
         },
         {
             name: "Cửa hàng",
-            path: "/learn",
-            image: "https://d35aaqx5ub95lt.cloudfront.net/vendor/784035717e2ff1d448c0f6cc4efc89fb.svg",
+            path: "/store",
+            image: <StoreOutlinedIcon className="icon"></StoreOutlinedIcon>,
+        },
+        {
+            name: "Sự kiện",
+            path: "/event",
+            image: <DateRangeIcon className="icon" />,
         },
     ];
 
@@ -36,11 +45,11 @@ const Menus = () => {
                         key={i}
                         onClick={() => {
                             setIndex(i);
-                            navigate(item.path);
+                            navigate("/learn" + item.path);
                         }}
                         className={i === index ? "item active" : "item"}
                     >
-                        <img src={item.image} alt="logo" />
+                        {item.image}
                         {item.name}
                     </div>
                 );

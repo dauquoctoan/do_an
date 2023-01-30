@@ -40,16 +40,6 @@ export const FLOOR: IConst = {
   5: 'Toà B',
 }
 
-// export const KEY_NEWS_CATE: {
-//   event: number
-//   extent: number
-//   event: number
-// } = {
-//   event: 1,
-//   extent: 2,
-//   event: 4
-// }
-
 export const KEY_TYPE_NEW: {
   promotion: number
   event: number
@@ -67,13 +57,6 @@ export const KEY_TYPE_NEW: {
 //   [KEY_TYPE_NEW.event]: 'Sự kiện',
 //   [KEY_TYPE_NEW.recruit]: 'Tuyển dụng',
 // }
-
-export const TYPE_LESSON: IConst = {
-  1: 'Chọn một trong 4 đáp án có hình ảnh',
-  2: 'Chọn một trong 4 đáp án không có hình ảnh',
-  3: 'Nối các cặp câu',
-  4: 'Sắp xếp các từ thành câu có nghĩa',
-}
 
 export const GIFT_TYPE: IConst = {
   1: 'Quà Tặng',
@@ -131,11 +114,12 @@ export const PHONE_REGEX =
   /^(0|\+84)(\s|\.)?((3[2-9])|(5[689])|(7[06-9])|(8[1-689])|(9[0-46-9]))(\d)(\s|\.)?(\d{3})(\s|\.)?(\d{3})$/
 
 ///new
-export const type: any = {
+
+export const TYPE_LESSON: IConst = {
   1: 'Chọn một trong 4 đáp án, có hình ảnh',
   2: 'Chọn một trong 4 đáp án',
-  3: 'Chọn các cặp đáp án',
-  4: 'Sắp xếp từ thành câu có nghĩa',
+  3: 'Nối các cặp câu',
+  4: 'Sắp xếp các từ thành câu',
 }
 
 export const type_key: {

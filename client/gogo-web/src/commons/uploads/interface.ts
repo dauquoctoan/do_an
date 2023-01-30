@@ -26,5 +26,5 @@ export interface IProps extends FormItemProps {
   defaultData?: IFile[]
   logger?: (data: IFile[]) => any
   setFileListProps?: (fn: Function) => any
-  form: FormInstance
+  form?: FormInstance
 }

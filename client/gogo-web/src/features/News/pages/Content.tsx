@@ -20,6 +20,7 @@ import history from 'utils/history'
 import { createLesson, updateLesson } from '../api'
 import Lesson1 from './Lesson1'
 import Lesson3 from './Lesson3'
+import Lesson4 from './Lesson4'
 
 const Content = () => {
   const id = Configs.getSearchParams().get('id')
@@ -27,11 +28,12 @@ const Content = () => {
   const [visible, setVisible] = useState(false)
   const dispatch = useDispatch()
 
-  const { content, topic, type, part } = useSelector((state: RootState) => {
+  const { content, type, part } = useSelector((state: RootState) => {
     return state.lessonReducer
   })
 
   function handleFinish(form: any) {
+    console.log('form', form)
     if (
       type === type_key.choose_one_of_4_image ||
       type === type_key.choose_one_of_4
@@ -72,6 +74,16 @@ const Content = () => {
       }
       dispatch(setContent(data))
     }
+    if (type === type_key.choose_a_pair) {
+      const data: IContent = {
+        answer: null,
+        level: form.level,
+        options: [],
+        answers: content.answers,
+        title: form.title,
+      }
+      dispatch(setContent(data))
+    }
     setVisible(true)
   }
 
@@ -104,7 +116,7 @@ const Content = () => {
         ],
         answer: Number(content?.answer),
         level: content?.level,
-        part: part,
+        part: part && part._id,
       }
     }
     if (type === type_key.sort) {
@@ -114,7 +126,17 @@ const Content = () => {
         options: content.answers,
         answers: content.answers,
         level: content?.level,
-        part: part,
+        part: part && part._id,
+      }
+    }
+    if (type === type_key.choose_a_pair) {
+      lesson = {
+        title: content?.title,
+        type: type,
+        options: content.answers,
+        answers: content.answers,
+        level: content?.level,
+        part: part && part._id,
       }
     }
     const result = id
@@ -237,8 +259,9 @@ const Content = () => {
             {(type === '1' || type === '2') && (
               <Lesson1 form={form} type={type} />
             )}
-            {type === '4' && <Lesson3 form={form} />}
-            {type !== '4' && (
+            {type === '3' && <Lesson3 />}
+            {type === '4' && <Lesson4 form={form} />}
+            {(type == '1' || type == '2') && (
               <FormItem
                 wrapperCol={style.layoutModal.wrapperCol}
                 labelCol={style.layoutModal.labelCol}

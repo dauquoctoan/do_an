@@ -1,6 +1,5 @@
 import { Select, Descriptions, Button } from 'antd'
 import Configs from 'configs'
-import { getDataTypeStalls } from 'features/Stalls/api'
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
@@ -12,9 +11,11 @@ import { getPartLessons } from '../api'
 const PartLesson = () => {
   const [options, setOptions] = useState<any[]>([])
   const [topics, setTopics] = useState<any[]>([])
+
   const { topic, part } = useSelector((state: RootState) => {
     return state.lessonReducer
   })
+  console.log('part', part)
   const dispatch = useDispatch()
   async function getData() {
     const res = await getPartLessons({ topic: topic?._id })
@@ -42,19 +43,20 @@ const PartLesson = () => {
         }
         options={options}
         onSelect={(value: string) => {
-          dispatch(setPart(value))
+          dispatch(
+            setPart(
+              topics.find((item: any) => {
+                return item._id === value
+              })
+            )
+          )
         }}
       />
       <div className="content">
         {part && (
           <Descriptions title="Loại bài tập đã chọn">
             <Descriptions.Item label="Loại">
-              {part &&
-                Configs.renderText(
-                  topics.find((item) => {
-                    return item._id === part
-                  })?.title
-                )}
+              {part.title && Configs.renderText(part.title)}
             </Descriptions.Item>
           </Descriptions>
         )}

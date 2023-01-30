@@ -7,8 +7,9 @@ import { middleAuthenTication } from '../middleware'
 
 function router(app: express.Application) {
     app.use('/upload', uploadRouter)
-    app.use('/', authRouter)
     app.use('/site', siteRouter)
+    app.use('/', authRouter)
     app.use('/admin', middleAuthenTication, adminRouter)
 }
+
 export default router

@@ -9,6 +9,7 @@ import {
     _FindByIdAndDelete,
     _FindByIdAndUpdate,
     _Finds,
+    _FindsRandom,
 } from '../service'
 import { handleSearchMongoose } from '../utils'
 import User from '../models/User'
@@ -75,6 +76,15 @@ class lessonController {
                 },
             }
         )
+        res.json(result)
+    }
+    async getRandom(req: any, res: any) {
+        const result = await _FindsRandom(Lesson, req.query, 'chủ đề', {
+            path: 'part',
+            populate: {
+                path: 'topic',
+            },
+        })
         res.json(result)
     }
 

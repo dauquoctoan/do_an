@@ -8,35 +8,39 @@ import { setChose } from "../../../store/features/learn/learnSlice";
 const Card = () => {
     const dispatch = useDispatch();
     const mainLearn = useSelector((state: RootState) => state.mainLearn);
-
+    function getData() {
+        return mainLearn.data[mainLearn.index - 1].options;
+    }
     return (
         <SCard>
             <div className="wrapper">
                 <div className="wrapper-item">
-                    {mainLearn?.data[mainLearn.index - 1]?.option.map(
-                        (item: any, i: number) => {
-                            const index = i + 1;
-                            return (
-                                <div
-                                    key={index}
-                                    className={
-                                        mainLearn.chose === index
-                                            ? "item active"
-                                            : "item"
-                                    }
-                                    onClick={() => {
-                                        dispatch(setChose(index));
-                                    }}
-                                >
-                                    <img src={item.img} alt="img" />
-                                    <div className="content">
-                                        <p>{item.title}</p>
-                                        <div className="number">{index}</div>
-                                    </div>
+                    {getData().map((item: any, i: number) => {
+                        const index = i + 1;
+                        return (
+                            <div
+                                key={index}
+                                className={
+                                    mainLearn.chose === index
+                                        ? "item active"
+                                        : "item"
+                                }
+                                onClick={() => {
+                                    dispatch(setChose(index));
+                                }}
+                            >
+                                <img
+                                    src={item.picture}
+                                    alt="img"
+                                    style={{ width: "90%", height: "70%" }}
+                                />
+                                <div className="content">
+                                    <p>{item.title}</p>
+                                    <div className="number">{index}</div>
                                 </div>
-                            );
-                        }
-                    )}
+                            </div>
+                        );
+                    })}
                 </div>
             </div>
         </SCard>
@@ -88,11 +92,12 @@ const SCard = styled.div`
                         justify-content: center;
                     }
                 }
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
             }
             .active {
-                background-color: ${COLOR.primary.light};
-                border: 2px solid ${COLOR.primary.dark};
-                color: white;
+                border: 2px solid ${COLOR.primary.light};
                 .content {
                     .number {
                         border: 2px solid ${COLOR.primary.dark};

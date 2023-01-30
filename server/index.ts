@@ -8,11 +8,29 @@ import db from './src/configs/db/index'
 import createSocket from './src/socket'
 var cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
-const http = require('http')
+import * as http from 'http'
+import { Server } from 'socket.io'
+import { middleAuthenTicationSocket } from './src/middleware'
 const port = process.env.SERVER_PORT
 const app = express()
 
-// app.use(express.static(path.join(__dirname, '/uploads')))
+const httpServer = new http.Server(app)
+
+const io = new Server(httpServer, {
+    cors: {
+        origin: ['http://localhost:3000', 'http://localhost:3006'],
+        credentials: true,
+    },
+})
+
+app.set('socketIo', io)
+// io.attach(httpServer, {
+//     pingInterval: 5000, // 5s - đơn vị miliseconds 1000ms = 1s
+//     pingTimeout: 20000, // 20s - đơn vị miliseconds 1000ms = 1s
+//     cookie: false,
+// })
+io.use(middleAuthenTicationSocket)
+
 db.connect()
 app.use(cors())
 app.use(cookieParser())
@@ -34,8 +52,10 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use('/uploads', express.static('uploads'))
 
 router(app)
-const server = http.createServer(app)
-createSocket(server)
-server.listen(port, () => {
+
+// const server = http.createServer(app)
+createSocket(io)
+
+httpServer.listen(port, () => {
     console.log(`⚡️[server]: Server is running at http://localhost:${port}`)
 })
