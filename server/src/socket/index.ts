@@ -22,6 +22,7 @@ function createSocket(server: any) {
     })
 }
 export default createSocket
+
 /* 
 user{
     name

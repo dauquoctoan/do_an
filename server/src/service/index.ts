@@ -123,7 +123,7 @@ export async function _FindByIdAndDelete(
 export async function _FindByIdAndUpdate(
     modal: any,
     query: {
-        _id: string
+        _id?: string
     },
     name: string
 ) {
@@ -144,4 +144,39 @@ export async function _FindByIdAndUpdate(
         .catch((error: any) => {
             return handleResultError(createMessage.updateFail(error))
         })
+}
+
+export async function _FindsRandom(
+    modal: any,
+    query: any,
+    name: string = 'đối tượng',
+    populate: string | object | null = null
+) {
+    query = handleRemoveKeysNull(query)
+    const paging = {
+        page: Number(query.page) || DEFAULT_PAGE.page,
+        limit: Number(query.limit) || 10,
+    }
+    delete query['page']
+    delete query['limit']
+    delete query['search']
+
+    try {
+        modal.count().exec(function (err: any, count: any) {
+            var random = Math.floor(Math.random() * (count - paging.limit))
+            console.log(query, random, populate)
+            modal
+                .find(query)
+                .skip(random)
+                .populate(populate)
+                .exec(function (err: any, result: any) {
+                    return handleResultSuccessNoPage(
+                        createMessage.findSuccess(name),
+                        result
+                    )
+                })
+        })
+    } catch (error) {
+        return handleResultError(createMessage.findFail(name) + ':' + error)
+    }
 }
