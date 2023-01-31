@@ -52,6 +52,7 @@ export async function _Finds(
     name: string = 'đối tượng',
     populate: string | object | null = null
 ) {
+    console.log('ageGroup', query.ageGroup)
     query = handleRemoveKeysNull(query)
     const paging = {
         page: Number(query.page) || DEFAULT_PAGE.page,

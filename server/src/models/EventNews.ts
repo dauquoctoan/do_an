@@ -1,16 +1,16 @@
 var mongoose = require('mongoose')
 var Schema = mongoose.Schema
 
-const Part = new Schema(
+const EventNews = new Schema(
     {
         title: { type: String, required: true },
-        desc: { type: String, required: false },
+        desc: { type: String, required: true },
         picture: { type: String, required: true },
-        link: { type: String, required: false },
+        link: { type: String, required: true },
     },
     {
         timestamps: true,
     }
 )
 
-export default mongoose.model('Part', Part)
+export default mongoose.model('EventNews', EventNews)

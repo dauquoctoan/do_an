@@ -24,8 +24,10 @@ class lessonController {
     async getTopics(req: any, res: any) {
         const result = await _Finds(
             Topic,
-            handleSearchMongoose('name', req.query.search || ''),
-            req.query,
+            {
+                ...handleSearchMongoose('name', req.query.search || ''),
+                ...req.query,
+            },
             'topic'
         )
         res.json(result)
@@ -78,6 +80,7 @@ class lessonController {
         )
         res.json(result)
     }
+    
     async getRandom(req: any, res: any) {
         const result = await _FindsRandom(Lesson, req.query, 'chủ đề', {
             path: 'part',

@@ -7,10 +7,7 @@ const Topic = new Schema(
         name: { type: String, required: true },
         desc: { type: String, required: false },
         picture: { type: String, required: false },
-        ageGroup: {
-            type: Schema.Types.ObjectId,
-            ref: 'ageGroup',
-        },
+        ageGroup: { type: String, enum: ['1', '2', '3', '4'], required: true },
     },
     {
         timestamps: true,

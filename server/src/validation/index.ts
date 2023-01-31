@@ -65,6 +65,7 @@ export const JCreateTopic = Joi.object({
     _id: Joi.string(),
     name: Joi.string().required(),
     desc: Joi.string(),
+    ageGroup: Joi.string().required(),
     picture: Joi.string(),
 })
 
@@ -72,6 +73,7 @@ export const JUpdateTopic = Joi.object({
     _id: Joi.string().required(),
     name: Joi.string().required(),
     desc: Joi.string(),
+    ageGroup: Joi.string().required(),
     picture: Joi.string().required(),
 })
 
@@ -135,4 +137,19 @@ export const JChangeStatusAUser = Joi.object({
 export const JLoginAdmin = Joi.object({
     username: Joi.string().required(),
     password: Joi.string().required(),
+})
+
+export const JCreateEventNews = Joi.object({
+    title: Joi.string().required(),
+    desc: _email,
+    picture: Joi.number(),
+    link: Joi.string(),
+})
+
+export const JUpdateEventNews = Joi.object({
+    _id: Joi.string().required(),
+    title: Joi.string().required(),
+    desc: _email,
+    picture: Joi.number(),
+    link: Joi.string(),
 })

@@ -46,4 +46,10 @@ router.patch(
 )
 router.delete('/a-user', validate(JDelete), adminController.deleteAUser)
 
+/* age group */
+router.get('/age-groups', lessonController.getParts)
+router.post('/age-group', validate(JCreatePart), lessonController.createPart)
+router.put('/age-group', validate(JUpdatePart), lessonController.updatePart)
+router.delete('/age-group', validate(JDelete), lessonController.deletePart)
+
 export default router
