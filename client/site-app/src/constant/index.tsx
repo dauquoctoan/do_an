@@ -1,6 +1,12 @@
 import { createTheme } from "@mui/material/styles";
 import diamon from "../public/img/diamon.svg";
 import logo from "../public/img/logo.svg";
+import correct from "../public/audio/correct.mp3";
+
+export const audio = {
+    correct: correct,
+    logo: logo,
+};
 
 export const images = {
     diamon: diamon,

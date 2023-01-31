@@ -12,11 +12,10 @@ import {
     setListAnswer,
     setOpen,
 } from "../../../store/features/learn/learnSlice";
-import { IDataItem } from "./interface";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
-import { Button, Modal, Box } from "@mui/material";
-import { COLOR, type_key } from "../../../constant";
+import { Button } from "@mui/material";
+import { audio, type_key } from "../../../constant";
 import { useSearchParams } from "react-router-dom";
 import { getLessonsBuyPart } from "../../api";
 import { shuffle } from "../../../utils";
@@ -27,7 +26,7 @@ const LearnMain = () => {
     const id = searchParams.get("part");
     const dispatch = useDispatch();
     const mainLearn = useSelector((state: RootState) => state.mainLearn);
-
+    const audios = new Audio(audio.correct);
     function mixData(data: any[]) {
         let newArray: any[] = [];
         if (data.length > 0) {
@@ -114,9 +113,16 @@ const LearnMain = () => {
                             />
                         </div>
                     </div>
+                    <button
+                        onClick={() => {
+                            audios.play;
+                        }}
+                    >
+                        ...sdfsdf
+                    </button>
                     <div className="content">
                         <LearnContent
-                            type={mainLearn.data[mainLearn.index - 1].type}
+                            type={mainLearn?.data[mainLearn.index - 1]?.type}
                         />
                     </div>
                     <div className="action">
