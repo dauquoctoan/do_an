@@ -9,6 +9,8 @@ import { FormStyled } from '../../../global-styled'
 import R from '../../../utils/R'
 import { createTopic, updateTopic } from '../api'
 import { IPropAddEdit } from '../interface'
+import { getOptionSelect } from 'utils/funcHelper'
+import { age_group } from 'configs/constance'
 
 const AddAndEditAccount = ({
   accountDetail,
@@ -17,7 +19,9 @@ const AddAndEditAccount = ({
 }: IPropAddEdit) => {
   const handleFinish = async (formData: any) => {
     const data = { ...formData, picture: formData.picture[0].response.data[0] }
-    const result = accountDetail ? await updateTopic({ ...data, _id: accountDetail._id }) : await createTopic(data)
+    const result = accountDetail
+      ? await updateTopic({ ...data, _id: accountDetail._id })
+      : await createTopic(data)
     message.success(result.message)
     form.resetFields()
     handleCloseModal()
@@ -67,6 +71,26 @@ const AddAndEditAccount = ({
         ]}
       >
         <Input className="form-content" placeholder="Nhập vào mô tả" />
+      </FormItem>
+      <FormItem
+        wrapperCol={style.layoutModal.wrapperCol}
+        labelCol={style.layoutModal.labelCol}
+        className="form-item"
+        name="ageGroup"
+        label={'Nhóm tuổi'}
+        rules={[
+          {
+            required: true,
+            message: 'Vui lòng chọn nhóm tuổi',
+          },
+        ]}
+      >
+        <Select
+          options={getOptionSelect(age_group)}
+          // onChange={setSearch}
+          placeholder="Vui lòng chọn nhóm tuổi"
+          className="form-content"
+        />
       </FormItem>
       <UploadComponent
         wrapperCol={style.layoutModal.wrapperCol}

@@ -143,3 +143,10 @@ export const type_account_admin: any = {
   0: 'Super Admin',
   1: 'Admin',
 }
+
+export const age_group: any = {
+  1: '2 -> 3 tuổi',
+  2: '4 -> 5 tuổi',
+  3: '6 -> 7 tuổi',
+  4: '8 -> 10 tuổi',
+}
