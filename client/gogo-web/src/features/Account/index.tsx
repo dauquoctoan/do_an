@@ -107,6 +107,7 @@ const Account = () => {
       _id: topic._id,
       desc: topic.desc,
       name: topic.name,
+      ageGroup: topic.ageGroup || '1',
       picture: topic.picture,
     }
     setAccountDetail(dataInit)

@@ -11,6 +11,7 @@ export interface ITopics {
   name: string
   desc?: string
   picture: string
+  ageGroup: string
 }
 
 export interface IFormAddUpdateAccount {
