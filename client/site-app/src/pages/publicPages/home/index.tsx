@@ -1,11 +1,12 @@
 import React from "react";
 import styled from "styled-components";
-import { COLOR } from "../../../constant";
+import { COLOR, images } from "../../../constant";
 import { SContent } from "../../../globalStyled";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { Popover, Button, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import Chart from "../../privatePages/chat";
+import SurveySheet from "../SurveySheet";
 
 const Home = () => {
     const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
@@ -30,7 +31,9 @@ const Home = () => {
             <div className="header">
                 <SContent>
                     <div className="wrapper-header">
-                        <div className="item-lef">APP</div>
+                        <div className="item-lef">
+                            <img src={images.logo} style={{width: '60px', height: '60px'}}/>
+                        </div>
                         <Button
                             variant="text"
                             aria-describedby={id}
@@ -63,7 +66,7 @@ const Home = () => {
                     </div>
                 </SContent>
             </div>
-            <div className="intro-wrap">
+            {/* <div className="intro-wrap">
                 <SContent>
                     <div className="intro">
                         <div className="intro--left"></div>
@@ -210,7 +213,8 @@ const Home = () => {
                         </div>
                     </div>
                 </SContent>
-            </div>
+            </div> */}
+            <SurveySheet />
         </SHome>
     );
 };
@@ -251,7 +255,7 @@ const SHome = styled.div`
         }
     }
     .intro-wrap {
-        background-color: ${COLOR.primary.light};
+        /* background-color: ${COLOR.primary.light}; */
         .intro {
             height: 100vh;
             width: 100%;

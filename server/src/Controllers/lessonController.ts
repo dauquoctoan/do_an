@@ -2,6 +2,8 @@ import Lesson from '../models/Lesson'
 import Card from '../models/Lesson'
 import Topic from '../models/Topic'
 import Part from '../models/Part'
+import EventNews from '../models/EventNews'
+
 
 import {
     _Create,
@@ -130,6 +132,34 @@ class lessonController {
         )
         res.json(result)
     }
+
+    async createEventNews(req: any, res: any) {
+        const result = await _Creates(EventNews, req?.body, 'tin tức sự kiện')
+        res.json(result)
+    }
+
+    async updateEventNews(req: any, res: any) {
+        const result = await _FindByIdAndUpdate(EventNews, req?.body, 'tin tức sự kiện')
+        res.json(result)
+    }
+
+    async deleteEventNews(req: any, res: any) {
+        const result = await _FindByIdAndDelete(EventNews, req?.body, 'tin tức sự kiện')
+        res.json(result)
+    }
+    /* user */
+    async getEventNews(req: any, res: any) {
+        const result = await _Finds(
+            EventNews,
+            {
+                ...handleSearchMongoose('title', req.query.search || ''),
+                ...req.query,
+            },
+            'tin tức sự kiện'
+        )
+        res.json(result)
+    }
+
 }
 
 export default new lessonController()

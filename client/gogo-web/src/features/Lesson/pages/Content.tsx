@@ -21,19 +21,22 @@ import { createLesson, updateLesson } from '../api'
 import Lesson1 from './Lesson1'
 import Lesson3 from './Lesson3'
 import Lesson4 from './Lesson4'
+import UploadComponent from '../../../commons/uploads'
+
 
 const Content = () => {
   const id = Configs.getSearchParams().get('id')
   const [form] = useForm()
   const [visible, setVisible] = useState(false)
   const dispatch = useDispatch()
+  const [isImage, setIsImage] = useState<boolean>(false)
+
 
   const { content, type, part } = useSelector((state: RootState) => {
     return state.lessonReducer
   })
-
+  console.log(content)
   function handleFinish(form: any) {
-    console.log('form', form)
     if (
       type === type_key.choose_one_of_4_image ||
       type === type_key.choose_one_of_4
@@ -41,6 +44,8 @@ const Content = () => {
       const data: IContent = {
         answer: form.answer,
         level: form.level,
+        picture: form?.picture?.shift()?.response?.data?.shift() || null,
+        audio: form?.audio?.shift()?.response?.data?.shift() || null, 
         options: [
           {
             picture: form?.picture_1?.shift()?.response?.data?.shift() || null,
@@ -68,6 +73,8 @@ const Content = () => {
       const data: IContent = {
         answer: form.answer,
         level: form.level,
+        picture: form?.picture?.shift()?.response?.data?.shift() || null,
+        audio: form?.audio?.shift()?.response?.data?.shift() || null, 
         options: [],
         answers: content.answers,
         title: form.title,
@@ -77,6 +84,8 @@ const Content = () => {
     if (type === type_key.choose_a_pair) {
       const data: IContent = {
         answer: null,
+        picture: form?.picture?.shift()?.response?.data?.shift() || null,
+        audio: form?.audio?.shift()?.response?.data?.shift() || null, 
         level: form.level,
         options: [],
         answers: content.answers,
@@ -96,6 +105,8 @@ const Content = () => {
       lesson = {
         title: content?.title,
         type: type,
+        picture: content.picture||'',
+        audio: content.audio||'',
         options: [
           {
             picture: content?.options && content?.options[0]?.picture,
@@ -123,6 +134,8 @@ const Content = () => {
       lesson = {
         title: content?.title,
         type: type,
+        picture: content.picture||'',
+        audio: content.audio||'',
         options: content.answers,
         answers: content.answers,
         level: content?.level,
@@ -133,6 +146,8 @@ const Content = () => {
       lesson = {
         title: content?.title,
         type: type,
+        picture: content.picture||'',
+        audio: content.audio||'',
         options: content.answers,
         answers: content.answers,
         level: content?.level,
@@ -157,6 +172,8 @@ const Content = () => {
       form.setFieldsValue({
         title: content?.title,
         level: content?.level,
+        picture: content.picture && Configs.getDefaultFileList(content.picture),
+        audio: content.audio && Configs.getDefaultFileList( content.audio),
         answer: String(content?.answer),
         option_1: content?.options && content?.options[0]?.title,
         picture_1:
@@ -184,10 +201,11 @@ const Content = () => {
       form.setFieldsValue({
         title: content?.title,
         level: content?.level,
+        picture: content.picture && Configs.getDefaultFileList(content.picture),
+        audio: content.audio && Configs.getDefaultFileList( content.audio),
       })
     }
   }, [id])
-
   return (
     <SContent>
       <FormStyled
@@ -203,6 +221,7 @@ const Content = () => {
               labelCol={style.layoutModal.labelCol}
               className="form-item"
               name="title"
+              style={{marginBottom:2}}
               label="Tiêu đề"
               rules={[
                 {
@@ -214,6 +233,41 @@ const Content = () => {
             >
               <Input className="form-content" placeholder="Nhập vào tiêu đề" />
             </FormItem>
+            <div className="chose_image">
+            <p style={{display:'inline',cursor: 'pointer',
+              color: '#08979c'}} onClick={()=>{
+              setIsImage(!isImage)
+            }}>Thêm hình ảnh minh họa, hoặc audio ?</p>
+          </div>
+            {(isImage|| content.picture|| content.audio) && <UploadComponent
+                wrapperCol={style.layoutModal.wrapperCol}
+                labelCol={style.layoutModal.labelCol}
+                label={'Hình ảnh'}
+                name={'picture'}
+                limit={1}
+                form={form}
+                rules={[
+                  {
+                    required: false,
+                  },
+                ]}
+              />}
+              {(isImage|| content.picture|| content.audio) && <UploadComponent
+                wrapperCol={style.layoutModal.wrapperCol}
+                labelCol={style.layoutModal.labelCol}
+                placeholder={'Tải Audio'}
+                type={'text'}
+                label={'Audio'}
+                accept={'.mp3, .mp4, .3gp'}
+                name={'audio'}
+                limit={1}
+                form={form}
+                rules={[
+                  {
+                    required: false,
+                  },
+                ]}
+              />}
             <FormItem
               wrapperCol={style.layoutModal.wrapperCol}
               labelCol={style.layoutModal.labelCol}

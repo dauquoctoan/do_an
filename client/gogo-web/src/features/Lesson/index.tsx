@@ -129,6 +129,7 @@ const News = () => {
     },
   ]
   const handleEdit = (item: any) => {
+    console.log('item', item)
     let data: ILesson
     if (
       item.type === type_key.choose_one_of_4_image ||
@@ -138,6 +139,8 @@ const News = () => {
         topic: item?.part?.topic,
         part: item?.part,
         content: {
+          picture: item?.picture,
+          audio: item?.audio,
           level: item.level,
           title: item.title,
           options: [
@@ -157,6 +160,8 @@ const News = () => {
         topic: item?.part?.topic,
         part: item?.part,
         content: {
+          picture: item?.picture,
+          audio: item?.audio,
           level: item.level,
           title: item.title,
           options: item.answers,
@@ -171,6 +176,8 @@ const News = () => {
         topic: item?.part?.topic,
         part: item?.part,
         content: {
+          picture: item?.picture,
+          audio: item?.audio,
           level: item.level,
           title: item.title,
           options: item.answers,

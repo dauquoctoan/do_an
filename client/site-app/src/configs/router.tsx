@@ -9,6 +9,7 @@ import Topic from "../pages/privatePages/Topic";
 import Top from "../pages/privatePages/Top";
 import Event from "../pages/privatePages/Event";
 import Store from "../pages/privatePages/Store";
+import SurveySheet from "../pages/publicPages/SurveySheet";
 
 export const ROUTER: IRouter = {
     privateRouters: [
@@ -51,6 +52,10 @@ export const ROUTER: IRouter = {
         {
             path: "lesson",
             element: <LearnMain />,
+        },
+        {
+            path: "/survey-sheet",
+            element: <SurveySheet />,
         },
         {
             path: "*",

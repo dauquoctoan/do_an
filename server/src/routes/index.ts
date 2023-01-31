@@ -9,7 +9,7 @@ function router(app: express.Application) {
     app.use('/upload', uploadRouter)
     app.use('/site', siteRouter)
     app.use('/', authRouter)
-    app.use('/admin', middleAuthenTication, adminRouter)
+    app.use('/admin', adminRouter)
 }
 
 export default router

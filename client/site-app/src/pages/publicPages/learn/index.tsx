@@ -26,7 +26,7 @@ const LearnMain = () => {
     const id = searchParams.get("part");
     const dispatch = useDispatch();
     const mainLearn = useSelector((state: RootState) => state.mainLearn);
-    const audios = new Audio(audio.correct);
+    // const audios = new Audio(audio.correct);
     function mixData(data: any[]) {
         let newArray: any[] = [];
         if (data.length > 0) {
@@ -115,7 +115,7 @@ const LearnMain = () => {
                     </div>
                     <button
                         onClick={() => {
-                            audios.play;
+                            // audios.play;
                         }}
                     >
                         ...sdfsdf
@@ -182,3 +182,4 @@ const SLearnMain = styled.div`
         }
     }
 `;
+    

@@ -73,7 +73,7 @@ const SHome = styled.div`
         top: 0px;
         left: 0px;
         z-index: 1;
-        border-bottom: 1px solid ${COLOR.colors.border_color};
+        /* border-bottom: 1px solid ${COLOR.colors.border_color}; */
         .wrapper-header {
             display: flex;
             justify-content: space-between;

@@ -8,6 +8,7 @@ const User = new Schema(
         name: { type: String, required: true },
         age: { type: String, required: false },
         email: { type: String, required: true },
+        point:{ type: Number, default: 0, required: true },
         picture: { type: String, required: false },
         givenName: { type: String, required: false },
         typeAccount: { type: Number, enum: [0, 1, 2], required: true },

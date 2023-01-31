@@ -17,7 +17,7 @@ export interface IProps extends FormItemProps {
   path?: string
   size?: number
   placeholder?: string | React.ReactNode
-  accept?: '.jpg, .png' | '.mp4'
+  accept?: '.jpg, .png' | '.mp3, .mp4, .3gp'
   minSecondDuration?: number
   maxSecondDuration?: number
   isDisplayImgError?: boolean

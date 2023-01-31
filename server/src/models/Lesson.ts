@@ -4,6 +4,8 @@ var Schema = mongoose.Schema
 const Lesson = new Schema(
     {
         title: { type: String, required: true },
+        picture:{ type: String, required: false },
+        audio:{ type: String, required: false },
         type: { type: String, required: true },
         options: { type: Array, required: true },
         answer: { type: Number, required: false },

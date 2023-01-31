@@ -58,6 +58,7 @@ class authController {
         const result = await _Create(User, { email: email }, 'người dùng', data)
         res.json(result)
     }
+    
     async login(req: any, res: any) {
         const { email, password } = req.body
         try {

@@ -18,7 +18,7 @@ const UploadComponent: React.FC<IProps> = ({
   size = 10,
   placeholder = 'Tải ảnh',
   accept = '.jpg, .png',
-  minSecondDuration = 10,
+  minSecondDuration = 0,
   maxSecondDuration = 60,
   isDisplayImgError = false,
   isMultiple = false,
@@ -43,8 +43,8 @@ const UploadComponent: React.FC<IProps> = ({
   }
   const beforeUploadFile = (file: any): any => {
     let fileSize: number = size
-    if (accept === '.mp4') {
-      const isMP4: boolean = file.type === 'video/mp4'
+    if (accept === '.mp3, .mp4, .3gp') {
+      const isMP4: boolean = file.type === 'video/mp4'|| file.type ==='audio/mpeg'
       const validateFileSize: boolean = file.size / 1024 / 1024 > fileSize
       let minDuration: number = minSecondDuration || 0
       let maxDuration: number = maxSecondDuration || 0
@@ -110,10 +110,10 @@ const UploadComponent: React.FC<IProps> = ({
   }
 
   const handleChange = (values: any) => {
-    console.log('values', values)
     let fileList = values.fileList.filter((value: any) => {
       return value.status === DEFINE_STATUS_FILE.DONE
     })
+
     values?.fileList?.forEach((file: any, index: number) => {
       if (!file.status) {
         isDisplayImgError
@@ -175,10 +175,10 @@ const UploadComponent: React.FC<IProps> = ({
               // Authorization: `Bearer ${Cookies.get(Configs._sessionId)}`,
             }
           }
-          iconRender={() => <div>Đang tải...</div>}
+          // iconRender={() => <div>Đang tải...</div>}
           multiple={isMultiple}
           beforeUpload={beforeUploadFile}
-          onPreview={handlePreview}
+          onPreview={accept === '.jpg, .png' ? handlePreview : undefined}
           onChange={handleChange}
         >
           {limit > fileList.length || fileList === undefined ? (

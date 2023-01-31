@@ -23,6 +23,8 @@ export interface IOptions {
 export interface IContent {
   title: string | null
   level: number | null
+  picture?: string
+  audio?: string
   options: IOptions[] | []
   answer?: number | null
   answers: any[] | []
@@ -38,6 +40,8 @@ export interface ILesson {
 
 const defaultContent = {
   level: null,
+  picture: undefined,
+  audio: undefined,
   options: [],
   title: null,
   answers: [],

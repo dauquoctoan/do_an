@@ -6,12 +6,14 @@ import { middleAuthenTication, validate } from '../../middleware'
 import {
     JChangeStatusAUser,
     JCreateAUser,
+    JCreateEventNews,
     JCreateLesson,
     JCreatePart,
     JCreateTopic,
     JDelete,
     JLoginAdmin,
     JUpdateAUser,
+    JUpdateEventNews,
     JUpdatePart,
 } from '../../validation'
 const router = Router()
@@ -51,5 +53,11 @@ router.get('/age-groups', lessonController.getParts)
 router.post('/age-group', validate(JCreatePart), lessonController.createPart)
 router.put('/age-group', validate(JUpdatePart), lessonController.updatePart)
 router.delete('/age-group', validate(JDelete), lessonController.deletePart)
+
+
+router.get('/event-news', lessonController.getEventNews)
+router.post('/event-news', validate(JCreateEventNews), lessonController.createEventNews)
+router.put('/event-news', validate(JUpdateEventNews), lessonController.updateEventNews)
+router.delete('/event-news', validate(JDelete), lessonController.deleteEventNews)
 
 export default router

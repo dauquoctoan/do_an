@@ -6,10 +6,10 @@ import User from 'features/User'
 import AddEditStaff from 'features/User/components/AddEditStaff'
 import GiftExchange from 'features/GiftExchange'
 import Home from 'features/Homes'
-import News from 'features/News'
+import News from 'features/Lesson'
 import Events from 'features/event'
 import AddEditEvent from 'features/event/components/AddEditEvents'
-import AddAndEditNews from 'features/News/pages/AddAndEditNews'
+import AddAndEditNews from 'features/Lesson/pages/AddAndEditNews'
 import Stalls from 'features/Stalls'
 import AddAndEditStalls from 'features/Stalls/pages/AddAndEditStalls'
 import VoucherAndGif from 'features/VoucherAndGif'
@@ -29,6 +29,7 @@ import SurveySheet from 'features/SurveySheet/SurveySheet'
 import AddEditNewIQuestion from 'features/SurveySheet/components/AddEditNewIQuestion'
 import SurveyReport from 'features/report/Survey/SurveyReport'
 import CategoryReportPage from 'features/report/CategoryInfomation/CategoryReportPage'
+import EventNews from 'features/EventNews'
 
 export const PATH = {
   TOPIC: '/topic',
@@ -75,7 +76,6 @@ const {
   MenuHome,
   MenuStalls,
   MenuEvent,
-  MenuContact,
   MenuGift,
   MenuNews,
   MenuSetting,
@@ -99,6 +99,11 @@ const ROUTERS: Array<IRouter> = [
     path: PATH.ADD_EDIT_QUESTION,
     component: AddEditNewIQuestion,
     title: R.strings().menu__home,
+  },
+  {
+    path: "/event-news",
+    component: EventNews,
+    title: "Tin tức sự kiện",
   },
   {
     path: PATH.CUSTOMER,
@@ -275,6 +280,11 @@ const MENUS = [
     icon: <MenuNews />,
   },
   {
+    label: 'Tin tức sự kiện',
+    key: 'event-news',
+    icon: <MenuEvent />,
+  },
+  {
     label: 'Quản trị',
     key: PATH.ADMIN,
     icon: <MenuCustomer />,
@@ -284,68 +294,68 @@ const MENUS = [
     key: PATH.CUSTOMER,
     icon: <MenuStaff />,
   },
-  {
-    label: R.strings().menu__gift_and_voucher,
-    key: PATH.GIFT_AND_VOUCHER,
-    icon: <MenuGift />,
-    children: [
-      {
-        label: R.strings().menu__gift,
-        key: PATH.GIFT,
-      },
-      {
-        label: R.strings().menu__voucher,
-        key: PATH.VOUCHER,
-      },
-    ],
-  },
-  {
-    label: R.strings().menu__statistical,
-    key: PATH.STATISTICAL,
-    icon: <MenuStatistical />,
-    children: [
-      {
-        label: 'Thông tin ngành hàng',
-        key: PATH.CATEGORY_REPORT,
-      },
-      {
-        label: R.strings().menu__stalls_infomation,
-        key: PATH.STALL_REPORT,
-      },
-      {
-        label: R.strings().menu__customer_infomation,
-        key: PATH.CUTOMER_REPORT,
-      },
-      {
-        label: 'Số lượt đổi quà',
-        key: PATH.EXCHANGE_GIFT_LIST,
-      },
-      {
-        label: 'Phiếu khảo sát',
-        key: PATH.SURVEY_REPORT,
-      },
-    ],
-  },
-  {
-    label: R.strings().menu__survey_sheet,
-    key: PATH.SURVEY_SHEET,
-    icon: <MenuEvent />,
-  },
+  // {
+  //   label: R.strings().menu__gift_and_voucher,
+  //   key: PATH.GIFT_AND_VOUCHER,
+  //   icon: <MenuGift />,
+  //   children: [
+  //     {
+  //       label: R.strings().menu__gift,
+  //       key: PATH.GIFT,
+  //     },
+  //     {
+  //       label: R.strings().menu__voucher,
+  //       key: PATH.VOUCHER,
+  //     },
+  //   ],
+  // },
+  // {
+  //   label: R.strings().menu__statistical,
+  //   key: PATH.STATISTICAL,
+  //   icon: <MenuStatistical />,
+  //   children: [
+  //     {
+  //       label: 'Thông tin ngành hàng',
+  //       key: PATH.CATEGORY_REPORT,
+  //     },
+  //     {
+  //       label: R.strings().menu__stalls_infomation,
+  //       key: PATH.STALL_REPORT,
+  //     },
+  //     {
+  //       label: R.strings().menu__customer_infomation,
+  //       key: PATH.CUTOMER_REPORT,
+  //     },
+  //     {
+  //       label: 'Số lượt đổi quà',
+  //       key: PATH.EXCHANGE_GIFT_LIST,
+  //     },
+  //     {
+  //       label: 'Phiếu khảo sát',
+  //       key: PATH.SURVEY_REPORT,
+  //     },
+  //   ],
+  // },
+  // {
+  //   label: R.strings().menu__survey_sheet,
+  //   key: PATH.SURVEY_SHEET,
+  //   icon: <MenuEvent />,
+  // },
   // {
   //   label: R.strings().menu__contact,
   //   key: PATH.CONTACT,
   //   icon: <MenuContact />,
   // },
-  {
-    label: R.strings().menu__setting,
-    key: PATH.SETTING,
-    icon: <MenuSetting />,
-  },
-  {
-    label: R.strings().menu__account,
-    key: PATH.ACCOUNT,
-    icon: <MenuAccount />,
-  },
+  // {
+  //   label: R.strings().menu__setting,
+  //   key: PATH.SETTING,
+  //   icon: <MenuSetting />,
+  // },
+  // {
+  //   label: R.strings().menu__account,
+  //   key: PATH.ACCOUNT,
+  //   icon: <MenuAccount />,
+  // },
 ]
 
 const ROUTER_CONFIG = {
