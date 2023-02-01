@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { COLOR, images } from "../../../constant";
 import { SContent } from "../../../globalStyled";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import { Popover, Button, Typography } from "@mui/material";
+import { Popover, Button, Typography, colors } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import Chart from "../../privatePages/chat";
 import SurveySheet from "../SurveySheet";
@@ -32,7 +32,11 @@ const Home = () => {
                 <SContent>
                     <div className="wrapper-header">
                         <div className="item-lef">
-                            <img src={images.logo} style={{width: '60px', height: '60px'}}/>
+                            <img
+                                src={images.logo}
+                                style={{ width: "60px", height: "60px" }}
+                                alt="img"
+                            />
                         </div>
                         <Button
                             variant="text"
@@ -40,7 +44,7 @@ const Home = () => {
                             onClick={handleClick}
                             className="item-right"
                         >
-                            <p className="item-right-text">language</p>
+                            <p className="item-right-text">Ngôn ngữ</p>
                             <KeyboardArrowDownIcon
                                 fontSize="large"
                                 className="item-right-text"
@@ -56,10 +60,18 @@ const Home = () => {
                                 horizontal: "left",
                             }}
                         >
-                            <Typography className="nationality" sx={{ p: 2 }}>
+                            <Typography
+                                style={{ color: "black" }}
+                                className="nationality"
+                                sx={{ p: 2 }}
+                            >
                                 English
                             </Typography>
-                            <Typography className="nationality" sx={{ p: 2 }}>
+                            <Typography
+                                style={{ color: "black" }}
+                                className="nationality"
+                                sx={{ p: 2 }}
+                            >
                                 Viet Nam
                             </Typography>
                         </Popover>
@@ -228,11 +240,12 @@ const SHome = styled.div`
     .header {
         height: 70px;
         width: 100%;
-        background-color: ${COLOR.primary.main};
+        background-color: #fff;
         position: fixed;
         top: 0px;
         left: 0px;
         z-index: 10;
+        border-bottom: 1px solid ${COLOR.colors.border_color};
         .wrapper-header {
             height: 100%;
             display: flex;
@@ -244,12 +257,12 @@ const SHome = styled.div`
                 display: flex;
                 align-items: center;
                 height: 100%;
-                width: 110px;
+                width: 200px;
                 .item-right-text {
                     font-size: 17px;
                     font-weight: 500;
-                    color: white;
                     cursor: pointer;
+                    margin: 0px;
                 }
             }
         }

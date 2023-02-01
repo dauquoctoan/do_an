@@ -90,6 +90,9 @@ const SHome = styled.div`
                     margin-right: 10px;
                     display: flex;
                     align-items: center;
+                    p {
+                        margin-bottom: 0px;
+                    }
                 }
                 .info {
                     width: 40px;

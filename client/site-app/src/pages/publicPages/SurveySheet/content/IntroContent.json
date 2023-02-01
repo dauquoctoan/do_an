@@ -1,12 +1,12 @@
 {
-  "title": "Landing page template for developers & startups",
-  "text": "Beautifully designed templates using React.js, ant design and styled-components! Save weeks of time and build your landing page in minutes.",
+  "title": "Tạo môi trường tốt cho trẻ nhỏ phát triển tư duy",
+  "text": "Học tập và giải trí với GOGO, rất thú vị! Với các câu hỏi bài tập ngắn gọn nhanh chóng giúp phát triển tự duy cho trẻ nhỏ, bạn sẽ kiếm được điểm và mở khóa các cấp độ mới đồng thời đạt được các kỹ năng giao tiếp trong thế giới thực.",
   "button": [
     {
-      "title": "Explore"
+      "title": "Tìm hiểu thêm"
     },
     {
-      "title": "Learn more",
+      "title": "Đăng ký ngay",
       "color": "#fff"
     }
   ]

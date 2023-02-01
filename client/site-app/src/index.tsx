@@ -13,6 +13,7 @@ import { Provider } from "react-redux";
 import store from "./store";
 import "moment/locale/vi";
 import "antd/dist/antd.variable.min.css";
+import { Styles } from "./pages/publicPages/SurveySheet/styles/styles";
 
 const root = ReactDOM.createRoot(
     document.getElementById("root") as HTMLElement
@@ -27,6 +28,7 @@ root.render(
         <ThemeProvider theme={theme}>
             <App />
             <GlobalStyle />
+            <Styles />
             <ToastContainer />
         </ThemeProvider>
     </Provider>

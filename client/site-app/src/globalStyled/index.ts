@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { createGlobalStyle } from "styled-components";
 
 export const SContent = styled.div`
-    width: 985px;
+    width: 1226px;
     height: 100%;
     margin: 0 auto;
     padding: 0 40px;

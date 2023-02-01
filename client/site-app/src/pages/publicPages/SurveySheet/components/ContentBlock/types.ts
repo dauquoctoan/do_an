@@ -1,12 +1,12 @@
 import { ReactNode } from "react";
 
 export interface ContentBlockProps {
-  icon: string;
-  title: string;
-  content: ReactNode;
-  section?: any;
-  button?: any;
-  t?: any;
-  id: string;
-  type?: string;
+    icon: string;
+    title: string;
+    content: string;
+    section?: any;
+    button?: any;
+    t?: any;
+    id: string;
+    type?: string;
 }
