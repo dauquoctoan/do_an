@@ -39,8 +39,8 @@ export const JUpdateUser = Joi.object({
 export const JCreateLesson = Joi.object({
     title: Joi.string().required(),
     type: Joi.string().required(),
-    audio:Joi.string(),
-    picture:Joi.string(),
+    audio: Joi.string(),
+    picture: Joi.string(),
     options: Joi.array().required(),
     answer: Joi.number(),
     answers: Joi.array(),
@@ -53,8 +53,8 @@ export const JCreateLesson = Joi.object({
 
 export const JUpdateLesson = Joi.object({
     title: Joi.string().required(),
-    audio:Joi.string(),
-    picture:Joi.string(),
+    audio: Joi.string(),
+    picture: Joi.string(),
     type: Joi.string().required(),
     options: Joi.array().required(),
     answer: Joi.number(),
@@ -156,4 +156,15 @@ export const JUpdateEventNews = Joi.object({
     desc: Joi.string().required(),
     picture: Joi.string().required(),
     link: Joi.string().required(),
+})
+
+export const JCreateTop = Joi.object({
+    point: Joi.string().required(),
+    user: Joi.string().required(),
+})
+
+export const JUpdateTop = Joi.object({
+    _id: Joi.string().required(),
+    point: Joi.string().required(),
+    user: Joi.string().required(),
 })
