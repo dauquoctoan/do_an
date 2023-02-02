@@ -46,7 +46,8 @@ const Login = () => {
         try {
             const res: any = await apiLogin(values);
             localStorage.setItem("token", res?.data?.token || "");
-            localStorage.setItem("info", res?.data || "");
+            localStorage.setItem("info", JSON.stringify(res?.data) || "");
+            localStorage.setItem("point", JSON.stringify(res?.data.point || 0));
             notify.success("Đăng nhập thành công");
             setLoading(false);
             navigate("/Learn");

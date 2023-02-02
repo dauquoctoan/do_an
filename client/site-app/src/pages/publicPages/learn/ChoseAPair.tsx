@@ -17,40 +17,6 @@ const ChoseAPair = () => {
     const [listChose, setListChose] = useState<any[]>([]);
     const [choseFirst, setChoseFirst] = useState(0);
 
-    // const answers = [
-    //     {
-    //         title: "ngu",
-    //         group: 1,
-    //     },
-    //     {
-    //         title: "ngu",
-    //         group: 1,
-    //     },
-    //     {
-    //         title: "súc sinh",
-    //         group: 2,
-    //     },
-    //     {
-    //         title: "súc sinh",
-    //         group: 2,
-    //     },
-    //     {
-    //         title: "ngu lol",
-    //         group: 3,
-    //     },
-    //     {
-    //         title: "ngu lol",
-    //         group: 3,
-    //     },
-    //     {
-    //         title: "fuck",
-    //         group: 4,
-    //     },
-    //     {
-    //         title: "fuck",
-    //         group: 4,
-    //     },
-    // ];
     function getDataIndex() {
         return mainLearn?.data[mainLearn.index - 1]?.options;
     }
@@ -118,6 +84,7 @@ const ChoseAPair = () => {
                                                     dispatch(
                                                         setListAnswer(false)
                                                     );
+                                                    dispatch(setOpen(true));
                                                     dispatch(next());
                                                 }
                                             }

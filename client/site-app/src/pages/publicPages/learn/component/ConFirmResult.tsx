@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { COLOR } from "../../../../constant";
 import { Button, Modal, Box } from "@mui/material";
 import styled from "styled-components";
@@ -12,6 +12,17 @@ const ConFirmResult = () => {
     const { listAnswer, open } = useSelector((state: RootState) => {
         return state?.mainLearn;
     });
+    const ref = useRef<any>(null);
+
+    useEffect(() => {
+        ref.current = setTimeout(() => {
+            dispatch(setOpen(false));
+        }, 500);
+        return () => {
+            clearTimeout(ref.current);
+        };
+    }, []);
+
     return (
         <Modal
             aria-labelledby="transition-modal-title"
@@ -24,7 +35,13 @@ const ConFirmResult = () => {
             }}
         >
             <SBox>
-                <div className="icon">
+                <div
+                    className={
+                        listAnswer[listAnswer.length - 1]
+                            ? "ss" + " icon "
+                            : "err" + " icon "
+                    }
+                >
                     <DoneIcon className="check" />
                 </div>
                 <h2 id="child-modal-title">
@@ -38,6 +55,9 @@ const ConFirmResult = () => {
                         dispatch(setOpen(false));
                         dispatch(next());
                     }}
+                    color={
+                        listAnswer[listAnswer.length - 1] ? "success" : "error"
+                    }
                 >
                     Tiếp tục
                 </Button>
@@ -66,7 +86,7 @@ const SBox = styled(Box)`
         width: 110px;
         height: 110px;
         border-radius: 50%;
-        background-color: ${COLOR.primary.light};
+
         display: flex;
         align-items: center;
         justify-content: center;
@@ -74,5 +94,11 @@ const SBox = styled(Box)`
             font-size: 80px;
             color: white;
         }
+    }
+    .ss {
+        background-color: ${COLOR.colors.success_color};
+    }
+    .err {
+        background-color: ${COLOR.colors.error_color};
     }
 `;

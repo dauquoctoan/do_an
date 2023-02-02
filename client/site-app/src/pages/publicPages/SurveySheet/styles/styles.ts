@@ -59,26 +59,26 @@ export const Styles = createGlobalStyle`
     h6 {
         font-family: 'Motiva Sans Bold', serif;
         color: #18216d;
-        font-size: 56px;
-        line-height: 1.18;
+        font-size: 30px;
+        line-height: 1;
 
         @media only screen and (max-width: 890px) {
-          font-size: 47px;
+          font-size: 30px;
         }
       
         @media only screen and (max-width: 414px) {
-          font-size: 32px;
+          font-size: 16px;
         }
     }
 
     p {
         color: #18216d;
-        font-size: 21px;        
+        font-size: 17px;        
         line-height: 1.41;
     }
 
     h1 {
-        font-weight: 600;
+        font-weight: 500;
     }
 
     a {
@@ -108,5 +108,8 @@ export const Styles = createGlobalStyle`
 
     .ant-drawer-content-wrapper {
         width: 300px !important;
+    }
+    form{
+        color: black;
     }
 `;

@@ -2,6 +2,7 @@ import { handleResultError } from '../utils'
 const User = require('../models/User')
 import jwt_decode from 'jwt-decode'
 import AdminUser from '../models/AdminUser'
+import { _Find } from '../service'
 var multer = require('multer')
 
 export async function middleAuthenTication(req: any, res: any, next: any) {
@@ -36,7 +37,7 @@ export async function middleAuthenTicationSocket(socket: any, next: any) {
             var result: any = jwt_decode(token)
             let info = result.isLoginAdmin
                 ? await AdminUser.findOne({ _id: result?.id })
-                : await User.findOne({ email: result.email })
+                : await _Find(User, { email: result.email }, 'user', false)
             if (info) {
                 return next()
             } else {

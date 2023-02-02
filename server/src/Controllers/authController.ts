@@ -9,8 +9,8 @@ import jwt_decode from 'jwt-decode'
 import { STATUS_CODE } from '../configs/constants'
 import { _Create } from '../service'
 import { IUser } from '../interfaces/user'
-import User from '../models/User'
 import AdminUser from '../models/AdminUser'
+import User from '../models/User'
 var jwt = require('jsonwebtoken')
 
 class authController {
@@ -58,7 +58,6 @@ class authController {
         const result = await _Create(User, { email: email }, 'người dùng', data)
         res.json(result)
     }
-    
     async login(req: any, res: any) {
         const { email, password } = req.body
         try {
@@ -78,7 +77,9 @@ class authController {
                     email: info.email,
                     name: info.name,
                     token: token,
+                    point: info.point,
                 }
+
                 return res.json(
                     handleResultSuccessNoPage(
                         createMessage.loginSuccess('tài khoản'),
@@ -96,7 +97,6 @@ class authController {
                 .json(handleResultError(createMessage.loginFail('tài khoản')))
         }
     }
-
     async loginAdmin(req: any, res: any) {
         const { username, password } = req.body
         try {
@@ -128,7 +128,6 @@ class authController {
             )
         }
     }
-
     async loginToken(req: any, res: any) {
         const token = req.body.token
         if (token) {

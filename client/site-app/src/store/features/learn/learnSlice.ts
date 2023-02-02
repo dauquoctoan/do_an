@@ -54,11 +54,33 @@ export const learnSlice = createSlice({
         setChose: (state, action: PayloadAction<any>) => {
             state.chose = action.payload;
         },
+        resetData: (state) => {
+            state.listAnswer = [];
+            state.chose = null;
+            state.index = 1;
+            state.data = [
+                {
+                    type: "",
+                    title: "",
+                    options: [],
+                    answers: [],
+                    answer: 1,
+                    status: false,
+                },
+            ];
+            state.open = false;
+        },
     },
 });
 
 // Action creators are generated for each case reducer function
-export const { next, incrementByAmount, setChose, setListAnswer, setOpen } =
-    learnSlice.actions;
+export const {
+    next,
+    incrementByAmount,
+    setChose,
+    setListAnswer,
+    setOpen,
+    resetData,
+} = learnSlice.actions;
 
 export default learnSlice.reducer;

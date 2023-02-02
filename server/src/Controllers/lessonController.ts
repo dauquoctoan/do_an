@@ -4,7 +4,6 @@ import Topic from '../models/Topic'
 import Part from '../models/Part'
 import EventNews from '../models/EventNews'
 
-
 import {
     _Create,
     _Creates,
@@ -82,7 +81,7 @@ class lessonController {
         )
         res.json(result)
     }
-    
+
     async getRandom(req: any, res: any) {
         const result = await _FindsRandom(Lesson, req.query, 'chủ đề', {
             path: 'part',
@@ -125,7 +124,7 @@ class lessonController {
         const result = await _Finds(
             User,
             {
-                ...handleSearchMongoose('name', req.query.search || ''),
+                ...handleSearchMongoose('name', req?.query?.search || ''),
                 ...req.query,
             },
             'Người dùng'
@@ -139,12 +138,20 @@ class lessonController {
     }
 
     async updateEventNews(req: any, res: any) {
-        const result = await _FindByIdAndUpdate(EventNews, req?.body, 'tin tức sự kiện')
+        const result = await _FindByIdAndUpdate(
+            EventNews,
+            req?.body,
+            'tin tức sự kiện'
+        )
         res.json(result)
     }
 
     async deleteEventNews(req: any, res: any) {
-        const result = await _FindByIdAndDelete(EventNews, req?.body, 'tin tức sự kiện')
+        const result = await _FindByIdAndDelete(
+            EventNews,
+            req?.body,
+            'tin tức sự kiện'
+        )
         res.json(result)
     }
     /* user */
@@ -152,14 +159,13 @@ class lessonController {
         const result = await _Finds(
             EventNews,
             {
-                ...handleSearchMongoose('title', req.query.search || ''),
+                ...handleSearchMongoose('title', req?.query?.search || ''),
                 ...req.query,
             },
             'tin tức sự kiện'
         )
         res.json(result)
     }
-
 }
 
 export default new lessonController()

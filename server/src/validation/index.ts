@@ -168,3 +168,8 @@ export const JUpdateTop = Joi.object({
     point: Joi.string().required(),
     user: Joi.string().required(),
 })
+
+export const JUpdatePoint = Joi.object({
+    _id: Joi.string().required(),
+    type: Joi.number().required(),
+})

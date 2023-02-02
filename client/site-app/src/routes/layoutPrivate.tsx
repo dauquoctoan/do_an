@@ -1,11 +1,16 @@
 import styled from "@emotion/styled";
+import { Avatar } from "@mui/material";
+import { useSelector } from "react-redux";
 import { Outlet } from "react-router-dom";
 import { COLOR, images } from "../constant";
 import { SHomeContent } from "../globalStyled";
+import { RootState } from "../store";
 import Menus from "./Menus";
 
 const Layout = () => {
-    const info: any = JSON.parse(localStorage.getItem("info") || "");
+    const state = useSelector((e: RootState) => {
+        return e.info;
+    });
 
     return (
         <SHome>
@@ -23,22 +28,27 @@ const Layout = () => {
                                     width={30}
                                     style={{ marginRight: 10 }}
                                 />
-                                <p>10000</p>
+                                <p>
+                                    {state.point ||
+                                        localStorage.getItem("point")}
+                                </p>
                             </div>
-                            {info.name && (
-                                <div className="item">{info.name}</div>
+                            {state.name && (
+                                <div className="item">{state.name}</div>
                             )}
 
                             <div
                                 className="item info"
-                                style={{
-                                    backgroundImage: `url(${
-                                        info?.picture
-                                            ? info?.picture
-                                            : "https://d35aaqx5ub95lt.cloudfront.net/vendor/784035717e2ff1d448c0f6cc4efc89fb.svg"
-                                    })`,
-                                }}
-                            ></div>
+                                // style={{
+                                //     backgroundImage: `url(${
+                                //         state?.picture
+                                //             ? state?.picture
+                                //             : "https://d35aaqx5ub95lt.cloudfront.net/vendor/784035717e2ff1d448c0f6cc4efc89fb.svg"
+                                //     })`,
+                                // }}
+                            >
+                                <Avatar alt="Remy Sharp" src={state?.picture} />
+                            </div>
                         </div>
                     </div>
                 </SHomeContent>

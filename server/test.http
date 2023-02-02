@@ -2,6 +2,9 @@
 get http://localhost:3005/site/topics
 content-type: application/json
 
+###
+get http://localhost:3005/site/news-event
+
 
 ###
 GET http://localhost:3005/users
@@ -130,3 +133,8 @@ get http://localhost:3005/site/lessons?part=63d5033df1484b058c10fcfa
 
 ###
 get http://localhost:3005/site/random-lessons
+
+
+###
+get http://localhost:3005/site/news-event
+

@@ -1,11 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import counterReducer from "./features/counter/counterSlice";
 import learReducer from "./features/learn/learnSlice";
+import infoReducer from "./features/info/infoSlice";
 
 const store = configureStore({
     reducer: {
         counter: counterReducer,
         mainLearn: learReducer,
+        info: infoReducer,
     },
 });
 

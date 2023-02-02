@@ -12,9 +12,10 @@ router.post(
     (req: any, res: any) => {
         const proxyHost = req.headers['x-forwarded-host']
         const host = proxyHost ? proxyHost : req.headers.host
+        const file_path = `http://${host + '/' + req.file.path}`
         res.json(
             handleResultSuccessNoPage('Upload thành công', [
-                `http://${host + '/' + req.file.path}`,
+                file_path.replace(/\\/g, '/'),
             ])
         )
     }

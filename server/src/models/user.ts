@@ -8,7 +8,7 @@ const User = new Schema(
         name: { type: String, required: true },
         age: { type: String, required: false },
         email: { type: String, required: true },
-        point:{ type: Number, default: 0, required: true },
+        point: { type: Number, default: 0, required: false },
         picture: { type: String, required: false },
         givenName: { type: String, required: false },
         typeAccount: { type: Number, enum: [0, 1, 2], required: true },
@@ -22,8 +22,5 @@ const User = new Schema(
         timestamps: true,
     }
 )
-/* 
-status: 1 active
-status: 0 inactive
-*/
+
 export default mongoose.model('users', User)

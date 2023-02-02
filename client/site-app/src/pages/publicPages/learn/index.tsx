@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { SLearnContent } from "../../../globalStyled";
 import ClearIcon from "@mui/icons-material/Clear";
@@ -20,13 +20,21 @@ import { useSearchParams } from "react-router-dom";
 import { getLessonsBuyPart } from "../../api";
 import { shuffle } from "../../../utils";
 import ConFirmResult from "./component/ConFirmResult";
+import Star from "./component/Star";
+import _ from "lodash";
+import ReactAudioPlayer from "react-audio-player";
+import VolumeDownIcon from "@mui/icons-material/VolumeDown";
+import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 
 const LearnMain = () => {
     const [searchParams] = useSearchParams();
     const id = searchParams.get("part");
     const dispatch = useDispatch();
     const mainLearn = useSelector((state: RootState) => state.mainLearn);
-    // const audios = new Audio(audio.correct);
+    const [resultDone, setResultDone] = useState(false);
+    const [isPlay, setIsPlay] = useState(false);
+    const ref = useRef<any>(null);
+
     function mixData(data: any[]) {
         let newArray: any[] = [];
         if (data.length > 0) {
@@ -43,6 +51,7 @@ const LearnMain = () => {
         }
         return newArray;
     }
+
     const getData = async () => {
         const res = await getLessonsBuyPart({ part: id });
         dispatch(incrementByAmount(mixData(res.data)));
@@ -55,23 +64,18 @@ const LearnMain = () => {
     function valueLabelFormat(value: number) {
         return `Câu số: ${value}`;
     }
+
     function getItemIndex() {
         return mainLearn.data[mainLearn.index - 1];
     }
-    function CheckCompareTwoArray(arr1: any[] = [], arr2: any[] = []) {
-        if (arr1.length < 0 || arr2.length < 0) {
-            return false;
-        }
-        return arr1.every((item, index) => {
-            return item.title === arr2[index].title;
-        });
-    }
+
     function checkTrueFalse() {
         if (getItemIndex().type === type_key.sort) {
-            return CheckCompareTwoArray(
-                getItemIndex().answers,
-                mainLearn.chose
-            );
+            return _.isEqual(getItemIndex().answers, mainLearn.chose);
+            //  CheckCompareTwoArray(
+            //     getItemIndex().answers,
+            //     mainLearn.chose
+            // );
         } else {
             if (mainLearn.chose === mainLearn.data[mainLearn.index].answer) {
                 return true;
@@ -79,6 +83,7 @@ const LearnMain = () => {
         }
         return false;
     }
+
     function handleCheckAnswer() {
         if (checkTrueFalse()) {
             dispatch(setListAnswer(true));
@@ -88,6 +93,23 @@ const LearnMain = () => {
             dispatch(setOpen(true));
         }
     }
+
+    useEffect(() => {
+        if (
+            mainLearn.index !== 1 &&
+            mainLearn.index === mainLearn.data.length
+        ) {
+            setResultDone(true);
+        }
+    }, [mainLearn.index, mainLearn.data]);
+
+    useEffect(() => {
+        if (isPlay) {
+            ref.current.play();
+        } else {
+            ref.current.pause();
+        }
+    }, [isPlay]);
 
     return (
         <SLearnMain>
@@ -113,12 +135,20 @@ const LearnMain = () => {
                             />
                         </div>
                     </div>
+                    <audio ref={ref} id="audio-soult">
+                        <source src={audio.correct} type="audio/mpeg"></source>
+                    </audio>
                     <button
+                        className="play"
                         onClick={() => {
-                            // audios.play;
+                            setIsPlay(!isPlay);
                         }}
                     >
-                        ...sdfsdf
+                        {isPlay ? (
+                            <VolumeDownIcon className="icon" />
+                        ) : (
+                            <VolumeUpIcon className="icon" />
+                        )}
                     </button>
                     <div className="content">
                         <LearnContent
@@ -147,6 +177,7 @@ const LearnMain = () => {
                     <ConFirmResult />
                 </div>
             </SLearnContent>
+            <Star open={resultDone} />
         </SLearnMain>
     );
 };
@@ -180,6 +211,15 @@ const SLearnMain = styled.div`
             width: 100%;
             justify-content: space-between;
         }
+        .play {
+            margin-top: 20px;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            .icon {
+                width: 40px;
+                height: 40px;
+            }
+        }
     }
 `;
-    

@@ -9,8 +9,19 @@ import styled from "styled-components";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
+import ApiClient from "../../../services";
 
 const Event = () => {
+    const [event, setEvent] = React.useState<any>([]);
+    async function getData() {
+        const res = await ApiClient.get("/site/news-event");
+        if (res) {
+            setEvent(res.data);
+        }
+    }
+    React.useEffect(() => {
+        getData();
+    }, []);
     return (
         <SEvent>
             <Grid
@@ -18,33 +29,39 @@ const Event = () => {
                 spacing={{ xs: 2, md: 3 }}
                 columns={{ xs: 2, sm: 4, md: 8 }}
             >
-                {Array.from(Array(6)).map((_, index) => (
-                    <Grid item xs={2} sm={2} md={4} key={index}>
-                        <Card sx={{ maxWidth: "auto" }}>
-                            <CardMedia
-                                sx={{ height: 200 }}
-                                image="https://fullstack.edu.vn/static/media/experienceOnboarding.70f0f8079522a9718859.png"
-                                title="img"
-                            />
-                            <CardContent>
-                                {/* <Typography gutterBottom variant="h5" component="div">
-                                    Lizard
-                                </Typography> */}
-                                <Typography
-                                    variant="body2"
-                                    color="text.secondary"
-                                >
-                                    Mua thêm gói để trải nghiệm đầy đủ các tính
-                                    năng
-                                </Typography>
-                            </CardContent>
-                            <CardActions>
-                                <Button size="small">Share</Button>
-                                <Button size="small">Learn More</Button>
-                            </CardActions>
-                        </Card>
-                    </Grid>
-                ))}
+                {event.length > 0 &&
+                    event.map((_: any, index: any) => (
+                        <Grid item xs={2} sm={2} md={4} key={index}>
+                            <Card sx={{ maxWidth: "auto" }}>
+                                <CardMedia
+                                    sx={{ height: 200 }}
+                                    image={_.picture}
+                                    title="img"
+                                />
+                                <CardContent>
+                                    <Typography
+                                        gutterBottom
+                                        variant="h5"
+                                        component="div"
+                                    >
+                                        {_.title}
+                                    </Typography>
+                                    <Typography
+                                        variant="body2"
+                                        color="text.secondary"
+                                    >
+                                        {_.title}
+                                    </Typography>
+                                </CardContent>
+                                <CardActions>
+                                    <Button size="small">
+                                        <a href={_.link}>Xem</a>
+                                    </Button>
+                                    {/* <Button size="small">Learn More</Button> */}
+                                </CardActions>
+                            </Card>
+                        </Grid>
+                    ))}
             </Grid>
         </SEvent>
     );

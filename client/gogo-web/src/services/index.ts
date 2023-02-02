@@ -17,6 +17,7 @@ const createAPI = () => {
     timeout: 20000,
     headers: { 'Content-Type': 'application/json' },
   })
+
   APIInstant.setHeader('Authorization', localStorage.getItem('token') || '')
   APIInstant.axiosInstance.interceptors.request.use(
     async (config: any) => {

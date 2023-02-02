@@ -40,7 +40,8 @@ export const COLOR = {
         first_color: "#1dbfaf",
         second_color: "#1dbfaf",
         button_color: "#1dbfaf",
-
+        success_color: "#2e7d32",
+        error_color: "#d32f2f",
         border_color: "#e8ebed",
         bg_colo_button: "#f6f6f6",
         bg_colo_button_hover: "#ededed",
