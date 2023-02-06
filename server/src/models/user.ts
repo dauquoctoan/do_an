@@ -1,4 +1,4 @@
-import { string } from 'joi'
+import { array, string } from 'joi'
 
 var mongoose = require('mongoose')
 var Schema = mongoose.Schema
@@ -17,6 +17,7 @@ const User = new Schema(
         email_verified: { type: Boolean, required: false },
         password: { type: String, required: false },
         status: { type: String, required: false, default: '1' },
+        listCourse: { type: Array, required: false }
     },
     {
         timestamps: true,

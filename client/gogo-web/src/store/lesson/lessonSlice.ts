@@ -36,6 +36,7 @@ export interface ILesson {
   topic?: ITopic | null
   part?: IPart | null
   content: IContent
+  course?: string
 }
 
 const defaultContent = {
@@ -54,6 +55,7 @@ let initialState: ILesson = {
   part: null,
   topic: null,
   content: defaultContent,
+  course: undefined,
 }
 
 export const lessonSlice = createSlice({
@@ -118,6 +120,9 @@ export const lessonSlice = createSlice({
       state.type = action.payload.type
       state.part = action.payload.part
     },
+    setCourse: (state, action: PayloadAction<string>) => {
+      state.course = action.payload
+    },
   },
 })
 
@@ -133,5 +138,6 @@ export const {
   setSortAnswers,
   setAnswersArray,
   setPart,
+  setCourse
 } = lessonSlice.actions
 export default lessonSlice.reducer

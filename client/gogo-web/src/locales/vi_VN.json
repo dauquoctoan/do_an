@@ -7,10 +7,8 @@
   "btn.logout": "Đăng xuất",
   "btn.cancel": "hủy",
   "btn.save": "Lưu",
-
   "api.fail_request": "Yêu cầu thất bại",
   "api.error_network": "Lỗi kết nối đến Sever",
-
   "menu.home": "Tổng quan",
   "menu.customer": "Khách hàng",
   "menu.account": "Tài khoản",
@@ -18,39 +16,32 @@
   "menu.event_list": "Sự kiện",
   "menu.staff": "Quản trị",
   "menu.news": "Tin tức",
-  "menu.event": "Chiến dịch",
+  "menu.event": "Khóa học",
   "menu.category": "Ngành hàng",
-
   "menu.gift_and_voucher": "Tích điểm đổi quà",
   "menu.gift": "Danh sách đổi voucher",
   "menu.voucher": "Danh sách quà tặng voucher",
-
   "menu.statistical": "Thống kê",
   "menu.online_frequency": "Tần suất sử dụng app của khách hàng",
   "menu.count_customer_event": "Số khách hàng tham gia sự kiện",
   "menu.stalls_infomation": "Thông tin gian hàng",
   "menu.customer_infomation": "Thông tin khách hàng",
-
   "menu.survey_sheet": "Phiếu khảo sát",
   "menu.contact": "Liên hệ",
   "menu.setting": "Cấu hình",
-
   "login.save_info_login": "Lưu thông tin đăng nhập?",
   "login.placeholder.user": "Tài khoản",
   "login.placeholder.password": "Mật khẩu",
   "login.warning.user": "Vui lòng nhập tên tài khoản!",
   "login.warning.password": "Vui lòng nhập mật khẩu!",
-
   "upload.image.error.size": "Không xác định được kích thước ảnh!",
   "upload.image.warning.size": "Ảnh vượt quá kích thước cho phép!",
-
   "account.title.add": "Thêm tài khoản",
   "account.title.edit": "Sửa tài khoản",
   "account.title.delete": "Xóa tài khoản",
   "account.title.confirm_delete": "Bạn có muốn xóa tài khoản này ?",
   "account.title.success_delete": "Xóa tài khoản thành công",
   "account.title.success_change_status": "Thay đổi trạng thái tài khoản thành công",
-
   "account_and_customer.title.name": "Họ tên",
   "account_and_customer.title.phone_number": "Số điện thoại",
   "account_and_customer.title.email": "Email",
@@ -60,47 +51,38 @@
   "account_and_customer.title.type_account": "Loại tài khoản",
   "account_and_customer.title.create_date": "Ngày tạo",
   "account_and_customer.title.status": "Trạng thái",
-
   "account_and_customer.placeholder.name": "Nhập họ tên",
   "account_and_customer.placeholder.phone_number": "Nhập số điện thoại",
   "account_and_customer.placeholder.email": "Nhập Email",
   "account_and_customer.placeholder.type_account": "Nhập loại tài khoản",
   "account_and_customer.placeholder.password": "Nhập mật khẩu",
-
   "account_and_customer.warring.name": "Vui lòng nhập họ tên!",
   "account_and_customer.warring.phone_number": "Vui lòng nhập số điện thoại!",
   "account_and_customer.warring.email": "Vui lòng nhập Email!",
   "account_and_customer.warring.position": "Vui lòng nhập chức vụ!",
   "account_and_customer.warring.password": "Vui lòng nhập mật khẩu!",
   "account_and_customer.warring.confirm_password": "Vui lòng nhập lại mật khẩu!",
-
   "account_and_customer.filter.title.search": "Nhập tên và số điện thoại",
   "account_and_customer.filter.title.status": "Trạng thái",
   "account_and_customer.filter.title.type_account": "Loại tài khoản",
-
   "detail_customer.page_header.customer_detail": "Chi tiết khách hàng",
-
   "detail_customer.title.customer_info": "THÔNG TIN KHÁCH HÀNG:",
   "detail_customer.title.history_of_point": "Lịch sử tích điểm",
   "detail_customer.title.history_Exchange_points": "Lịch sử đổi điểm",
-
   "detail_customer.title.name": "Họ tên",
   "detail_customer.title.phone": "Họ tên",
   "detail_customer.title.id_card": "Số CMND/CCCD",
   "detail_customer.title.province": "Tỉnh thành phố",
   "detail_customer.title.district": "Quận huyện",
   "detail_customer.title.wards": "Xã phường",
-
   "detail_customer.table.event": "Sự kiện tích điểm",
   "detail_customer.table.staff": "Nhân viên tích điểm",
   "detail_customer.table.count_point": "Số điểm",
   "detail_customer.table.single_number": "Số đơn tích điểm",
-
   "detail_customer.table_child.receipt_number": "Số hóa đơn",
   "detail_customer.table_child.stalls_name": "Tên gian hàng",
   "detail_customer.table_child.total_price": "Tổng tiền",
   "detail_customer.table_child.image": "Hình ảnh hóa đơn",
-
   "voucher_and_gif.table.code": "Mã quà tặng - voucher",
   "voucher_and_gif.table.name": "Tên quà tặng - voucher",
   "voucher_and_gif.table.point_swap": "Số điểm đổi",
@@ -112,24 +94,20 @@
   "voucher_and_gif.detail": "Chi tiết",
   "voucher_and_gif.delete": "Xoá",
   "voucher_and_gif.confirm.delete": "Bạn muốn xoá quà tặng, voucher này?",
-
   "stalls.add_stalls": "Thêm gian hàng",
   "stalls.edit_stalls": "Sửa gian hàng",
   "stalls.delete_stalls": "Xóa gian hàng",
   "stalls.success.change_status": "Thay đổi trạng thái gian hàng thành công",
-
   "stalls.placeholder_search": "Nhập tên hoặc số điện thoại",
   "stalls.placeholder_type_stalls": "Ngành hàng",
   "stalls.placeholder_status": "Trạng thái",
   "stalls.placeholder_floor": "Tầng",
-
   "stalls.table.stalls_code": "Mã gian hàng",
   "stalls.table.stalls_name": "Tên gian hàng",
   "stalls.table.stalls_position": "Vị trí",
   "stalls.table.stalls_contact": "Thông tin liên hệ",
   "stalls.table.stalls_type": "Ngành hàng",
   "stalls.table.stalls_status": "Trạng thái",
-
   "stalls.add_edit.title.group_contact": "Thông tin liên hệ:",
   "stalls.add_edit.title.name": "Tên gian hàng",
   "stalls.add_edit.title.industry": "Ngành hàng",
@@ -141,7 +119,6 @@
   "stalls.add_edit.title.image": "Ảnh gian hàng",
   "stalls.add_edit.title.desc": "Mô tả",
   "stalls.add_edit.title.code": "Mã gian hàng",
-
   "stalls.add_edit.placeholder.name": "Nhập tên gian hàng",
   "stalls.add_edit.placeholder.industry": "Chọn ngành hàng",
   "stalls.add_edit.placeholder.position": "Vị trí gian hàng",
@@ -149,32 +126,25 @@
   "stalls.add_edit.placeholder.hotline": "Nhập vào hotline gian hàng",
   "stalls.add_edit.placeholder.Facebook": "Gắn link facebook",
   "stalls.add_edit.placeholder.website": "Gắn link website",
-
   "stalls.add_edit.warning.name": "Vui lòng nhập tên gian hàng!",
   "stalls.add_edit.warning.position": "Vui lòng nhập vị trí gian hàng!",
   "stalls.add_edit.warning.industry": "Vui lòng chọn ngành hàng!",
   "stalls.add_edit.warning.image": "Vui lòng chọn ảnh!",
   "stalls.add_edit.warning.image_reg": "Vui lòng chọn ảnh gian hàng !",
-
   "stalls.page_header.add": "Thêm gian hàng",
   "stalls.page_header.edit": "Sửa gian hàng",
-
   "stalls.confirm_delete": "Bạn có muốn xóa gian hàng này ?",
   "stalls.add_success": "Thêm gian hàng thành công",
   "stalls.edit_success": "Sửa gian hàng thành công",
   "stalls.delete_success": "Xóa gian hàng thành công",
   "stalls.add_error": "Lỗi thêm gian hàng, thêm gian hàng thất bại !",
   "stalls.delete_error": "Lỗi xóa gian hàng, xóa gian hàng thất bại !",
-
   "news.page_header.add": "Thêm tin tức",
   "news.page_header.edit": "Sửa tin tức",
-
   "news.btn.add_new": "Thêm mới tin tức",
-
   "news.filter.search": "Mã, tiêu đề tin tức",
   "news.filter.news_type": "Loại tin tức",
   "news.filter.status": "Trạng thái hoạt động",
-
   "news.add_edit.label.name": "Tiêu đề",
   "news.add_edit.label.post_status": "Trạng thái đăng bài",
   "news.add_edit.label.type_news": "Loại tin tức",
@@ -182,21 +152,17 @@
   "news.add_edit.label.image": "Ảnh tin tức",
   "news.add_edit.label.content": "Nội dung",
   "news.add_edit.label.related_stalls": "Gian hàng liên quan",
-
   "news.add_edit.warning.name": "Vui lòng nhập tiêu đề",
   "news.add_edit.warning.post_status": "Vui lòng chọn trạng thái đăng bài",
   "news.add_edit.warning.type_news": "Vui lòng chọn loại tin tức",
   "news.add_edit.warning.image": "Vui lòng chọn ảnh tin tức",
   "news.add_edit.warning.content": "Vui lòng nhập nội dung",
   "news.add_edit.warning.related_stalls": "Vui lòng chọn gian hàng liên quan",
-
   "news.add_edit.success.delete_news": "'Xóa tin tức thành công!'",
-
   "news.add_edit.placeholder.name": "Nhập vào tiêu đề",
   "news.add_edit.placeholder.post_status": "Chọn trạng thái đăng bài",
   "news.add_edit.placeholder.related_stalls": "Chọn gian hàng liên quan",
   "news.add_edit.placeholder.type_news": "Chọn loại tin tức",
-
   "news.table.news_id": "Mã tin tức",
   "news.table.news_type": "Loại tin tức",
   "news.table.news_title": "Tiêu đề",

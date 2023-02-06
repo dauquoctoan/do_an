@@ -139,6 +139,7 @@ class authController {
                         id: info._id,
                         name: info.name,
                         email: info.email,
+                        point: info?.point || 0,
                     },
                     process.env.JWT_PRIVATE_KEY
                 )
@@ -149,6 +150,7 @@ class authController {
                         email: info.email,
                         picture: info.picture,
                         token: info_token,
+                        point: info?.point || 0,
                     })
                 )
             } catch (error) {

@@ -1,6 +1,6 @@
 import { Rating } from "@mui/lab";
 import styled from "styled-components";
-import { COLOR } from "../../../../constant";
+import { COLOR, images } from "../../../../constant";
 import { Button, Modal, Box } from "@mui/material";
 import DoneIcon from "@mui/icons-material/Done";
 import { useNavigate } from "react-router-dom";
@@ -10,6 +10,7 @@ import { RootState } from "../../../../store";
 import ApiClient from "../../../../services";
 import { setInfo, setPoint } from "../../../../store/features/info/infoSlice";
 import { resetData } from "../../../../store/features/learn/learnSlice";
+import { Avatar } from "antd";
 
 const Star = ({ open }: { open: boolean }) => {
     const [star, setStar] = useState(0);
@@ -41,13 +42,15 @@ const Star = ({ open }: { open: boolean }) => {
     }
 
     async function handleFinish() {
-        const rest = await ApiClient.put("/site/user", {
-            _id: info.id,
-            type: star,
-        });
-        localStorage.setItem("point", rest.data.point);
-        dispatch(setPoint(rest.data.point));
-        dispatch(resetData());
+        if (info.name) {
+            const rest = await ApiClient.put("/site/user", {
+                _id: info.id,
+                type: star,
+            });
+            localStorage.setItem("point", rest.data.point);
+            dispatch(setPoint(rest.data.point));
+            dispatch(resetData());
+        }
         navigate("/learn/topic");
     }
 
@@ -76,11 +79,11 @@ const Star = ({ open }: { open: boolean }) => {
             >
                 <SBox>
                     <div className="icon">
-                        <DoneIcon className="check" />
+                        <Avatar className="check" src={images.firework} />
                     </div>
                     <h2 id="child-modal-title">Hoàn thành</h2>
                     <div style={{ padding: "10px 10px" }}>
-                        <Rating value={star} />
+                        <Rating size="large" value={star} />
                     </div>
                     <Button
                         variant="contained"
@@ -123,6 +126,8 @@ const SBox = styled(Box)`
         align-items: center;
         justify-content: center;
         .check {
+            width: 80px;
+            height: 80px;
             font-size: 80px;
             color: white;
         }

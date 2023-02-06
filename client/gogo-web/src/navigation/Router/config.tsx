@@ -1,11 +1,11 @@
 import { PATH_ADMIN } from './PathName'
-import Account from 'features/Account'
+import Account from 'features/Topic'
 import Category from 'features/Category'
 import Admin from 'features/Admin'
 import User from 'features/User'
 import AddEditStaff from 'features/User/components/AddEditStaff'
 import GiftExchange from 'features/GiftExchange'
-import Home from 'features/Homes'
+import Home from 'features/Home'
 import News from 'features/Lesson'
 import Events from 'features/event'
 import AddEditEvent from 'features/event/components/AddEditEvents'
@@ -30,6 +30,7 @@ import AddEditNewIQuestion from 'features/SurveySheet/components/AddEditNewIQues
 import SurveyReport from 'features/report/Survey/SurveyReport'
 import CategoryReportPage from 'features/report/CategoryInfomation/CategoryReportPage'
 import EventNews from 'features/EventNews'
+import Course from 'features/Course'
 
 export const PATH = {
   TOPIC: '/topic',
@@ -157,7 +158,7 @@ const ROUTERS: Array<IRouter> = [
   },
   {
     path: PATH_ADMIN.EVENT,
-    component: Events,
+    component: Course,
     title: '',
   },
   {

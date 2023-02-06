@@ -32,7 +32,6 @@ const Card = () => {
                                 <img
                                     src={item.picture}
                                     alt="img"
-                                    style={{ width: "90%", height: "70%" }}
                                 />
                                 <div className="content">
                                     <p>{item.title}</p>
@@ -61,18 +60,21 @@ const SCard = styled.div`
             display: flex;
             margin-bottom: 50px;
             .item {
-                width: 160px;
-                height: 200px;
-                padding: 10px;
+                width: 190px;
+                height: 250px;
                 border-radius: 12px;
                 border: 2px solid #e5e5e5;
                 margin-right: 10px;
                 cursor: pointer;
+
                 img {
                     width: 100%;
-                    height: 150px;
+                    height: 70%;
+                    border-radius: 8px 8px 0px 0px;
+                    object-fit: cover;
                 }
                 .content {
+                    padding: 10px;
                     width: 100%;
                     height: 50px;
                     display: flex;
@@ -95,9 +97,12 @@ const SCard = styled.div`
                 display: flex;
                 flex-direction: column;
                 justify-content: space-between;
+                transition: all .5s ease;
             }
             .active {
                 border: 2px solid ${COLOR.primary.light};
+                box-shadow: 2px 8px 12px rgb(0 0 0 / 13%);
+                    transform: translateY(-5px);
                 .content {
                     .number {
                         border: 2px solid ${COLOR.primary.dark};

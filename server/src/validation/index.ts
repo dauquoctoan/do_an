@@ -16,6 +16,7 @@ export const JCreateUser = Joi.object({
     exp: Joi.string(),
     email_verified: Joi.string(),
     password: _password.required(),
+    listCourse: Joi.array(),
 })
 
 export const JCreateUserWithToken = Joi.object({
@@ -34,6 +35,7 @@ export const JUpdateUser = Joi.object({
     email_verified: Joi.string(),
     password: _password.required(),
     age: Joi.string().required(),
+    listCourse: Joi.array(),
 })
 
 export const JCreateLesson = Joi.object({
@@ -49,6 +51,7 @@ export const JCreateLesson = Joi.object({
     // topic: Joi.string().required(),
     part: Joi.string().required(),
     _id: Joi.string(),
+
 })
 
 export const JUpdateLesson = Joi.object({
@@ -71,6 +74,7 @@ export const JCreateTopic = Joi.object({
     desc: Joi.string(),
     ageGroup: Joi.string().required(),
     picture: Joi.string(),
+    course: Joi.string(),
 })
 
 export const JUpdateTopic = Joi.object({
@@ -171,5 +175,26 @@ export const JUpdateTop = Joi.object({
 
 export const JUpdatePoint = Joi.object({
     _id: Joi.string().required(),
-    type: Joi.number().required(),
+    type: Joi.number(),
+    listCourse: Joi.array(),
+})
+
+
+export const JCreateCourse = Joi.object({
+    title: Joi.string().required(),
+    desc: Joi.string().required(),
+    picture: Joi.string(),
+    price: Joi.number(),
+    topic: Joi.string(),
+    user: Joi.string().required()
+})
+
+export const JUpdateCourse = Joi.object({
+    _id: Joi.string().required(),
+    title: Joi.string().required(),
+    desc: Joi.string().required(),
+    picture: Joi.string(),
+    price: Joi.number(),
+    topic: Joi.string(),
+    user: Joi.string().required()
 })

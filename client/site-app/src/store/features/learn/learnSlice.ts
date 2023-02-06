@@ -6,15 +6,20 @@ export interface LearnState {
     index: number;
     open: boolean;
     data: IQuestions[];
+    challenge
+    : number;
 }
 
 export interface IQuestions {
+    picture?: string;
+    audio?: string;
     type: string;
     title: string;
     options: any[];
     answers?: any[];
     answer?: number;
     status?: boolean;
+
 }
 
 const initialState: LearnState = {
@@ -31,6 +36,7 @@ const initialState: LearnState = {
             status: false,
         },
     ],
+    challenge: 0,
     open: false,
 };
 
@@ -48,7 +54,7 @@ export const learnSlice = createSlice({
             state.index += state.index < state.data.length ? 1 : 0;
             state.chose = 0;
         },
-        incrementByAmount: (state, action: PayloadAction<IQuestions[]>) => {
+        setData: (state, action: PayloadAction<IQuestions[]>) => {
             state.data = action.payload;
         },
         setChose: (state, action: PayloadAction<any>) => {
@@ -60,6 +66,8 @@ export const learnSlice = createSlice({
             state.index = 1;
             state.data = [
                 {
+                    picture: undefined,
+                    audio: undefined,
                     type: "",
                     title: "",
                     options: [],
@@ -76,7 +84,7 @@ export const learnSlice = createSlice({
 // Action creators are generated for each case reducer function
 export const {
     next,
-    incrementByAmount,
+    setData,
     setChose,
     setListAnswer,
     setOpen,

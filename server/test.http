@@ -138,3 +138,13 @@ get http://localhost:3005/site/random-lessons
 ###
 get http://localhost:3005/site/news-event
 
+
+###
+put http://localhost:3005/site/user-order
+
+
+{
+    "_id":"63d29707d298722c4401194a",
+    "listCourse":[{"age":2}]
+}
+

@@ -1,6 +1,6 @@
 import { Button, Input, Select } from 'antd'
 import FormItem from 'antd/lib/form/FormItem'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import UploadComponent from '../../../commons/uploads'
 import message from '../../../commons/message'
 import Configs from '../../../configs'
@@ -11,12 +11,16 @@ import { createTopic, updateTopic } from '../api'
 import { IPropAddEdit } from '../interface'
 import { getOptionSelect } from 'utils/funcHelper'
 import { age_group } from 'configs/constance'
+import { getItemLocalStore } from 'utils/localStore'
+import ApiClient from 'services'
 
 const AddAndEditAccount = ({
   accountDetail,
   handleCloseModal,
   form,
 }: IPropAddEdit) => {
+  const course_default = Configs.getSearchParams().get('course')
+  const _id = getItemLocalStore('user_info')._id
   const handleFinish = async (formData: any) => {
     const data = { ...formData, picture: formData.picture[0].response.data[0] }
     const result = accountDetail
@@ -26,6 +30,7 @@ const AddAndEditAccount = ({
     form.resetFields()
     handleCloseModal()
   }
+  const [course, setCourse] = useState<any>([])
 
   useEffect(() => {
     form.setFieldsValue({
@@ -36,6 +41,26 @@ const AddAndEditAccount = ({
     })
   }, [accountDetail])
 
+  async function getCourse() {
+    const res = await ApiClient.get('/courses', { user: _id })
+    if (res) {
+      setCourse(res.data.map((e: any) => {
+        return { ...e, value: e._id, label: e.title }
+      }))
+    }
+  }
+
+  useEffect(() => {
+    if (_id) {
+      getCourse()
+    }
+  }, [_id])
+
+  useEffect(() => {
+    if (course_default) {
+      form.setFieldValue('course', course_default)
+    }
+  }, [])
   return (
     <FormStyled labelAlign={'left'} onFinish={handleFinish} form={form}>
       <FormItem
@@ -92,6 +117,22 @@ const AddAndEditAccount = ({
           className="form-content"
         />
       </FormItem>
+
+
+      <FormItem
+        wrapperCol={style.layoutModal.wrapperCol}
+        labelCol={style.layoutModal.labelCol}
+        className="form-item"
+        name="course"
+        label={'Khóa học'}
+      >
+        <Select
+          options={course}
+          placeholder="Vui lòng chọn khóa học"
+          className="form-content"
+        />
+      </FormItem>
+
       <UploadComponent
         wrapperCol={style.layoutModal.wrapperCol}
         labelCol={style.layoutModal.labelCol}

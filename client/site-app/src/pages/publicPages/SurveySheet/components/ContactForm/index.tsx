@@ -39,33 +39,33 @@ const Contact = ({ title, content, id, t }: ContactProps) => {
                 <Input
                   type="text"
                   name="name"
-                  placeholder="Your Name"
+                  placeholder="Tên của bạn"
                   value={values.name || ""}
                   onChange={handleChange}
                 />
-                <ValidationType type="name" />
+                <ValidationType type="Tên" />
               </Col>
               <Col span={24}>
                 <Input
                   type="text"
                   name="email"
-                  placeholder="Your Email"
+                  placeholder="Email của bạn"
                   value={values.email || ""}
                   onChange={handleChange}
                 />
-                <ValidationType type="email" />
+                <ValidationType type="Email" />
               </Col>
               <Col span={24}>
                 <TextArea
-                  placeholder="Your Message"
+                  placeholder="Nội dung"
                   value={values.message || ""}
                   name="message"
                   onChange={handleChange}
                 />
-                <ValidationType type="message" />
+                <ValidationType type="Nội dung" />
               </Col>
               <ButtonContainer>
-                <Button name="submit">{t("Submit")}</Button>
+                <Button name="submit">{t("Gửi")}</Button>
               </ButtonContainer>
             </FormGroup>
           </Slide>

@@ -7,21 +7,21 @@ import { useDispatch, useSelector } from "react-redux";
 import DoneIcon from "@mui/icons-material/Done";
 import { RootState } from "../../../../store";
 
-const ConFirmResult = () => {
+const ConFirmResult = (props: any) => {
     const dispatch = useDispatch();
     const { listAnswer, open } = useSelector((state: RootState) => {
         return state?.mainLearn;
     });
-    const ref = useRef<any>(null);
-
     useEffect(() => {
-        ref.current = setTimeout(() => {
-            dispatch(setOpen(false));
-        }, 500);
-        return () => {
-            clearTimeout(ref.current);
-        };
-    }, []);
+        if (listAnswer.length > 0) {
+            if (listAnswer[listAnswer.length - 1]) {
+                props?.ss?.current?.play()
+            } else {
+                props?.er?.current?.play();
+            }
+        }
+
+    }, [listAnswer]);
 
     return (
         <Modal

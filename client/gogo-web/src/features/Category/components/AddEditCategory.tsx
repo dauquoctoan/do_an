@@ -10,7 +10,7 @@ import { useEffect, useState } from 'react'
 import { FormInstance } from 'antd/es/form'
 import UploadComponent from '../../../commons/uploads'
 import { ITopic } from 'store/lesson/lessonSlice'
-import { ITopics } from 'features/Account/interface'
+import { ITopics } from 'features/Topic/interface'
 import { IPart } from '../interface'
 
 const AddEditCategory = ({
@@ -24,7 +24,7 @@ const AddEditCategory = ({
 }) => {
   const [search, setSearch] = useState<string>('')
   const [topics, setTopics] = useState<{ value: string; label: string }[]>([])
-
+  const topic = Configs.getSearchParams().get('topic')
   const getTopic = async () => {
     try {
       const res = await getTopics({
@@ -70,6 +70,12 @@ const AddEditCategory = ({
         : [],
     })
   }, [detailPartLesson])
+
+  useEffect(() => {
+    if (topic) {
+      form.setFieldsValue({ topic: topic })
+    }
+  }, [])
 
   return (
     <FormStyled labelAlign={'left'} form={form} onFinish={handleFinish}>
@@ -125,6 +131,7 @@ const AddEditCategory = ({
         ]}
       >
         <Select
+          disabled={topic ? true : false}
           options={topics}
           onChange={setSearch}
           placeholder="Nhập vào tên chủ đề"

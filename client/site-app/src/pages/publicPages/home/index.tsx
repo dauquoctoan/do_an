@@ -34,7 +34,7 @@ const Home = () => {
                         <div className="item-lef">
                             <img
                                 src={images.logo}
-                                style={{ width: "60px", height: "60px" }}
+                                style={{ width: "96px", height: "88px" }}
                                 alt="img"
                             />
                         </div>
