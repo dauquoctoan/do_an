@@ -2,12 +2,12 @@ import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { SLearnContent } from "../../../globalStyled";
 import ClearIcon from "@mui/icons-material/Clear";
-import { Slider } from "@mui/material";
+import { CardMedia, Slider } from "@mui/material";
 import { history } from "../../../utils/history";
 import LearnContent from "./LearnContent";
 import { useDispatch } from "react-redux";
 import {
-    incrementByAmount,
+    setData,
     next,
     setListAnswer,
     setOpen,
@@ -22,9 +22,10 @@ import { shuffle } from "../../../utils";
 import ConFirmResult from "./component/ConFirmResult";
 import Star from "./component/Star";
 import _ from "lodash";
-import ReactAudioPlayer from "react-audio-player";
 import VolumeDownIcon from "@mui/icons-material/VolumeDown";
 import VolumeUpIcon from "@mui/icons-material/VolumeUp";
+import ReactLoading from "react-loading";
+import { flexbox } from "@mui/system";
 
 const LearnMain = () => {
     const [searchParams] = useSearchParams();
@@ -34,6 +35,10 @@ const LearnMain = () => {
     const [resultDone, setResultDone] = useState(false);
     const [isPlay, setIsPlay] = useState(false);
     const ref = useRef<any>(null);
+    const refSS = useRef<any>(null);
+    const refCR = useRef<any>(null);
+    const [loading, setLoading] = useState<boolean>(false)
+
 
     function mixData(data: any[]) {
         let newArray: any[] = [];
@@ -53,8 +58,10 @@ const LearnMain = () => {
     }
 
     const getData = async () => {
+        setLoading(true)
         const res = await getLessonsBuyPart({ part: id });
-        dispatch(incrementByAmount(mixData(res.data)));
+        dispatch(setData(mixData(res.data)));
+        setLoading(false)
     };
 
     useEffect(() => {
@@ -104,81 +111,109 @@ const LearnMain = () => {
     }, [mainLearn.index, mainLearn.data]);
 
     useEffect(() => {
+        // if (mainLearn?.data[mainLearn.index - 1]?.audio) {
         if (isPlay) {
             ref.current.play();
         } else {
             ref.current.pause();
         }
+        // }
+
     }, [isPlay]);
 
     return (
-        <SLearnMain>
-            <SLearnContent>
-                <div className="content">
-                    <div className="head">
-                        <ClearIcon
-                            className="icon"
-                            onClick={() => {
-                                history.back();
-                            }}
-                        />
-                        <div className="process">
-                            <Slider
-                                aria-label="Temperature"
-                                valueLabelFormat={valueLabelFormat}
-                                valueLabelDisplay="auto"
-                                step={1}
-                                min={1}
-                                value={mainLearn?.index}
-                                max={mainLearn?.data?.length}
-                                disabled={true}
-                            />
-                        </div>
-                    </div>
-                    <audio ref={ref} id="audio-soult">
+        <>
+            <SLearnMain>
+                <SLearnContent>
+                    <audio ref={refCR}>
                         <source src={audio.correct} type="audio/mpeg"></source>
                     </audio>
-                    <button
-                        className="play"
-                        onClick={() => {
-                            setIsPlay(!isPlay);
-                        }}
-                    >
-                        {isPlay ? (
-                            <VolumeDownIcon className="icon" />
-                        ) : (
-                            <VolumeUpIcon className="icon" />
-                        )}
-                    </button>
+                    <audio ref={refSS}>
+                        <source src={audio.success} type="audio/mpeg"></source>
+                    </audio>
                     <div className="content">
-                        <LearnContent
-                            type={mainLearn?.data[mainLearn.index - 1]?.type}
-                        />
+                        <div className="head">
+                            <ClearIcon
+                                className="icon"
+                                onClick={() => {
+                                    history.back();
+                                }}
+                            />
+                            <div className="process">
+                                <Slider
+                                    aria-label="Temperature"
+                                    valueLabelFormat={valueLabelFormat}
+                                    valueLabelDisplay="auto"
+                                    step={1}
+                                    min={1}
+                                    value={mainLearn?.index}
+                                    max={mainLearn?.data?.length}
+                                    disabled={true}
+                                />
+                            </div>
+                        </div>
+                        <div className="desc">
+                            <audio ref={ref} id="audio-soult">
+                                {
+                                    mainLearn?.data[mainLearn.index - 1]?.audio && <source src={mainLearn?.data[mainLearn.index - 1]?.audio} type="audio/mpeg"></source>
+                                }
+                            </audio>
+                            {
+                                mainLearn?.data[mainLearn.index - 1]?.audio && <button
+                                    className="play"
+                                    onClick={() => {
+                                        setIsPlay(!isPlay);
+                                    }}
+                                >
+                                    {isPlay ? (
+                                        <VolumeDownIcon className="icon" />
+                                    ) : (
+                                        <VolumeUpIcon className="icon" />
+                                    )}
+                                </button>}
+                            <h6>{mainLearn?.data[mainLearn.index - 1]?.title}</h6>
+                        </div>
+                        <div className="image">
+                            <CardMedia
+                                sx={{ height: 60, width: 60 }}
+                                image={mainLearn?.data[mainLearn.index - 1]?.picture}
+                                title="img"
+                            />
+                        </div>
+                        <div className="content">
+                            <LearnContent
+                                type={mainLearn?.data[mainLearn.index - 1]?.type}
+                            />
+                        </div>
+                        <div className="action">
+                            <Button
+                                onClick={() => {
+                                    dispatch(setListAnswer(false))
+                                    dispatch(next());
+                                }}
+                                variant="outlined"
+                            >
+                                Bỏ qua
+                            </Button>
+                            <Button
+                                variant="contained"
+                                onClick={() => {
+                                    handleCheckAnswer();
+                                }}
+                                disabled={mainLearn.chose === 0 ? true : false}
+                            >
+                                Kiểm tra
+                            </Button>
+                        </div>
+                        <ConFirmResult ss={refSS} er={refCR} />
                     </div>
-                    <div className="action">
-                        <Button
-                            onClick={() => {
-                                dispatch(next());
-                            }}
-                            variant="outlined"
-                        >
-                            Bỏ qua
-                        </Button>
-                        <Button
-                            variant="contained"
-                            onClick={() => {
-                                handleCheckAnswer();
-                            }}
-                            disabled={mainLearn.chose === 0 ? true : false}
-                        >
-                            Kiểm tra
-                        </Button>
-                    </div>
-                    <ConFirmResult />
-                </div>
-            </SLearnContent>
-            <Star open={resultDone} />
-        </SLearnMain>
+                </SLearnContent>
+                <Star open={resultDone} />
+            </SLearnMain>
+            {
+                loading && <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, background: '#fff', display: 'flex', justifyItems: 'center', justifyContent: 'center', alignItems: 'center' }}><div>Loadding</div><ReactLoading width={60} height={60} type={'bubbles'} color="black" /></div>
+            }
+        </>
     );
 };
 
@@ -202,6 +237,21 @@ const SLearnMain = styled.div`
                 flex: 1;
             }
         }
+        .desc{
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-items: center;
+            div{
+                margin-left: 20px;
+            }
+        }
+        .image{
+            width: 100%;
+            height: auto;
+            display: flex;
+            justify-content:center;
+        }
         .content {
             height: 500px;
             width: 100%;
@@ -212,7 +262,6 @@ const SLearnMain = styled.div`
             justify-content: space-between;
         }
         .play {
-            margin-top: 20px;
             background-color: transparent;
             border: none;
             cursor: pointer;

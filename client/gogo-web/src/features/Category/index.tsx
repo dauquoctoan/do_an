@@ -14,6 +14,9 @@ import AddEditCategory from './components/AddEditCategory'
 import { IPart } from './interface'
 import FilterHeader from 'commons/filter'
 import { TYPE_LESSON } from 'configs/constance'
+import history from 'utils/history'
+import { RootState } from 'store/store'
+import { useSelector } from 'react-redux'
 
 const Category = () => {
   const [form] = Form.useForm()
@@ -76,7 +79,9 @@ const Category = () => {
     total: 0,
   })
   const [options, setOptions] = useState({})
-
+  const course = useSelector((e: RootState) => {
+    return e.lessonReducer.course
+  })
   const getTopic = async () => {
     try {
       const res = await getTopics({
@@ -94,6 +99,7 @@ const Category = () => {
       console.log(error)
     }
   }
+  const topic = Configs.getSearchParams().get('topic')
 
   useEffect(() => {
     getData()
@@ -115,6 +121,9 @@ const Category = () => {
     form.resetFields()
     setPartDetail(null)
     getData()
+    if (topic) {
+      history.push('/lesson/add-update?course=' + course)
+    }
   }
 
   const handleEdit = (record: any) => {

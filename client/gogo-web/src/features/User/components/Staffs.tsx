@@ -138,7 +138,7 @@ function Staffs() {
           setFilter(filter)
         }}
       />
-      <ContentScreen countFilter={paging.total}>
+      <ContentScreen countFilter={users.length}>
         <StyledDiv>
           <Spin spinning={isLoading}>
             <Table

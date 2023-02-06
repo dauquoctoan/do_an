@@ -8,6 +8,10 @@ const Topic = new Schema(
         desc: { type: String, required: false },
         picture: { type: String, required: false },
         ageGroup: { type: String, enum: ['1', '2', '3', '4'], required: true },
+        course: {
+            type: Schema.Types.ObjectId,
+            ref: 'course', required: false
+        },
     },
     {
         timestamps: true,

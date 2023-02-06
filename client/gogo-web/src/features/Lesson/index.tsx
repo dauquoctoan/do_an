@@ -77,6 +77,13 @@ const News = () => {
       render: (level) => (
         <span>{Configs.renderText(LEVEL[String(level)])}</span>
       ),
+    }, {
+      title: 'Khóa học',
+      key: 'part',
+      dataIndex: 'part',
+      render: (part: any, record: any) => (
+        <span>{renderText(part?.topic?.course?.title)}</span>
+      ),
     },
     {
       title: 'Chủ đề',
@@ -86,6 +93,7 @@ const News = () => {
         <span>{renderText(part?.topic?.name)}</span>
       ),
     },
+
     {
       title: 'Học phần',
       key: 'part',
@@ -225,7 +233,7 @@ const News = () => {
     getData()
   }, [filter, paging.page])
 
-  const handleDelete = (e: any) => {}
+  const handleDelete = (e: any) => { }
 
   return (
     <ContainScreenStyled>

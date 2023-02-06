@@ -21,6 +21,8 @@ import {
   getTopics,
 } from './api'
 import { STATUS, TYPE_ACCOUNT } from '../../configs/constance'
+import ApiClient from 'services'
+import { getItemLocalStore } from 'utils/localStore'
 
 const Account = () => {
   const columns: ColumnsType<ITopics> = [
@@ -97,6 +99,7 @@ const Account = () => {
     page: 1,
     total: 0,
   })
+  const [options, setOptions] = useState({})
 
   useEffect(() => {
     getData()
@@ -144,17 +147,30 @@ const Account = () => {
     setVisible(false)
   }
 
-  const handleChangeStatus = async (id: number) => {
+
+
+  const getCourse = async () => {
     try {
-      const res = await ChangeStatusAccount({ ID: id })
+      const res = await ApiClient.get('/courses', {
+        user: getItemLocalStore('user_info')._id
+      })
       if (res) {
-        // message({ content: R.strings().account__title__success_change_status })
+        let option = {}
+        res?.data?.forEach((e: any) => {
+          option = { ...option, [e._id]: e.title }
+        })
+        setOptions(option)
       }
     } catch (error) {
       console.log(error)
-    } finally {
     }
   }
+
+  useEffect(
+    () => {
+      getCourse()
+    }, []
+  )
 
   return (
     <ContainScreenStyled>
@@ -179,6 +195,15 @@ const Account = () => {
         onChangeFilter={(filter: any) => {
           setFilter(filter)
         }}
+        // options
+        select={[
+          {
+            width: 200,
+            placeholder: 'Khóa học',
+            key: 'course',
+            data: options,
+          },
+        ]}
       />
       <ContentScreen loading={loading} countFilter={paging.total}>
         <div>

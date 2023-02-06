@@ -69,7 +69,7 @@ const Topic = () => {
                                 className="icon"
                             />
                         </div>
-                        <div className="title">3 đến 5 tuổi</div>
+                        <div className="title">2 đến 3 tuổi</div>
                     </div>
                     <div
                         className="item"
@@ -88,7 +88,7 @@ const Topic = () => {
                                 className="icon"
                             />
                         </div>
-                        <div className="title">6 đến 8 tuổi</div>
+                        <div className="title">4 đến 5 tuổi</div>
                     </div>
                     <div
                         className="item"
@@ -107,7 +107,7 @@ const Topic = () => {
                                 className="icon"
                             />
                         </div>
-                        <div className="title">9 đến 12 tuổi</div>
+                        <div className="title">6 đến 8 tuổi</div>
                     </div>
                     <div
                         className="item"
@@ -126,7 +126,7 @@ const Topic = () => {
                                 className="icon"
                             />
                         </div>
-                        <div className="title">13 đến 15 tuổi</div>
+                        <div className="title">8 đến 10 tuổi</div>
                     </div>
                 </div>
                 <div className="topic">
@@ -177,7 +177,7 @@ const Topic = () => {
                                                             onClick={() => {
                                                                 navigate(
                                                                     "/lesson?part=" +
-                                                                        part._id
+                                                                    part._id
                                                                 );
                                                             }}
                                                         >
@@ -193,7 +193,7 @@ const Topic = () => {
                                                                 primary={
                                                                     part.title
                                                                 }
-                                                                // secondary="Jan 9, 2014"
+                                                            // secondary="Jan 9, 2014"
                                                             />
                                                         </ListItem>
                                                     </List>
@@ -223,7 +223,6 @@ const STopic = styled.div`
                 width: 143px;
                 height: 207px;
                 cursor: pointer;
-
                 .logo {
                     width: 100%;
                     height: 140px;
@@ -253,11 +252,13 @@ const STopic = styled.div`
                     margin: 16px 0 0;
                     color: rgba(0, 0, 0, 0.67);
                 }
+                    /* transform: translateY(-16px); */
             }
         }
         .topic {
             .item:hover {
                 background-color: ${COLOR.colors.bg_colo_button_hover};
+                box-shadow: 2px 8px 12px rgb(0 0 0 / 13%);
             }
         }
     }

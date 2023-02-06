@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux'
 import { next, prev, setPart } from 'store/lesson/lessonSlice'
 import { RootState } from 'store/store'
 import styled from 'styled-components'
+import history from 'utils/history'
 import { getPartLessons } from '../api'
 
 const PartLesson = () => {
@@ -15,7 +16,6 @@ const PartLesson = () => {
   const { topic, part } = useSelector((state: RootState) => {
     return state.lessonReducer
   })
-  console.log('part', part)
   const dispatch = useDispatch()
   async function getData() {
     const res = await getPartLessons({ topic: topic?._id })
@@ -81,6 +81,18 @@ const PartLesson = () => {
             Tiếp theo
           </Button>
         )}
+        {
+          options.length === 0 && <Button
+            type="primary"
+            style={{ marginTop: 10 }}
+            onClick={() => {
+              // dispatch(next())
+              history.push('/category?topic=' + topic?._id)
+            }}
+          >
+            Thêm mới học phần
+          </Button>
+        }
       </div>
     </SPartLesson>
   )

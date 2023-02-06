@@ -11,6 +11,9 @@ import CloseIcon from "@mui/icons-material/Close";
 import { history } from "../../../utils/history";
 import { notify } from "../../../commons/notification";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import {setInfo} from "../../../store/features/info/infoSlice"
+import { collapseTextChangeRangesAcrossMultipleVersions } from "typescript";
 
 const loginSchema = object({
     email: string().nonempty("Email bắt buộc điền").email("Email không hợp lệ"),
@@ -24,6 +27,7 @@ const Login = () => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     type RegisterInput = TypeOf<typeof loginSchema>;
+    const dispatch = useDispatch();
 
     const {
         register,
@@ -48,6 +52,7 @@ const Login = () => {
             localStorage.setItem("token", res?.data?.token || "");
             localStorage.setItem("info", JSON.stringify(res?.data) || "");
             localStorage.setItem("point", JSON.stringify(res?.data.point || 0));
+            dispatch(setInfo(res?.data))
             notify.success("Đăng nhập thành công");
             setLoading(false);
             navigate("/Learn");
@@ -55,6 +60,7 @@ const Login = () => {
             setLoading(false);
         }
     };
+    
 
     return (
         <SLogin>
@@ -138,12 +144,13 @@ const Login = () => {
                             if (res) {
                                 localStorage.setItem(
                                     "token",
-                                    JSON.stringify(res.data.token)
+                                    JSON.stringify(res?.data?.token)
                                 );
                                 localStorage.setItem(
                                     "info",
                                     JSON.stringify(res.data)
                                 );
+                                dispatch(setInfo(res?.data))
                                 notify.success("Đăng nhập thành công");
                                 navigate("/Learn");
                             }

@@ -7,11 +7,14 @@ const Course = new Schema(
         desc: { type: Array, required: true },
         picture: { type: String, required: false },
         price: { type: String, required: false },
-        topic: { type: String, required: true },
+        user: {
+            type: Schema.Types.ObjectId,
+            ref: 'AdminUser',
+        },
     },
     {
         timestamps: true,
     }
 )
 
-export default mongoose.model('courts', Course)
+export default mongoose.model('course', Course)

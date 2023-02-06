@@ -305,7 +305,7 @@ const SettingPage = () => {
                 <InputNumber
                   min={0}
                   placeholder="Nhập giá trị hoá đơn"
-                  addonAfter={'VND'}
+                  addonAfter={'USD'}
                   value={totalBill}
                   status={isBillError ? 'error' : undefined}
                   formatter={(value) =>

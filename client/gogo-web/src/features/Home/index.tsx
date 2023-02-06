@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import { ContainScreenStyled } from '../../global-styled'
 import { getOverview } from './service'
 import PageHeader from '../../commons/pageHeader'
+import ApiClient from 'services'
 
 const Home = () => {
   const [isLoading, setIsLoading] = React.useState<boolean>(false)
@@ -24,7 +25,7 @@ const Home = () => {
       id: 2,
       value: stall,
       icon: 'https://cdn-icons-png.flaticon.com/128/3275/3275219.png',
-      title: 'Gian hàng',
+      title: 'Khóa học',
       background: '#d7f2cb',
     },
     {
@@ -61,11 +62,11 @@ const Home = () => {
   const getStatistic = async () => {
     try {
       setIsLoading(true)
-      const res = await getOverview({})
-      if (res.status) {
-        setCustomer(res?.data?.customer)
-        setStall(res?.data?.stall)
-        setEvent(res?.data?.eventActive)
+      const res = await ApiClient.get('/homes')
+      if (res) {
+        setCustomer(res?.data?.user)
+        setStall(res?.data?.course)
+        setEvent(res?.data?.eventNews)
       }
     } catch (error) {
       console.log('ERROR: ', error)

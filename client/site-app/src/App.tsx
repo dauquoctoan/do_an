@@ -1,21 +1,20 @@
 import "./App.css";
 import Router from "./routes";
-// import ReactAudioPlayer from "react-audio-player";
-import { audio } from "./constant";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { setInfo } from "./store/features/info/infoSlice";
-import Chat from "./pages/privatePages/chat";
+import { setInfo, setlistCourse } from "./store/features/info/infoSlice";
 
 function App() {
     const dispatch = useDispatch();
     useEffect(() => {
         const info = localStorage.getItem("info");
-        dispatch(setInfo(JSON.parse(info || "")));
+        const lostOrder = localStorage.getItem("listOrder");
+        if (info) {
+            dispatch(setInfo(JSON?.parse(info || "")));
+            dispatch(setlistCourse(JSON?.parse(lostOrder || "")));
+        }
     }, []);
-    // return <Router />;
-    return <Chat />;
-    // return <div>sdfsdf<ReactAudioPlayer  src={audio.correct}/></div>
+    return <Router />;
 }
 
 export default App;

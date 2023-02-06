@@ -1,17 +1,31 @@
 import styled from "@emotion/styled";
-import { Avatar } from "@mui/material";
-import { useSelector } from "react-redux";
-import { Outlet } from "react-router-dom";
+import { Avatar, Button } from "@mui/material";
+import { Popover } from "antd";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Outlet, useNavigate } from "react-router-dom";
 import { COLOR, images } from "../constant";
 import { SHomeContent } from "../globalStyled";
 import { RootState } from "../store";
+import { reSetInfo } from "../store/features/info/infoSlice";
+import { history } from "../utils/history";
 import Menus from "./Menus";
 
 const Layout = () => {
     const state = useSelector((e: RootState) => {
         return e.info;
     });
+    const navigate = useNavigate()
+    const [open, setOpen] = useState(false);
 
+    const hide = () => {
+        setOpen(false);
+    };
+
+    const handleOpenChange = (newOpen: boolean) => {
+        setOpen(newOpen);
+    };
+    const dispatch = useDispatch()
     return (
         <SHome>
             <div className="header">
@@ -34,21 +48,47 @@ const Layout = () => {
                                 </p>
                             </div>
                             {state.name && (
-                                <div className="item">{state.name}</div>
+                                <div className="item" style={{ fontWeight: 600, fontSize: 20 }}>{state.name}</div>
                             )}
+                            {
+                                state.name &&
+                                <Popover
+                                    content={<SlistOrder>
+                                        {
+                                            state.listCourse.length > 0 && state.listCourse.map((e) => {
 
-                            <div
-                                className="item info"
-                                // style={{
-                                //     backgroundImage: `url(${
-                                //         state?.picture
-                                //             ? state?.picture
-                                //             : "https://d35aaqx5ub95lt.cloudfront.net/vendor/784035717e2ff1d448c0f6cc4efc89fb.svg"
-                                //     })`,
-                                // }}
-                            >
-                                <Avatar alt="Remy Sharp" src={state?.picture} />
-                            </div>
+                                                return <div onClick={() => {
+                                                    const link = `/learn/topic`
+                                                    // ?course=${e._id}
+                                                    history.push(link)
+                                                }} style={{ cursor: 'pointer', marginTop: 10 }}>{e.title}</div>
+                                            })}
+                                    </SlistOrder>}
+                                    title={<div style={{ display: 'flex', justifyContent: 'space-between' }}><div>Khoá học đã mua</div><div onClick={() => {
+                                        localStorage.setItem('token', '')
+                                        localStorage.setItem('info', '')
+                                        localStorage.setItem('point', '')
+                                        dispatch(reSetInfo())
+                                        navigate('/login')
+                                    }} style={{ cursor: "pointer" }}>Đăng xuất</div></div>}
+                                    trigger="click"
+                                    open={open}
+                                    onOpenChange={handleOpenChange}
+                                >
+                                    <div
+                                        className="item info"
+                                    >
+
+                                        <Avatar alt="Remy Sharp" src={state?.picture} />
+                                    </div>
+                                </Popover>
+
+                            }
+                            {
+                                !state.name && (<Button onClick={() => {
+                                    navigate('/login')
+                                }} className="item" variant="contained">Đăng nhập</Button>)
+                            }
                         </div>
                     </div>
                 </SHomeContent>
@@ -70,6 +110,10 @@ const Layout = () => {
 
 export default Layout;
 
+const SlistOrder = styled.div`
+    width: 300px;
+`
+
 const SHome = styled.div`
     box-sizing: border-box;
     width: 100%;
@@ -83,7 +127,7 @@ const SHome = styled.div`
         top: 0px;
         left: 0px;
         z-index: 1;
-        /* border-bottom: 1px solid ${COLOR.colors.border_color}; */
+         border-bottom: 1px solid ${COLOR.colors.border_color}; 
         .wrapper-header {
             display: flex;
             justify-content: space-between;
@@ -110,6 +154,8 @@ const SHome = styled.div`
                     background-repeat: no-repeat;
                     background-size: contain;
                     border-radius: 50%;
+                    cursor: pointer;
+
                 }
             }
         }
@@ -144,6 +190,8 @@ const SHome = styled.div`
                 }
                 .active {
                     background-color: ${COLOR.colors.bg_colo_button};
+                    box-shadow: 2px 8px 12px rgb(0 0 0 / 13%);
+                    transform: translateY(-5px);
                     /* border: 2px solid ${COLOR.colors.primary_color}; */
                 }
                 .item:hover {

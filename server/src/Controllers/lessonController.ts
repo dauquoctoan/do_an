@@ -3,6 +3,8 @@ import Card from '../models/Lesson'
 import Topic from '../models/Topic'
 import Part from '../models/Part'
 import EventNews from '../models/EventNews'
+import Course from '../models/Course'
+
 
 import {
     _Create,
@@ -12,7 +14,7 @@ import {
     _Finds,
     _FindsRandom,
 } from '../service'
-import { handleSearchMongoose } from '../utils'
+import { handleResultSuccessNoPage, handleSearchMongoose } from '../utils'
 import User from '../models/User'
 
 class lessonController {
@@ -76,6 +78,9 @@ class lessonController {
                 path: 'part',
                 populate: {
                     path: 'topic',
+                    populate: {
+                        path: 'course',
+                    },
                 },
             }
         )
@@ -154,6 +159,7 @@ class lessonController {
         )
         res.json(result)
     }
+
     /* user */
     async getEventNews(req: any, res: any) {
         const result = await _Finds(
@@ -166,6 +172,50 @@ class lessonController {
         )
         res.json(result)
     }
+
+    async getHome(req: any, res: any) {
+        const user = await User.count()
+        const eventNews = await EventNews.count()
+        const course = await Course.count()
+        res.json(handleResultSuccessNoPage('Thành công', { user, eventNews, course }))
+    }
+
+    /* course */
+    async getCourses(req: any, res: any) {
+        const result = await _Finds(
+            Course,
+            {
+                ...handleSearchMongoose('title', req?.query?.search || ''),
+                ...req.query,
+            },
+            'Người dùng'
+        )
+        res.json(result)
+    }
+
+    async createCourse(req: any, res: any) {
+        const result = await _Creates(Course, req?.body, 'khóa học')
+        res.json(result)
+    }
+
+    async updateCourse(req: any, res: any) {
+        const result = await _FindByIdAndUpdate(
+            Course,
+            req?.body,
+            'khóa học'
+        )
+        res.json(result)
+    }
+
+    async deleteCourse(req: any, res: any) {
+        const result = await _FindByIdAndDelete(
+            Course,
+            req?.body,
+            'khóa học'
+        )
+        res.json(result)
+    }
+
 }
 
 export default new lessonController()

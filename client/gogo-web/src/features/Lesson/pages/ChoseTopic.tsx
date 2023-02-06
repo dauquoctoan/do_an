@@ -1,15 +1,17 @@
 import { AutoComplete, Button, Descriptions, Image, Select } from 'antd'
 import Configs from 'configs'
-import { getTopics } from 'features/Account/api'
-import { ITopics } from 'features/Account/interface'
+import { getTopics } from 'features/Topic/api'
+import { ITopics } from 'features/Topic/interface'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ITopic, next, setTopic } from 'store/lesson/lessonSlice'
 import { RootState } from 'store/store'
 import styled from 'styled-components'
+import history from 'utils/history'
 
 const ChoseTopic = () => {
   const dispatch = useDispatch()
+  const course = Configs.getSearchParams().get('course')
   const [search, setSearch] = useState<string>('')
   const [topics, setTopics] = useState<ITopics[]>([])
   const selected = useSelector((state: RootState) => {
@@ -34,7 +36,7 @@ const ChoseTopic = () => {
   const getData = async () => {
     try {
       const res = await getTopics({
-        search: search,
+        search: search, course: course
       })
       if (res) {
         const options = res?.data?.map((e: any) => {
@@ -95,6 +97,18 @@ const ChoseTopic = () => {
           Tiếp theo
         </Button>
       )}
+      {
+        topics.length === 0 && (<Button
+          className="btn"
+          style={{ marginLeft: 10 }}
+          onClick={() => {
+            history.push('/topic?course=' + course)
+          }}
+          type="primary"
+        >
+          Thêm mới chủ đề
+        </Button>)
+      }
     </SChoseTopic>
   )
 }

@@ -1,16 +1,21 @@
 import { createTheme } from "@mui/material/styles";
 import diamon from "../public/img/diamon.svg";
 import logo from "../public/img/logo.svg";
+import fireworks from "../public/img/fireworks.svg";
 import correct from "../public/audio/correct.mp3";
+import success from "../public/audio/success.mp3";
+
 
 export const audio = {
     correct: correct,
+    success: success,
     logo: logo,
 };
 
 export const images = {
     diamon: diamon,
     logo: logo,
+    firework: fireworks,
 };
 
 export const COLOR = {

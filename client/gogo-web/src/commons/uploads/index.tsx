@@ -44,7 +44,7 @@ const UploadComponent: React.FC<IProps> = ({
   const beforeUploadFile = (file: any): any => {
     let fileSize: number = size
     if (accept === '.mp3, .mp4, .3gp') {
-      const isMP4: boolean = file.type === 'video/mp4'|| file.type ==='audio/mpeg'
+      const isMP4: boolean = file.type === 'video/mp4' || file.type === 'audio/mpeg'
       const validateFileSize: boolean = file.size / 1024 / 1024 > fileSize
       let minDuration: number = minSecondDuration || 0
       let maxDuration: number = maxSecondDuration || 0
@@ -178,7 +178,7 @@ const UploadComponent: React.FC<IProps> = ({
           // iconRender={() => <div>Đang tải...</div>}
           multiple={isMultiple}
           beforeUpload={beforeUploadFile}
-          onPreview={accept === '.jpg, .png' ? handlePreview : undefined}
+          onPreview={accept === '.jpg, .png, .svg' ? handlePreview : undefined}
           onChange={handleChange}
         >
           {limit > fileList.length || fileList === undefined ? (

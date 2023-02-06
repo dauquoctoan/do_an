@@ -1,15 +1,15 @@
 {
-  "title": "Light, fast & responsive",
-  "text": "This template is ready to use, so you don't need to change anything at a component level, unless you want to customize the default styling.",
+  "title": "GOGO",
+  "text": "Các giáo cụ giúp học viên học ngoại ngữ nhanh hơn qua ứng dụng GOGO, có thể áp dụng cả trong và ngoài lớp học.",
   "section": [
     {
-      "title": "Why Antd?",
-      "content": "Ant Design is a React UI library that has a lot of easy-to-use components for building elegant UI.",
+      "title": "Truyền động lực học",
+      "content": "Chúng tôi giúp người học dễ dàng xây dựng thói quen học tập, qua những tính năng mô phỏng trò chơi, các thử thách vui vẻ, và nhắc nhở từ chú cú thân thiện",
       "icon": "notes.svg"
     },
     {
-      "title": "Why styled-components?",
-      "content": "Styled Components gives you total control over your components.",
+      "title": "Học thật vui!",
+      "content": "Học hiệu quả mà không nhàm chán! Xây dựng kỹ năng mỗi ngày với các bài học thú vị cùng các nhân vật ngộ nghĩnh.",
       "icon": "notes.svg"
     }
   ]

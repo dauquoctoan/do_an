@@ -2,7 +2,9 @@ import { Collapse, Space, Button } from 'antd'
 import { useForm } from 'antd/es/form/Form'
 import { TYPE_LESSON } from 'configs/constance'
 import { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
+import { resetLesson } from 'store/lesson/lessonSlice'
 import { RootState } from 'store/store'
 import styled from 'styled-components'
 import history from 'utils/history'
@@ -16,6 +18,7 @@ import Content from './Content'
 import PartLesson from './PartLesson'
 
 const AddAndEditNews = () => {
+  const dispatch = useDispatch()
   const id = Configs.getSearchParams().get('id')
   const [loading, setLoading] = useState<boolean>(false)
   const { Panel } = Collapse
@@ -28,11 +31,11 @@ const AddAndEditNews = () => {
       history.push('/lesson')
     }
   }, [])
-
   return (
     <ContainScreenStyled>
       <PageHeader
         onBack={() => {
+          dispatch(resetLesson())
           window.history.back()
         }}
         title={id ? 'Sửa bài tập' : 'Thêm mới bài tập'}

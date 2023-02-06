@@ -45,6 +45,10 @@ class siteController {
         })
         res.json(result)
     }
+    async upDateListCourse(req: any, res: any, next: any) {
+        const result = await _FindByIdAndUpdate(User, { ...req.body }, 'khóa học')
+        res.json(result)
+    }
 
     async getTop100(req: any, res: any) {
         const result = await _Finds(

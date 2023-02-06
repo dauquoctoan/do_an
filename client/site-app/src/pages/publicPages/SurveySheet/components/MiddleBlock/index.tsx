@@ -31,7 +31,7 @@ const MiddleBlock = ({ title, content, button, t }: MiddleBlockProps) => {
                             {button && (
                                 <Button
                                     name="submit"
-                                    onClick={() => navigate("/login")}
+                                    onClick={() => navigate("/learn")}
                                 >
                                     {t(button)}
                                 </Button>
