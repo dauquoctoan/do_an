@@ -5,6 +5,7 @@ import { audio } from "./constant";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setInfo } from "./store/features/info/infoSlice";
+import Chat from "./pages/privatePages/chat";
 
 function App() {
     const dispatch = useDispatch();
@@ -12,7 +13,8 @@ function App() {
         const info = localStorage.getItem("info");
         dispatch(setInfo(JSON.parse(info || "")));
     }, []);
-    return <Router />;
+    // return <Router />;
+    return <Chat />;
     // return <div>sdfsdf<ReactAudioPlayer  src={audio.correct}/></div>
 }
 
