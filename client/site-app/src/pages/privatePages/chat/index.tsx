@@ -1,15 +1,13 @@
-import io from "socket.io-client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store";
 import Message from "./Message";
 import { ChartStyled } from "./styled";
 
-const socket = io("http://localhost:3005", {
-    extraHeaders: {
-        Authorization: localStorage.getItem("token") || "",
-    },
-});
-
 function Chat() {
+    const socket = useSelector((state: RootState) => {
+        return state.socket.socket;
+    });
     const [username, setUsername] = useState("");
     const [room, setRoom] = useState("");
     const [showChat, setShowChat] = useState(false);

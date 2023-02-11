@@ -35,6 +35,14 @@ const GlobalStyle = createGlobalStyle`
     color: black;
     .nationality {
         cursor: pointer;
+    } .wraper-button {
+        width: 100%;
+        height: auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        justify-items: center;
+        margin-top: 20px;
     }
     .nationality:hover {
         background-color: #f1f3f4;

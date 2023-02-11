@@ -4,7 +4,7 @@ var Schema = mongoose.Schema
 const Course = new Schema(
     {
         title: { type: String, required: true },
-        desc: { type: Array, required: true },
+        desc: { type: String, required: true },
         picture: { type: String, required: false },
         price: { type: String, required: false },
         user: {

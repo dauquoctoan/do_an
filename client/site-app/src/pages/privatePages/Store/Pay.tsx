@@ -11,22 +11,25 @@ import { RootState } from "../../../store";
 import { openPay } from "../../../store/features/info/infoSlice";
 
 const initialOptions = {
-    "client-id": "AS_i2uLiydoHtBf9_XQYryvKyPzs7m9drLSg3in2B7wu_0nR4JJNUINhEseXFn-fwFsx7Xnw5G7lVz-Q",
+    "client-id":
+        "AS_i2uLiydoHtBf9_XQYryvKyPzs7m9drLSg3in2B7wu_0nR4JJNUINhEseXFn-fwFsx7Xnw5G7lVz-Q",
     currency: "USD",
     intent: "capture",
 };
 const Pay = (props: any) => {
     const state = useSelector((state: RootState) => {
-        return state.info.openPay
-    })
-    const dispatch = useDispatch()
+        return state.info.openPay;
+    });
+    const dispatch = useDispatch();
     return (
         <Modal
             aria-labelledby="transition-modal-title"
             aria-describedby="transition-modal-description"
             hideBackdrop
             closeAfterTransition
-            onClose={() => { dispatch(openPay()) }}
+            onClose={() => {
+                dispatch(openPay(false));
+            }}
             open={state}
         >
             <SBox>

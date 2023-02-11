@@ -1,18 +1,24 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import HourglassDisabledIcon from "@mui/icons-material/HourglassDisabled";
 import StoreOutlinedIcon from "@mui/icons-material/StoreOutlined";
 import DateRangeIcon from "@mui/icons-material/DateRange";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
+import PersonPinIcon from "@mui/icons-material/PersonPin";
 
 const Menus = () => {
     const navigate = useNavigate();
     const [index, setIndex] = useState<number>(0);
     const menus = [
         {
-            name: "Thử thách",
+            name: "Thông tin cá nhân",
             path: "/",
+            image: <PersonPinIcon className="icon" />,
+        },
+        {
+            name: "Thử thách",
+            path: "/challenge",
             image: <HourglassDisabledIcon className="icon" />,
         },
         {

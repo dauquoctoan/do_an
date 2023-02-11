@@ -142,9 +142,47 @@ get http://localhost:3005/site/news-event
 ###
 put http://localhost:3005/site/user-order
 
+{
+    "_id":"63d29707d298722c4401194a",
+    "listCourse":[{"_id":"sdfsdf","age":2}]
+}
+
+###
+put http://localhost:3005/site/user-order
+content-type: application/json
 
 {
     "_id":"63d29707d298722c4401194a",
     "listCourse":[{"age":2}]
 }
+
+###
+put http://localhost:3005/site/unlock-topic
+content-type: application/json
+
+{
+    "_id":"63ca414c14f1334594463da9",
+    "isLock":false
+}
+
+###
+put http://localhost:3005/site/update-point-when-unlock
+content-type: application/json
+
+{
+    "_id":"63db27ace393ee1d747dcd23",
+    "point": 100
+}
+
+###
+put http://localhost:3005/site/update-list-friend
+content-type: application/json
+
+{
+    "_id":"63d33e69f8426a29ccb5f77a",
+    "friend": {} 
+}
+
+
+
 

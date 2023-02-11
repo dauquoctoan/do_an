@@ -14,6 +14,10 @@ import store from "./store";
 import "moment/locale/vi";
 import "antd/dist/antd.variable.min.css";
 import { Styles } from "./pages/publicPages/SurveySheet/styles/styles";
+import { unstable_HistoryRouter as HistoryRouter } from "react-router-dom";
+import { createBrowserHistory } from "history";
+
+const history = createBrowserHistory({ window });
 
 const root = ReactDOM.createRoot(
     document.getElementById("root") as HTMLElement

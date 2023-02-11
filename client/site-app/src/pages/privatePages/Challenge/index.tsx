@@ -1,8 +1,13 @@
 import React from "react";
 import styled from "styled-components";
+import Chat from "../chat";
 
 const Challenge = () => {
-    return <SChallenge>SChallenge</SChallenge>;
+    return (
+        <SChallenge>
+            <Chat />
+        </SChallenge>
+    );
 };
 
 export default Challenge;

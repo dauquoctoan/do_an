@@ -4,6 +4,7 @@ import { Popover } from "antd";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Outlet, useNavigate } from "react-router-dom";
+import ModalJoiGame from "../commons/ModalJoiGame";
 import { COLOR, images } from "../constant";
 import { SHomeContent } from "../globalStyled";
 import { RootState } from "../store";
@@ -15,7 +16,7 @@ const Layout = () => {
     const state = useSelector((e: RootState) => {
         return e.info;
     });
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     const [open, setOpen] = useState(false);
 
     const hide = () => {
@@ -25,9 +26,10 @@ const Layout = () => {
     const handleOpenChange = (newOpen: boolean) => {
         setOpen(newOpen);
     };
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
     return (
         <SHome>
+            <ModalJoiGame />
             <div className="header">
                 <SHomeContent>
                     <div className="wrapper-header">
@@ -48,47 +50,92 @@ const Layout = () => {
                                 </p>
                             </div>
                             {state.name && (
-                                <div className="item" style={{ fontWeight: 600, fontSize: 20 }}>{state.name}</div>
+                                <div
+                                    className="item"
+                                    style={{ fontWeight: 600, fontSize: 20 }}
+                                >
+                                    {state.name}
+                                </div>
                             )}
-                            {
-                                state.name &&
+                            {state.name && (
                                 <Popover
-                                    content={<SlistOrder>
-                                        {
-                                            state.listCourse.length > 0 && state.listCourse.map((e) => {
-
-                                                return <div onClick={() => {
-                                                    const link = `/learn/topic`
-                                                    // ?course=${e._id}
-                                                    history.push(link)
-                                                }} style={{ cursor: 'pointer', marginTop: 10 }}>{e.title}</div>
-                                            })}
-                                    </SlistOrder>}
-                                    title={<div style={{ display: 'flex', justifyContent: 'space-between' }}><div>Khoá học đã mua</div><div onClick={() => {
-                                        localStorage.setItem('token', '')
-                                        localStorage.setItem('info', '')
-                                        localStorage.setItem('point', '')
-                                        dispatch(reSetInfo())
-                                        navigate('/login')
-                                    }} style={{ cursor: "pointer" }}>Đăng xuất</div></div>}
+                                    content={
+                                        <SlistOrder>
+                                            {state?.listCourse.length > 0 &&
+                                                state?.listCourse.map((e) => {
+                                                    return (
+                                                        <div
+                                                            onClick={() => {
+                                                                const link = `/learn/topic`;
+                                                                history.push(
+                                                                    link
+                                                                );
+                                                            }}
+                                                            style={{
+                                                                cursor: "pointer",
+                                                                marginTop: 10,
+                                                            }}
+                                                        >
+                                                            {e.title}
+                                                        </div>
+                                                    );
+                                                })}
+                                        </SlistOrder>
+                                    }
+                                    title={
+                                        <div
+                                            style={{
+                                                display: "flex",
+                                                justifyContent: "space-between",
+                                            }}
+                                        >
+                                            <div>Khoá học đã mua</div>
+                                            <div
+                                                onClick={() => {
+                                                    localStorage.setItem(
+                                                        "token",
+                                                        ""
+                                                    );
+                                                    localStorage.setItem(
+                                                        "info",
+                                                        ""
+                                                    );
+                                                    localStorage.setItem(
+                                                        "point",
+                                                        ""
+                                                    );
+                                                    dispatch(reSetInfo());
+                                                    navigate("/login");
+                                                }}
+                                                style={{ cursor: "pointer" }}
+                                            >
+                                                Đăng xuất
+                                            </div>
+                                        </div>
+                                    }
                                     trigger="click"
                                     open={open}
                                     onOpenChange={handleOpenChange}
                                 >
-                                    <div
-                                        className="item info"
-                                    >
-
-                                        <Avatar alt="Remy Sharp" src={state?.picture} />
+                                    <div className="item info">
+                                        <Avatar
+                                            alt="Remy Sharp"
+                                            src={state?.picture}
+                                        />
                                     </div>
                                 </Popover>
-
-                            }
-                            {
-                                !state.name && (<Button onClick={() => {
-                                    navigate('/login')
-                                }} className="item" variant="contained">Đăng nhập</Button>)
-                            }
+                            )}
+                            {!state.name && (
+                                <Button
+                                    onClick={() => {
+                                        navigate("/login");
+                                    }}
+                                    className="item"
+                                    variant="contained"
+                                >
+                                    Đăng nhập
+                                </Button>
+                            )}
                         </div>
                     </div>
                 </SHomeContent>
@@ -112,7 +159,7 @@ export default Layout;
 
 const SlistOrder = styled.div`
     width: 300px;
-`
+`;
 
 const SHome = styled.div`
     box-sizing: border-box;
@@ -127,7 +174,7 @@ const SHome = styled.div`
         top: 0px;
         left: 0px;
         z-index: 1;
-         border-bottom: 1px solid ${COLOR.colors.border_color}; 
+        border-bottom: 1px solid ${COLOR.colors.border_color};
         .wrapper-header {
             display: flex;
             justify-content: space-between;
@@ -155,7 +202,6 @@ const SHome = styled.div`
                     background-size: contain;
                     border-radius: 50%;
                     cursor: pointer;
-
                 }
             }
         }

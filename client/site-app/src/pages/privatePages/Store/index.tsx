@@ -13,20 +13,19 @@ import Pay from "./Pay";
 import { useDispatch } from "react-redux";
 import { openPay, setOrder } from "../../../store/features/info/infoSlice";
 
-
 const Store = () => {
-    const [store, setStore] = React.useState<any>([])
-    const [open, setOpen] = React.useState(false)
+    const [store, setStore] = React.useState<any>([]);
+    const [open, setOpen] = React.useState(false);
     async function getData() {
-        const res = await ApiClient.get('/site/courses')
-        setStore(res.data)
+        const res = await ApiClient.get("/site/courses");
+        setStore(res.data);
     }
-    const [total, setTotal] = React.useState<any>(0)
+    const [total, setTotal] = React.useState<any>(0);
 
     React.useEffect(() => {
-        getData()
-    }, [])
-    const dispatch = useDispatch()
+        getData();
+    }, []);
+    const dispatch = useDispatch();
     return (
         <SStore>
             <Grid
@@ -34,35 +33,48 @@ const Store = () => {
                 spacing={{ xs: 2, md: 3 }}
                 columns={{ xs: 2, sm: 4, md: 12 }}
             >
-                {store.length > 0 && store?.map((_: any, index: any) => (
-                    <Grid item xs={2} sm={2} md={4} key={index}>
-                        <Card sx={{ maxWidth: "auto" }}>
-                            <CardMedia
-                                sx={{ height: 200 }}
-                                image={_.picture}
-                                title="img"
-                            />
-                            <CardContent>
-                                <Typography gutterBottom variant="h5" component="div">
-                                    {_.title}
-                                </Typography>
-                                <Typography
-                                    variant="body2"
-                                    color="text.secondary"
-                                >{_.desc}
-                                </Typography>
-                            </CardContent>
-                            <CardActions>
-                                <Button size="small" onClick={() => {
-                                    setTotal(_?.price)
-                                    dispatch(setOrder(_))
-                                    dispatch(openPay())
-                                }}>Mua gói</Button>
-                                <Button size="small">{formatNumber(_?.price)} USD</Button>
-                            </CardActions>
-                        </Card>
-                    </Grid>
-                ))}
+                {store.length > 0 &&
+                    store?.map((_: any, index: any) => (
+                        <Grid item xs={2} sm={2} md={4} key={index}>
+                            <Card sx={{ maxWidth: "auto" }}>
+                                <CardMedia
+                                    sx={{ height: 200 }}
+                                    image={_.picture}
+                                    title="img"
+                                />
+                                <CardContent>
+                                    <Typography
+                                        gutterBottom
+                                        variant="h5"
+                                        component="div"
+                                    >
+                                        {_.title}
+                                    </Typography>
+                                    <Typography
+                                        variant="body2"
+                                        color="text.secondary"
+                                    >
+                                        {_.desc}
+                                    </Typography>
+                                </CardContent>
+                                <CardActions>
+                                    <Button
+                                        size="small"
+                                        onClick={() => {
+                                            setTotal(_?.price);
+                                            dispatch(setOrder(_));
+                                            dispatch(openPay(true));
+                                        }}
+                                    >
+                                        Mua gói
+                                    </Button>
+                                    <Button size="small">
+                                        {formatNumber(_?.price)} USD
+                                    </Button>
+                                </CardActions>
+                            </Card>
+                        </Grid>
+                    ))}
             </Grid>
             <Pay total={total} open={open} />
         </SStore>

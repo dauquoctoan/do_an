@@ -51,7 +51,6 @@ export const JCreateLesson = Joi.object({
     // topic: Joi.string().required(),
     part: Joi.string().required(),
     _id: Joi.string(),
-
 })
 
 export const JUpdateLesson = Joi.object({
@@ -179,14 +178,18 @@ export const JUpdatePoint = Joi.object({
     listCourse: Joi.array(),
 })
 
-
 export const JCreateCourse = Joi.object({
     title: Joi.string().required(),
     desc: Joi.string().required(),
     picture: Joi.string(),
     price: Joi.number(),
     topic: Joi.string(),
-    user: Joi.string().required()
+    user: Joi.string().required(),
+})
+
+export const JUpdateCourseUser = Joi.object({
+    _id: Joi.string().required(),
+    listCourse: Joi.array(),
 })
 
 export const JUpdateCourse = Joi.object({
@@ -196,5 +199,5 @@ export const JUpdateCourse = Joi.object({
     picture: Joi.string(),
     price: Joi.number(),
     topic: Joi.string(),
-    user: Joi.string().required()
+    user: Joi.string().required(),
 })

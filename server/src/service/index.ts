@@ -140,12 +140,13 @@ export async function _FindByIdAndUpdate(
         _id?: string
     },
     name: string,
-    isRes: boolean = true
+    isRes: boolean = true,
+    options: object = {}
 ) {
     const _id = query._id
     delete query['_id']
     return modal
-        .findByIdAndUpdate(_id, query)
+        .findByIdAndUpdate(_id, query, options)
         .then((result: any) => {
             if (result) {
                 return isRes

@@ -10,11 +10,17 @@ import Top from "../pages/privatePages/Top";
 import Event from "../pages/privatePages/Event";
 import Store from "../pages/privatePages/Store";
 import SurveySheet from "../pages/publicPages/SurveySheet";
+import Challenge from "../pages/privatePages/Challenge";
+import Info from "../pages/privatePages/info";
 
 export const ROUTER: IRouter = {
     privateRouters: [
         {
-            element: <PrivateHome />,
+            element: <Info />,
+        },
+        {
+            path: "challenge",
+            element: <Challenge />,
         },
         {
             path: "topic",

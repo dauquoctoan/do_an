@@ -15,12 +15,11 @@ const ConFirmResult = (props: any) => {
     useEffect(() => {
         if (listAnswer.length > 0) {
             if (listAnswer[listAnswer.length - 1]) {
-                props?.ss?.current?.play()
+                props?.ss?.current?.play();
             } else {
                 props?.er?.current?.play();
             }
         }
-
     }, [listAnswer]);
 
     return (

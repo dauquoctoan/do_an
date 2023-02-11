@@ -5,25 +5,18 @@ import { COLOR } from "../../../constant";
 import io from "socket.io-client";
 import { useState } from "react";
 import ApiClient from "../../../services";
-
-const socket = io("http://localhost:3005", {
-    extraHeaders: {
-        Authorization: localStorage.getItem("token") || "",
-    },
-});
+import { Popconfirm } from "antd";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../../store";
+import { notify } from "../../../commons/notification";
+import { setListFriends } from "../../../store/features/info/infoSlice";
 
 const Top = () => {
     const [tops, setTops] = useState<any>([]);
-    socket.emit("join_room", "123");
-    React.useEffect(() => {
-        socket.on("receive_message", (data: any) => {
-            console.log("data", data);
-        });
-
-        socket.on("error", (error: any) => {
-            console.log(error);
-        });
-    }, [socket]);
+    const dispatch = useDispatch();
+    const info = useSelector((state: RootState) => {
+        return state.info;
+    });
 
     async function getData() {
         const res = await ApiClient.get("/site/top100", { limit: 100 });
@@ -50,7 +43,65 @@ const Top = () => {
                                     <div style={{ marginRight: "10px" }}>
                                         {e.point}
                                     </div>
-                                    <Avatar alt="img" src={e.picture} />
+                                    <Popconfirm
+                                        title="Bạn có muốn theo dõi người này"
+                                        okText="Có"
+                                        cancelText="Không"
+                                        onConfirm={async () => {
+                                            if (e._id !== info.id) {
+                                                const user =
+                                                    info.listFriends.find(
+                                                        (friend) => {
+                                                            return (
+                                                                friend._id ===
+                                                                e._id
+                                                            );
+                                                        }
+                                                    );
+                                                if (user) {
+                                                    notify.success(
+                                                        "Bạn đã là bạn của nhau !"
+                                                    );
+                                                } else {
+                                                    const res =
+                                                        await ApiClient.put(
+                                                            "/site/update-list-friend",
+                                                            {
+                                                                _id: info.id,
+                                                                friend: {
+                                                                    _id: e._id,
+                                                                    name: e.name,
+                                                                    picture:
+                                                                        e.picture,
+                                                                },
+                                                            }
+                                                        );
+                                                    if (res) {
+                                                        dispatch(
+                                                            setListFriends(
+                                                                res?.data
+                                                                    ?.listFriends
+                                                            )
+                                                        );
+                                                        notify.success(
+                                                            "Bạn đã theo dõi thành công người dùng: " +
+                                                                e.name
+                                                        );
+                                                    }
+                                                }
+                                            } else {
+                                                notify.success(
+                                                    "Bạn đã là bạn của nhau !"
+                                                );
+                                            }
+                                        }}
+                                    >
+                                        <Avatar
+                                            alt="img"
+                                            className="img"
+                                            src={e.picture}
+                                        />
+                                    </Popconfirm>
                                 </div>
                             </div>
                         );
@@ -93,6 +144,9 @@ const STop = styled.div`
                 h5 {
                     margin-bottom: 0px;
                 }
+            }
+            .img {
+                cursor: pointer;
             }
         }
         h3 {

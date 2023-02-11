@@ -19,12 +19,16 @@ import { FaChild } from "react-icons/fa";
 import GirlIcon from "@mui/icons-material/Girl";
 import ChildCareIcon from "@mui/icons-material/ChildCare";
 import BoyIcon from "@mui/icons-material/Boy";
+import LockIcon from "@mui/icons-material/Lock";
+import ApiClient from "../../../services";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store";
 
 const Topic = () => {
     const navigate = useNavigate();
     const [topic, setTopic] = React.useState<any[]>([]);
     const [ageGroup, setAgeGroup] = React.useState<string>("");
-
+    const info = useSelector((e: RootState) => e.info);
     async function getData() {
         const res = await getTopics({ ageGroup: ageGroup });
         setTopic(res.data);
@@ -47,7 +51,23 @@ const Topic = () => {
     React.useEffect(() => {
         getData();
     }, [ageGroup]);
-
+    function checkLog(lock: boolean, index: number) {
+        if (index !== 0 && lock) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    function handleCLpoint(index: number) {
+        return index * 200 + index * 20;
+    }
+    async function handleUnLock(_id: number, point: number) {
+        await ApiClient.put("/site/unlock-topic", { _id: _id, isLock: false });
+        await ApiClient.put("/site/update-point-when-unlock", {
+            _id: info.id,
+            point: point,
+        });
+    }
     return (
         <STopic>
             <div className="container">
@@ -140,10 +160,40 @@ const Topic = () => {
                                             getPartBuyIdTopic(topic._id);
                                             setLoading(topic._id);
                                         }
+                                        if (
+                                            checkLog(topic.isLock, index) &&
+                                            info?.point &&
+                                            info?.point > handleCLpoint(index)
+                                        ) {
+                                            console.log("...");
+                                            handleUnLock(
+                                                topic._id,
+                                                handleCLpoint(index)
+                                            );
+                                        }
                                     }}
+                                    disabled={checkLog(topic.isLock, index)}
                                 >
                                     <AccordionSummary
-                                        expandIcon={<ExpandMoreIcon />}
+                                        expandIcon={
+                                            <>
+                                                <div>
+                                                    {handleCLpoint(index)}
+                                                </div>
+                                                {checkLog(
+                                                    topic.isLock,
+                                                    index
+                                                ) ? (
+                                                    <LockIcon />
+                                                ) : (
+                                                    <ExpandMoreIcon
+                                                        style={{
+                                                            cursor: "pointer",
+                                                        }}
+                                                    />
+                                                )}
+                                            </>
+                                        }
                                         aria-controls="panel1a-content"
                                         id={topic._id}
                                     >
@@ -177,7 +227,7 @@ const Topic = () => {
                                                             onClick={() => {
                                                                 navigate(
                                                                     "/lesson?part=" +
-                                                                    part._id
+                                                                        part._id
                                                                 );
                                                             }}
                                                         >
@@ -193,7 +243,7 @@ const Topic = () => {
                                                                 primary={
                                                                     part.title
                                                                 }
-                                                            // secondary="Jan 9, 2014"
+                                                                // secondary="Jan 9, 2014"
                                                             />
                                                         </ListItem>
                                                     </List>
@@ -252,7 +302,7 @@ const STopic = styled.div`
                     margin: 16px 0 0;
                     color: rgba(0, 0, 0, 0.67);
                 }
-                    /* transform: translateY(-16px); */
+                /* transform: translateY(-16px); */
             }
         }
         .topic {

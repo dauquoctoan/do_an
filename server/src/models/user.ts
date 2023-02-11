@@ -17,7 +17,8 @@ const User = new Schema(
         email_verified: { type: Boolean, required: false },
         password: { type: String, required: false },
         status: { type: String, required: false, default: '1' },
-        listCourse: { type: Array, required: false }
+        listCourse: { type: Array, required: false },
+        listFriends: { type: Array, required: false },
     },
     {
         timestamps: true,

@@ -1,19 +1,19 @@
-import React, { useState } from 'react';
-import './Checkout.css';
+import React, { useState } from "react";
+import "./Checkout.css";
 import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
-import ApiClient from '../../../services';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../../store';
-import { message } from 'antd';
-import { openPay, setlistCourse } from '../../../store/features/info/infoSlice';
+import ApiClient from "../../../services";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../../store";
+import { message } from "antd";
+import { openPay, setlistCourse } from "../../../store/features/info/infoSlice";
 
 const Checkout = (props: any) => {
     const [{ options, isPending }, dispatch] = usePayPalScriptReducer();
     const [currency, setCurrency] = useState(options.currency);
     const state = useSelector((state: RootState) => {
-        return state
-    })
-    const dispatcher = useDispatch()
+        return state;
+    });
+    const dispatcher = useDispatch();
     const onCurrencyChange = ({ target: { value } }: any) => {
         setCurrency(value);
         dispatch({
@@ -23,7 +23,7 @@ const Checkout = (props: any) => {
                 currency: value,
             },
         });
-    }
+    };
 
     const onCreateOrder = (data: any, actions: any) => {
         if (props.total > 0) {
@@ -37,27 +37,28 @@ const Checkout = (props: any) => {
                 ],
             });
         }
-
-    }
+    };
     async function order() {
         const rest: any = await ApiClient.put("/site/user-order", {
             _id: state.info.id,
-            listCourse: [...state.info.listCourse, { ...state.info.order }]
+            listCourse: [{ ...state.info.order }],
         });
-        localStorage.setItem('listOrder', JSON.stringify(rest.data.listCourse))
-        dispatcher(setlistCourse(rest.data.listCourse))
-        message.success('Mua khóa học thành công')
-        dispatcher(openPay())
+        localStorage.setItem("listOrder", JSON.stringify(rest.data.listCourse));
+        dispatcher(setlistCourse(rest.data.listCourse));
+        message.success("Mua khóa học thành công");
+        dispatcher(openPay(true));
     }
     const onApproveOrder = (data: any, actions: any) => {
         return actions.order.capture().then((details: any) => {
-            return order()
+            return order();
         });
-    }
+    };
 
     return (
         <div className="checkout">
-            {isPending ? <p>LOADING...</p> : (
+            {isPending ? (
+                <p>LOADING...</p>
+            ) : (
                 <>
                     {/* <select value={currency} onChange={onCurrencyChange}>
                         <option value="USD">💵 USD</option>
@@ -65,13 +66,17 @@ const Checkout = (props: any) => {
                     </select> */}
                     <PayPalButtons
                         style={{ layout: "vertical" }}
-                        createOrder={(data, actions) => onCreateOrder(data, actions)}
-                        onApprove={(data, actions) => onApproveOrder(data, actions)}
+                        createOrder={(data, actions) =>
+                            onCreateOrder(data, actions)
+                        }
+                        onApprove={(data, actions) =>
+                            onApproveOrder(data, actions)
+                        }
                     />
                 </>
             )}
         </div>
     );
-}
+};
 
 export default Checkout;
